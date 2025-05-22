@@ -15,14 +15,15 @@ WHITE   = \033[1;37m
 # ======================== #
 CC        = cc
 FLAGS     = -Wall -Werror -Wextra
-READLINE  = -lreadline #-L/opt/homebrew/opt/readline
+MLX_FLAGS = -lm -lX11 -lXext
 
-NAME      = minishell
+NAME      = miniRT
 
 # ======================== #
 #       PATHS              #
 # ======================== #
 LIBFT_DIR    = ./Library
+MLX_DIR      = $(LIBFT_DIR)/minilibx-linux
 SRC_DIR      = ./src
 OBJ_DIR      = $(SRC_DIR)/obj
 
@@ -30,12 +31,11 @@ OBJ_DIR      = $(SRC_DIR)/obj
 #        SRC/OBJ           #
 # ======================== #
 LIBFT     = $(LIBFT_DIR)/libft.a
+MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, general_functions.c general_functions_2.c list_struct_functions.c token_struct_functions.c free_structs.c cleanup_all.c parsing_utils.c parsing_utils_2.c parsing_utils_3.c error_handling.c) \
-	    $(addprefix parsing/, parsing.c build_tokens.c parse_syntax.c convert_quotes.c expand_vars.c join_var.c define_tokens.c get_command_array.c build_tree.c open_files.c get_heredoc_input.c get_redirection_files.c readline_heredoc.c find_var_value.c verify_files.c) \
-	    $(addprefix executer/, handle_path_errors.c prepare_path.c executer.c redirections.c execve.c pipe.c heredoc.c utils_exec.c signals.c) \
-	    $(addprefix builtins/, exit.c exit_utils.c utils_builtins.c pwd.c echo.c cd.c init_builtins.c  new_env.c env_utils.c new_export_variables.c new_export_utils.c new_export.c manager_export.c manager_unset.c) \
+	    $(addprefix utils/, utils.c) \
+	    $(addprefix Maths/, count.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -47,26 +47,28 @@ all: $(NAME)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(addprefix $(OBJ_DIR)/, builtins utils executer parsing)
+	@mkdir -p $(OBJ_DIR)/utils
+	@mkdir -p $(OBJ_DIR)/Maths
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
 
 $(LIBFT):
 	@echo "$(CYAN)Compiling Libft...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 
+$(MLX):
+	@echo "$(CYAN)Compiling MLX...$(RESET)"
+	@$(MAKE) -C $(MLX_DIR)
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "$(MAGENTA)Compiling: $<$(RESET)"
 	@$(CC) $(FLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) $(READLINE) -o $(NAME)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
+	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(NAME)
 	@echo "$(GREEN)Compilation successful! ✅$(RESET)"
 	@echo "$(BLUE)Running checks...$(RESET)"
 	@if [ -f $(NAME) ]; then echo "$(GREEN)$(NAME) created successfully! 🎉$(RESET)"; fi
 
-valgrind: $(NAME)
-	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
@@ -84,4 +86,4 @@ re: fclean all
 # ======================== #
 #        PHONY             #
 # ======================== #
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re
