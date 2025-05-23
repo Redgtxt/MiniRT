@@ -12,6 +12,9 @@ WHITE   = \033[1;37m
 
 
 
+# ======================== #
+#       FLAGS              #
+# ======================== #
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBC = ar rcs
@@ -26,15 +29,26 @@ CROSS = ✖
 
 NAME = libft.a
 
+# ======================== #
+#       PATHS              #
+# ======================== #
 DIR_LIBFT = ./libft
 DIR_PRINTF = ./ft_printf
 DIR_GNL = ./get_next_line
 DIR_MLX = ./minilibx-linux
 
+
+# ======================== #
+#        SRC/OBJ           #
+# ======================== #
 OBJ_DIR_LIBFT = $(DIR_LIBFT)/obj
 OBJ_DIR_PRINTF = $(DIR_PRINTF)/obj
 OBJ_DIR_GNL = $(DIR_GNL)/obj
 OBJ_DIR = $(OBJ_DIR_LIBFT) $(OBJ_DIR_PRINTF) $(OBJ_DIR_GNL)
+
+# ======================== #
+#        RULES             #
+# ======================== #
 
 SRC_LIBFT = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c \
       ft_isprint.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c \

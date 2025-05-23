@@ -70,6 +70,14 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo "$(BLUE)Running checks...$(RESET)"
 	@if [ -f $(NAME) ]; then echo "$(GREEN)$(NAME) created successfully! 🎉$(RESET)"; fi
 
+#mudar regra quando tiver-mos cena para executar
+rt:	re
+	./miniRT 
+
+
+valgrind: $(NAME)
+	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME)
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
