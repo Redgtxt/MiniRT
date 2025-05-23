@@ -1,3 +1,17 @@
+# ======================== #
+#         COLORS           #
+# ======================== #
+RESET   = \033[0m
+RED     = \033[1;31m
+GREEN   = \033[1;32m
+YELLOW  = \033[1;33m
+BLUE    = \033[1;34m
+MAGENTA = \033[1;35m
+CYAN    = \033[1;36m
+WHITE   = \033[1;37m
+
+
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBC = ar rcs
@@ -47,9 +61,9 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 mlx:
-	@echo "$(ARROW) Compiling MiniLibX..."
+	@echo "$(ARROW)$(CYAN) Compiling MiniLibX...$(RESET)"
 	@$(MAKE) -C $(DIR_MLX)
-	@echo "$(CHECK) MiniLibX compiled successfully!"
+	@echo "$(CHECK)$(GREEN) MiniLibX compiled successfully!$(RESET)"
 
 $(NAME): $(OBJ)
 	@$(LIBC) $(NAME) $(OBJ)
