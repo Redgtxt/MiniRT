@@ -23,6 +23,7 @@ int main(void)
     
     ft_printf("Window created successfully\n");
     ft_printf("WOW AMAZING VIEW\n");
+    ft_printf("WOW AMAZING BANANA\n");
 
     mlx_loop(mlx);
     
