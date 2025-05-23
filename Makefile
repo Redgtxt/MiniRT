@@ -58,6 +58,7 @@ $(LIBFT):
 $(MLX):
 	@echo "$(CYAN)Compiling MLX...$(RESET)"
 	@$(MAKE) -C $(MLX_DIR)
+	@echo "$(GREEN)MLX compiled successfully!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "$(MAGENTA)Compiling: $<$(RESET)"
