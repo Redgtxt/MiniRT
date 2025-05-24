@@ -72,7 +72,7 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 
 #mudar regra quando tiver-mos cena para executar
 rt:	re
-	./miniRT 
+	./miniRT
 
 
 valgrind: $(NAME)
@@ -95,4 +95,4 @@ re: fclean all
 # ======================== #
 #        PHONY             #
 # ======================== #
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re rt valgrind
