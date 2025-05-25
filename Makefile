@@ -57,7 +57,8 @@ $(LIBFT):
 
 $(MLX):
 	@echo "$(CYAN)Compiling MLX...$(RESET)"
-	@$(MAKE) -C $(MLX_DIR)
+	@chmod +x $(MLX_DIR)/configure
+	@$(MAKE) -C $(MLX_DIR) --no-print-directory > /dev/null 2>&1
 	@echo "$(GREEN)MLX compiled successfully!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)

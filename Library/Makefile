@@ -76,7 +76,8 @@ $(OBJ_DIR):
 
 mlx:
 	@echo "$(ARROW)$(CYAN) Compiling MiniLibX...$(RESET)"
-	@$(MAKE) -C $(DIR_MLX)
+	@chmod +x $(DIR_MLX)/configure
+	@$(MAKE) -C $(DIR_MLX) --no-print-directory > /dev/null 2>&1
 	@echo "$(CHECK)$(GREEN) MiniLibX compiled successfully!$(RESET)"
 
 $(NAME): $(OBJ)
@@ -91,8 +92,10 @@ $(OBJ_DIR_PRINTF)/%.o: $(DIR_PRINTF)/%.c | $(OBJ_DIR_PRINTF)
 $(OBJ_DIR_GNL)/%.o: $(DIR_GNL)/%.c | $(OBJ_DIR_GNL)
 	@$(CC) $(CFLAGS) -c $< -o $@
 clean:
+	@echo "$(RED)Cleaning Library object files...$(RESET)"
 	@$(RM) $(OBJ)
-	@$(MAKE) -C $(DIR_MLX) clean
+	@$(MAKE) -C $(DIR_MLX) clean --no-print-directory > /dev/null 2>&1
+	@echo "$(GREEN)Library object files cleaned!$(RESET)"
 
 fclean: clean
 	@$(RMDIR) $(OBJ_DIR)
