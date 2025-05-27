@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/26 14:59:08 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:39:59 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,11 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-# define WINDOW_HEIGHT 800
-# define WINDOW_WIDTH 600
-
+# define WINDOW_HEIGHT 1920
+# define WINDOW_WIDTH 1080
 typedef unsigned char	mini_int;
-
-typedef struct s_cord
-{
-	double				x;
-	double				y;
-	double				z;
-}						t_cord;
-
-typedef struct s_vector
-{
-	/* VETORES controlam o estado em que a figura geometrica esta
-Exemplo se o Y for 1 sabemos que a FIGURA vai estar virado para cima
-
- ISTO E WIERD PORQUE VAMOS TER DE NORMALIZAR O VALOR (AINDA NAO SEI O QUE SIGNIFICA)
-*/
-
-	float				x;
-	float				y;
-	float				z;
-}						t_vector;
+typedef double			cord;
+typedef float			vec3;
 
 typedef struct s_rgb
 {
@@ -52,6 +33,16 @@ typedef struct s_rgb
 	mini_int			G;
 	mini_int			B;
 }						t_rgb;
+
+typedef struct s_ray
+{
+	double				cords[3];
+
+	float				vec3[3];
+
+	//	struct s_ray *next;
+	//	struct s_ray *prev;
+}						t_ray;
 
 typedef struct s_amb_light
 {
@@ -63,16 +54,16 @@ typedef struct s_amb_light
 
 typedef struct s_camera
 {
-	t_cord				cord;
+	cord				cords[3];
 
-	t_vector			vector;
+	vec3				vector[3];
 
 	mini_int			fov;
 }						t_camera;
 
 typedef struct s_light
 {
-	t_cord				cord;
+	cord				cords[3];
 	float				brightness;
 	t_rgb rgb; // nao e usado no mandatory
 
@@ -81,7 +72,8 @@ typedef struct s_light
 typedef struct s_sphere
 {
 	// coordenadas do centro da esfera
-	t_cord				cord;
+
+	cord				cords[3];
 
 	/*Diametro da Espera
 	(E passado no subject)
@@ -101,9 +93,10 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	//    PODE NAO SER O CENTRO (PELOS VISTOS PLANOS SAO INFINITOS)
-	t_cord				cord;
 
-	t_vector			vector;
+	cord				cords[3];
+
+	vec3				vector[3];
 
 	t_rgb				rgb;
 
@@ -115,9 +108,9 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	//     coordenadas do centro do CILINDRO
-	t_cord				cord;
 
-	t_vector			vector;
+	cord				cords[3];
+	vec3				vector[3];
 
 	/*
 	Diametro do CILINDRO(E passado no subject)
