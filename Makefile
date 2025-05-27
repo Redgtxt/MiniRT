@@ -34,8 +34,9 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, utils.c) \
-	    $(addprefix Maths/, count.c)
+	    $(addprefix utils/, split_spaces.c utils.c) \
+	    $(addprefix Maths/, count.c) \
+	    $(addprefix parsing/, parsing.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -49,6 +50,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/utils
 	@mkdir -p $(OBJ_DIR)/Maths
+	@mkdir -p $(OBJ_DIR)/parsing
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
 
 $(LIBFT):
