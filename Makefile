@@ -14,7 +14,7 @@ WHITE   = \033[1;37m
 #       FLAGS              #
 # ======================== #
 CC        = cc
-FLAGS     = -Wall -Werror -Wextra
+FLAGS     = -Wall -Werror -Wextra -O3 -Ofast
 MLX_FLAGS = -lm -lX11 -lXext
 
 NAME      = miniRT
@@ -34,8 +34,8 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, utils.c) \
-	    $(addprefix Maths/, count.c)
+	    $(addprefix utils/, utils.c vector_utils.c) \
+	    $(addprefix Maths/,)  \
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

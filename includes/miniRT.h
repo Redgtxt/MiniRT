@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/27 18:39:59 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:00:35 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,29 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-# define WINDOW_HEIGHT 1920
-# define WINDOW_WIDTH 1080
+# define WINDOW_HEIGHT 640
+# define WINDOW_WIDTH 360
 typedef unsigned char	mini_int;
 typedef double			cord;
 typedef float			vec3;
 
+#define TRANS 0
+#define RED 1
+#define	GREEN 2
+#define BLUE 3
+ 
+
 typedef struct s_rgb
 {
-	mini_int			R;
-	mini_int			G;
-	mini_int			B;
+	
+	mini_int			RGB[4];
 }						t_rgb;
 
 typedef struct s_ray
 {
-	double				cords[3];
+	cord				cords[3];
 
-	float				vec3[3];
+	double				vec3[3];
 
 	//	struct s_ray *next;
 	//	struct s_ray *prev;
@@ -56,7 +61,7 @@ typedef struct s_camera
 {
 	cord				cords[3];
 
-	vec3				vector[3];
+	vec3				vec3[3];
 
 	mini_int			fov;
 }						t_camera;
@@ -139,4 +144,13 @@ typedef struct s_control_panel
 	t_light				light;
 }						t_control_panel;
 
+/*Vectos Utils*/
+double lenght_vec(double vector[3]);
+
+void vec3_set(double v[3], double x, double y, double z);
+void vec3_copy(double dest[3], const double src[3]);
+void vec3_scale(double out[3], const double v[3], double s);
+void vec3_add(double out[3], const double a[3], const double b[3]);
+void vec3_sub(double out[3], const double a[3], const double b[3]);
+double vec3_dot(const double a[3], const double b[3]);
 #endif
