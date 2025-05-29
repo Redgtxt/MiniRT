@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/28 18:00:35 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:10:55 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
+# define WINDOW_HEIGHT 720
 
-# define WINDOW_HEIGHT 640
-# define WINDOW_WIDTH 360
+# define WINDOW_WIDTH 1280
 typedef unsigned char	mini_int;
 typedef double			cord;
 typedef float			vec3;
@@ -36,14 +36,14 @@ typedef float			vec3;
 typedef struct s_rgb
 {
 	
-	mini_int			RGB[4];
+	float			RGB[4];
 }						t_rgb;
 
 typedef struct s_ray
 {
-	cord				cords[3];
+	cord				origin[3];
 
-	double				vec3[3];
+	double				direction[3];
 
 	//	struct s_ray *next;
 	//	struct s_ray *prev;
@@ -144,13 +144,25 @@ typedef struct s_control_panel
 	t_light				light;
 }						t_control_panel;
 
+
+/*Ray functions*/
+void init_ray(t_ray *ray);
+void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
+void ray_origin(const t_ray *ray, double out[3]);
+void ray_direction(const t_ray *ray, double out[3]);
+
+void at(double t, t_ray ray, double result[3]);
+
 /*Vectos Utils*/
 double lenght_vec(double vector[3]);
-
 void vec3_set(double v[3], double x, double y, double z);
 void vec3_copy(double dest[3], const double src[3]);
 void vec3_scale(double out[3], const double v[3], double s);
 void vec3_add(double out[3], const double a[3], const double b[3]);
 void vec3_sub(double out[3], const double a[3], const double b[3]);
+void vec3_multiply(double out[3], const double a[3], const double b[3]);
+void vec3_divide(double out[3], const double v[3], double t);
+void vec3_scale(double out[3], const double v[3], double scaleFactor);
 double vec3_dot(const double a[3], const double b[3]);
+void vec3_negate(double out[3], const double v[3]);
 #endif

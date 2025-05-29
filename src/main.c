@@ -1,61 +1,14 @@
 #include "../includes/miniRT.h"
 
-//Ray_Maker
-/*
-    vou tentar criar um raio
-*/
 
-/// @brief Will store the values of the ray
-/// @param cords 
-/// @param vector3 
-/// @return 0 in sucess
-void init_ray(t_ray *ray)
-{
-    ray->cords[0] = 0;
-    ray->cords[1] = 0;
-    ray->cords[2] = 0;
-
-    ray->vec3[0] = 0;
-    ray->vec3[1] = 1;
-    ray->vec3[2] = 0;
-
-}
-
-void ray(t_ray ray,cord cord[3] ,vec3 vector[3])
-{
-    ray.cords[0] = cord[0];
-    ray.cords[1] = cord[1];
-    ray.cords[2] = cord[2];
-
-    ray.vec3[0] = vector[0];
-    ray.vec3[1] = vector[1];
-    ray.vec3[2] = vector[2];
-}
-
-void init_camera(t_ray *camera)
+//Onicializo as coordenadas da camera
+void init_camera(t_camera *camera)
 {
 
+    camera->cords[0] = 0;
+    camera->cords[1] = 1;
+    camera->cords[2] = 0;
 
-    camera->vec3[0] = 0;
-    camera->vec3[1] = 1;
-    camera->vec3[2] = 0;
-
-}
-
-/*
-    Isto vai me dat t
-    A minda ideia vai ser pegar no array e usalo para criar um novo raio pois ja obtenho as coordenadas da colisao(result)
-*/
-
-/// @brief  Funcao vai 
-/// @param t 
-/// @param ray 
-/// @param result array que vai guardar as coordenadas da colisao 
-void at(double t, t_ray ray, double result[3])
-{
-    result[0] = ray.cords[0] + t * ray.vec3[0];
-    result[1] = ray.cords[1] + t * ray.vec3[1];
-    result[2] = ray.cords[2] + t * ray.vec3[2];
 }
 
 int write_color(double r, double g, double b) {
@@ -78,48 +31,62 @@ void normalize_vec(double out[3], const double v[3]) {
 bool hit_sphere( const double center[3],double radius, const t_ray *r)
 {
     double oc[3];
-    vec3_sub(oc,r->cords,center); 
+    vec3_sub(oc,r->origin,center); 
 
     double a;
     double b;
     double c;
     double discriminant;
 
-    a = vec3_dot(r->vec3,r->vec3);
-    b = 2.0 * vec3_dot(r->vec3,oc);
+    a = vec3_dot(r->direction,r->direction);
+    b = 2.0 * vec3_dot(r->direction,oc);
     c = vec3_dot(oc,oc) - radius * radius;
     discriminant = b * b - 4 *a *c;
 
     return (discriminant >= 0);
 }
-
 void ray_color(const t_ray *ray, double out_color[3]) {
-
-        double sphere_center[3] = {0.0, 0.0, -1.0};
-    double sphere_radius = 0.5;
-
-    // Se o raio colidir com a esfera, retorna vermelho
-    if (hit_sphere(sphere_center, sphere_radius, ray)) {
-        out_color[0] = 1.0;  // R
-        out_color[1] = 0.0;  // G
-        out_color[2] = 0.0;  // B
-        return;
-    }
-
     double unit_direction[3];
-    normalize_vec(unit_direction, ray->vec3);
+    normalize_vec(unit_direction, ray->direction);
 
-    double a = 0.5 * (unit_direction[1] + 1.0); // y() + 1.0
+double a = 0.5 * (-unit_direction[1] + 1.0);
 
-    // Cores: white = (1,1,1), blue = (0.5, 0.7, 1.0)
     double white[3] = {1.0, 1.0, 1.0};
-    double blue[3] = {0.5, 0.7, 1.0};
+    double blue[3]  = {0.5, 0.7, 1.0};
     double scaled_white[3], scaled_blue[3];
 
     vec3_scale(scaled_white, white, 1.0 - a);
     vec3_scale(scaled_blue, blue, a);
     vec3_add(out_color, scaled_white, scaled_blue);
 }
+
+// void ray_color(const t_ray *ray, double out_color[3]) {
+
+//     //     double sphere_center[3] = {0.0, 0.0, -1.0};
+//     // double sphere_radius = 0.5;
+
+// /*     // Se o raio colidir com a esfera, retorna vermelho
+//     if (hit_sphere(sphere_center, sphere_radius, ray)) {
+//         out_color[0] = 1.0;  // R
+//         out_color[1] = 0.0;  // G
+//         out_color[2] = 0.0;  // B
+//         return;
+//     } */
+
+//     double unit_direction[3];
+//     normalize_vec(unit_direction, ray->direction);
+
+//     double a = 0.5 * (unit_direction[1] + 1.0); // y() + 1.0
+
+//     // Cores: white = (1,1,1), blue = (0.5, 0.7, 1.0)
+//     double white[3] = {1.0, 1.0, 1.0};
+//     double blue[3] = {0.5, 0.7, 1.0};
+//     double scaled_white[3], scaled_blue[3];
+
+//     vec3_scale(scaled_white, white, 1.0 - a);
+//     vec3_scale(scaled_blue, blue, a);
+//     vec3_add(out_color, scaled_white, scaled_blue);
+// }
 
 /*
 bool hit_sphere(const point3& center, double radius, const ray& r) {
@@ -134,6 +101,165 @@ bool hit_sphere(const point3& center, double radius, const ray& r) {
 
 
 
+int main(void)
+{
+    void *mlx;
+    void *mlx_win;
+    t_rgb color;
+
+
+    /*
+        Init viewport
+    
+    */
+
+    //Image
+    double aspect_ratio = 16.0 / 9.0;
+    int image_width = WINDOW_WIDTH;
+
+    //Vamos ver se a image_height fica em pelo menos 1
+    //Arredondo o valor
+    int image_height = (int)image_width / aspect_ratio;
+    if(image_height < 1)
+        image_height = 1;
+
+    //viewport width
+    double focal_lenght = 1.0;
+    double viewport_height = 2.0;
+    double viewport_width = viewport_height * (double)(image_width / image_height);
+        // CORREÇÃO 1: Alocar memória para a camera
+    t_camera *camera = malloc(sizeof(t_camera));
+    if (!camera)
+        return (1);
+
+    //Init com valores qualquer
+    init_camera(camera);
+    //Vamos dar valores a camera
+    vec3_set(camera->cords,0,0,0);
+
+    double viewport_horizontal[3];
+    double viewport_vertical[3];
+    /*
+        Aqui criamos o quadrado do viewport
+    */
+    vec3_set(viewport_horizontal,0,-viewport_width,0);
+    vec3_set(viewport_vertical,0,-viewport_height,0);
+
+    /*
+        Aqui criamos os pixeis dentro viewport
+    */
+
+    double pixel_delta_horizontal[3];
+    double pixel_delta_vertical[3];
+    
+    vec3_divide(pixel_delta_horizontal,viewport_horizontal,(double)image_width);
+    vec3_divide(pixel_delta_vertical,viewport_vertical,(double)image_height);
+
+    /*
+        Agora vamos capturar o primeiro pixel
+
+         auto viewport_upper_left = camera_center3
+                             - vec3(0, 0, focal_length)3 - viewport_u/2 - viewport_v/2;
+    */
+    double viewport_upper_left[3];
+
+    double div_vp_h[3];
+    double div_vp_v[3];
+    double offset[3];
+    double temp1[3];
+    double temp2[3];
+    
+    vec3_set(offset,0,0,focal_lenght);
+
+    vec3_divide(div_vp_h,viewport_horizontal,2);
+    vec3_divide(div_vp_v,viewport_vertical,2);
+
+    vec3_sub(temp1,camera->cords, offset);
+    vec3_sub(temp2,div_vp_h,div_vp_v);
+    vec3_sub(viewport_upper_left,temp1,temp2);
+
+    double pixel00_loc[3];
+    double sum_delta_pixel[3];
+    double res[3];
+    vec3_add(sum_delta_pixel,pixel_delta_horizontal,pixel_delta_vertical);
+    vec3_scale(res,sum_delta_pixel,0.5);
+
+    //Consegui a localizacao do primeiro pixel
+    vec3_add(pixel00_loc,viewport_upper_left,res);
+
+
+
+    color.RGB[0] = 1.0;
+    color.RGB[1] = 1.0;
+    color.RGB[2] = 0.0;
+    ft_printf("MiniRT Starting...\n");
+
+    mlx = mlx_init();
+    if (!mlx)
+    {
+        ft_printf("Error: Could not initialize MLX\n");
+        return (1);
+    }
+
+    mlx_win = mlx_new_window(mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "miniRT");
+    if (!mlx_win)
+    {
+        ft_printf("Error: Could not create window\n");
+        return (1);
+    }
+
+int y = 0;
+while (y < WINDOW_HEIGHT)
+{
+    int x = 0;
+    while (x < WINDOW_WIDTH)
+    {
+
+        double pixel_center[3];
+
+        double pixel_h[3];
+        double pixel_v[3];
+        double sum_pixel[3];
+
+       vec3_scale(pixel_h,pixel_delta_horizontal,x);
+       vec3_scale(pixel_v,pixel_delta_vertical,y);
+       vec3_add(sum_pixel,pixel_h,pixel_v);
+
+       //Estou a andar para a  posicao de onde o raio vai sair
+       vec3_add(pixel_center,pixel00_loc,sum_pixel);
+        
+       double ray_direction[3];
+       vec3_sub(ray_direction,pixel_center,camera->cords);
+        
+       t_ray ray;
+       create_ray(&ray,camera->cords,ray_direction);
+
+
+        /* GRADIANT Vermelho ate azul na horizontal*/
+     /*    double t = (double)x / (WINDOW_WIDTH - 1);
+
+        color.RGB[0] = 1.0 - t;  // vermelho
+        color.RGB[1] = 0.0;      // verde
+        color.RGB[2] = t;        // azul
+ */
+
+            double pixel_color[3];
+            ray_color(&ray, pixel_color);
+
+            int rgb = write_color(pixel_color[0], pixel_color[1], pixel_color[2]);
+            mlx_pixel_put(mlx, mlx_win, x, y, rgb);
+
+        x++;
+    }
+    y++;
+}
+    ft_printf("Render Completed\n");
+    free(camera);
+    mlx_loop(mlx);
+
+    return (0);
+}
+/*
 int main(void)
 {
     void *mlx;
@@ -190,7 +316,7 @@ int main(void)
         return (1);
     }
 
-    mlx_win = mlx_new_window(mlx, image_height, image_width, "miniRT");
+    mlx_win = mlx_new_window(mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "miniRT");
     if (!mlx_win)
     {
 
@@ -240,3 +366,4 @@ int main(void)
 
     return (0);
 }
+*/
