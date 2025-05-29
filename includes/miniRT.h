@@ -25,13 +25,28 @@
 # define WINDOW_WIDTH 600
 
 typedef unsigned char	mini_int;
+// typedef double			coord;
+// typedef float			vector;
 
+typedef struct s_coord
+{
+	double				x;
+	double				y;
+	double				z;
+}						t_coord;
+
+typedef struct s_vector
+{
+	float				x;
+	float				y;
+	float				z;
+}						t_vector;
 
 typedef struct s_rgb
 {
-	mini_int			R;
-	mini_int			G;
-	mini_int			B;
+	mini_int			r;
+	mini_int			g;
+	mini_int			b;
 }						t_rgb;
 
 typedef struct s_amb_light
@@ -42,22 +57,22 @@ typedef struct s_amb_light
 
 typedef struct s_camera
 {
-	double				coord[3];
-	float				vector[3];
+	t_coord				coord;
+	t_vector				vector;
 	mini_int			fov;
 }						t_camera;
 
 typedef struct s_light
 {
-	double				coord[3];
+	t_coord				coord;
 	float				brightness;
-	t_rgb rgb; // nao e usado no mandatory
+	t_rgb				rgb; // nao e usado no mandatory
 }						t_light;
 
 typedef struct s_sphere
 {
 	// coordenadas do centro da esfera
-	double				coord[3];
+	t_coord				coord;
 	/*Diametro da Espera
 	(E passado no subject)
 	*/
@@ -72,8 +87,8 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	//    PODE NAO SER O CENTRO (PELOS VISTOS PLANOS SAO INFINITOS)
-	double				coord[3];
-	float				vector[3];
+	t_coord				coord;
+	t_vector				vector;
 	t_rgb				rgb;
 	struct s_plane		*prev;
 	struct s_plane		*next;
@@ -83,7 +98,7 @@ typedef struct s_cylinder
 {
 	//     coordenadas do centro do CILINDRO
 	t_coord				coord;
-	t_vector			vector;
+	t_vector				vector;
 	/*
 	Diametro do CILINDRO(E passado no subject)
 	*/
@@ -112,6 +127,8 @@ typedef struct s_control_panel
 bool	parsing(t_control_panel *control_panel, char *file_name);
 
 //	Utils.c
+size_t	double_array_len(char **array);
+bool	ft_atoc(const char *str, mini_int *dest);
 char	**split_spaces(char const *s);
 
 #endif
