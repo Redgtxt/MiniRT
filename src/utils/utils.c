@@ -1,6 +1,4 @@
 #include "../../includes/miniRT.h"
-#include <stdbool.h>
-#include <unistd.h>
 
 size_t	double_array_len(char **array)
 {
@@ -30,42 +28,64 @@ bool	ft_atoc(const char *str, mini_int *dest)
 	return (true);
 }
 
-double	ft_atod(const char *str)
+bool	ft_atofd(const char *str, void *dest, char type)
 {
-	double long	value;
-	double long	fraction;
-	double		division;
-	bool		negative;
+	long double	value;
+	long double	fraction;
+	long double	division;
+	double		negative;
 	bool		decimal;
 
-	if (!str)
-		return (0);
+	if (!str || !dest || !type)
+		return (false);
 	value = 0.0;
 	fraction = 0.0;
 	division = 10.0;
-	negative = false;
+	negative = 1.0;
 	decimal = false;
 	if (*str == '-')
-		negative = true;
+	{
+		negative = -1.0;
+		str++;
+	}
 	while ((*str >= '0' && *str <= '9') || *str == '.')
 	{
 		if (*str == '.')
 		{
+			if (decimal)
+				return (false);
 			decimal = true;
-			str++;
 		}
-		if (!decimal)
-			value = (value * 10) + *str - 48;
+		else if (!decimal)
+			value = (value * 10.0) + (*str - 48);
 		else
 		{
 			fraction += (*str - 48) / division;
 			division *= 10.0;
 		}
-		if ((negative && value > 2147483648.0) || (!negative && value > 2147483647.0))
-			return (0);
+		if ((type == 'd' && value + fraction > DBL_MAX)
+			|| (type == 'f' && value + fraction > FLT_MAX))
+			return (false);
 		str++;
 	}
- 	if (negative)
-		value *= -1;
-	return ((double)value + fraction);
+	value = negative * (value + fraction);
+	// Precision loss check if fraction is essentially zero (integer)
+	if (fabsl(fraction) < 1e-15L)
+	{
+    	if (type == 'f')
+     	{
+        	if (fabsl(value) > 16777216.0L) // 2^24
+            	return (false);
+      	}
+      	else if (type == 'd')
+        {
+        	if (fabsl(value) > 9007199254740992.0L) // 2^53
+            	return (false);
+        }
+	}
+	if (type == 'f')
+		*(float *)dest = (float)value;
+	else if (type == 'd')
+		*(double *)dest = (double)value;
+	return (true);
 }

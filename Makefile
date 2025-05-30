@@ -34,7 +34,7 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, split_spaces.c utils.c) \
+	    $(addprefix utils/, split_spaces.c utils.c errors.c) \
 	    $(addprefix Maths/, count.c) \
 	    $(addprefix parsing/, parsing.c)
 

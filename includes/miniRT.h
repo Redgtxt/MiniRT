@@ -16,10 +16,13 @@
 # include "../Library/get_next_line/get_next_line.h"
 # include "../Library/libft/libft.h"
 # include "../Library/minilibx-linux/mlx.h"
+# include "miniRT_error_p.h"
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <float.h>
+# include <unistd.h>
 
 # define WINDOW_HEIGHT 800
 # define WINDOW_WIDTH 600
@@ -27,6 +30,16 @@
 typedef unsigned char	mini_int;
 // typedef double			coord;
 // typedef float			vector;
+
+typedef struct s_data
+{
+	size_t		amb_light;
+	size_t		camera;
+	size_t		light;
+	size_t		sphere;
+	size_t		plane;
+	size_t		cylinder;
+}				t_data;
 
 typedef struct s_coord
 {
@@ -58,7 +71,7 @@ typedef struct s_amb_light
 typedef struct s_camera
 {
 	t_coord				coord;
-	t_vector				vector;
+	t_vector			vector;
 	mini_int			fov;
 }						t_camera;
 
@@ -98,7 +111,7 @@ typedef struct s_cylinder
 {
 	//     coordenadas do centro do CILINDRO
 	t_coord				coord;
-	t_vector				vector;
+	t_vector			vector;
 	/*
 	Diametro do CILINDRO(E passado no subject)
 	*/
@@ -120,6 +133,8 @@ typedef struct s_control_panel
 	t_sphere			*sphere;
 	t_plane				*plane;
 	t_cylinder			*cylinder;
+	t_data				data;
+	t_error_log			error_log;
 }						t_control_panel;
 
 
@@ -129,6 +144,10 @@ bool	parsing(t_control_panel *control_panel, char *file_name);
 //	Utils.c
 size_t	double_array_len(char **array);
 bool	ft_atoc(const char *str, mini_int *dest);
+bool	ft_atofd(const char *str, void *dest, char type);
 char	**split_spaces(char const *s);
+
+//	Extra -> Tests
+void	print_elements(t_control_panel *control_panel);
 
 #endif
