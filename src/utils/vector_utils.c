@@ -98,3 +98,26 @@ void vec3_negate(double out[3], const double v[3])
     out[1] = -v[1];
     out[2] = -v[2];
 }
+
+/// @brief Criar um vetor unitário (normalizado) a partir de um vetor
+/// @param out vetor de saída onde será armazenado o vetor unitário
+/// @param v vetor de entrada a ser normalizado
+/// 
+/// Esta função calcula v / |v| onde |v| é o comprimento do vetor
+void vec3_unit_vector(double out[3], const double v[3])
+{
+    double len = vec3_lenght((double*)v);
+    
+    if (len == 0.0)
+        vec3_zero(out);  // evitar divisão por zero
+    else
+        vec3_scale(out, v, 1.0 / len);
+}
+
+void vec3_sub_chain(double out[3], const double a[3], const double b[3], 
+                    const double c[3], const double d[3])
+{
+    out[0] = a[0] - b[0] - c[0] - d[0];
+    out[1] = a[1] - b[1] - c[1] - d[1];
+    out[2] = a[2] - b[2] - c[2] - d[2];
+}
