@@ -15,86 +15,90 @@ int	has_error(t_error error_code, int flag)
 	return ((error_code & flag) != 0);
 }
 
-static char	*get_element(t_error error_code)
+static void	print_element_error(t_error error_code, char *element)
 {
 	if (has_error(error_code, INV_ELEMENT))
-		return ("Invalid type");
+	{
+		ft_putstr_fd("Invalid type ", 2);
+		ft_putstr_fd("'", 2);
+		ft_putstr_fd(element, 2);
+		ft_putstr_fd("'", 2);
+	}
 	else if (has_error(error_code, ERR_ELEMENT_A))
-		return ("Ambient_light");
+		ft_putstr_fd("Ambient_light 'A'", 2);
 	else if (has_error(error_code, ERR_ELEMENT_C))
-		return ("Camera");
+		ft_putstr_fd("Camera 'C'", 2);
 	else if (has_error(error_code, ERR_ELEMENT_L))
-		return ("Light");
+		ft_putstr_fd("Light 'L'", 2);
 	else if (has_error(error_code, ERR_ELEMENT_SP))
-		return ("Sphere");
+		ft_putstr_fd("Sphere 'sp'", 2);
 	else if (has_error(error_code, ERR_ELEMENT_PL))
-		return ("Plane");
+		ft_putstr_fd("Plane 'pl'", 2);
 	else if (has_error(error_code, ERR_ELEMENT_CY))
-		return ("Cylinder");
-	return (NULL);
+		ft_putstr_fd("Cylinder 'cy'", 2);
 }
 
-static char	*get_value(t_error error_code)
+static void	print_value_error(t_error error_code)
 {
 	if (has_error(error_code, ERR_COORD))
-		return ("Coordenates");
+		ft_putstr_fd("Coordenates", 2);
 	else if (has_error(error_code, ERR_VECTOR))
-		return ("Vector");
+		ft_putstr_fd("Vector", 2);
 	else if (has_error(error_code, ERR_RGB))
-		return ("RGB");
+		ft_putstr_fd("RGB", 2);
 	else if (has_error(error_code, ERR_FOV))
-		return ("FOV");
+		ft_putstr_fd("FOV", 2);
 	else if (has_error(error_code, ERR_LIGHT_FORCE))
-		return ("Light force");
+		ft_putstr_fd("Light force", 2);
 	else if (has_error(error_code, ERR_BRIGHTNESS))
-		return ("Brightness");
+		ft_putstr_fd("Brightness", 2);
 	else if (has_error(error_code, ERR_D))
-		return ("Diameter");
+		ft_putstr_fd("Diameter", 2);
 	else if (has_error(error_code, ERR_HEIGHT))
-		return ("Height");
-	return ("No value");
+		ft_putstr_fd("Height", 2);
+	else
+		ft_putstr_fd("No value", 2);
 }
 
-static char	*get_general_error(t_error error_code)
+static void	print_general_error(t_error error_code)
 {
 	if (has_error(error_code, ERR_MALLOC))
-		return ("Memory allocation");
+		ft_putstr_fd("Memory allocation", 2);
 	else if (has_error(error_code, ERR_OVERFLOW))
-		return ("Overflow");
+		ft_putstr_fd("Overflow", 2);
 	else if (has_error(error_code, ERR_NEGATIVE))
-		return ("Negative number");
+		ft_putstr_fd("Negative number", 2);
 	else if (has_error(error_code, ERR_INVALID_CHAR))
-		return ("Invalid char");
+		ft_putstr_fd("Invalid char", 2);
 	else if (has_error(error_code, ERR_NBR_VALUES))
-		return ("Not the right number of values");
+		ft_putstr_fd("Not the right number of values", 2);
 	else if (has_error(error_code, ERR_NBR_ELEMENTS))
-		return ("Not the right number of elements");
-	return ("No details");
+	{
+		if (has_error(error_code, ERR_ELEMENT_A) || has_error(error_code, ERR_ELEMENT_C)
+				|| has_error(error_code, ERR_ELEMENT_L))
+			ft_putstr_fd("Not the right number of elements - Only accepts one", 2);
+		else if (has_error(error_code, ERR_ELEMENT_SP) || has_error(error_code, ERR_ELEMENT_PL)
+				|| has_error(error_code, ERR_ELEMENT_CY))
+			ft_putstr_fd("Not the right number of elements - Needs at least one", 2);
+	}
+	else
+		ft_putstr_fd("No details", 2);
 }
 
 void	print_parsing_error(t_error_log error_log)
 {
-	char	*element;
-	char	*value;
-
-	element = get_element(error_log.code_error);
-	value = get_value(error_log.code_error);
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd("Parsing Error:\n", 2);
 	ft_putstr_fd("\t# line number: ", 2);
 	ft_putnbr_fd(error_log.line_nbr, 2);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tElement -> ", 2);
-	ft_putstr_fd(element, 2);
-	ft_putstr_fd(" ", 2);
-	ft_putstr_fd("'", 2);
-	ft_putstr_fd(error_log.element, 2);
-	ft_putstr_fd("'", 2);
+	print_element_error(error_log.code_error, error_log.element);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tValue -> ", 2);
-	ft_putstr_fd(value, 2);
+	print_value_error(error_log.code_error);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tError details -> ", 2);
-	ft_putstr_fd(get_general_error(error_log.code_error), 2);
+	print_general_error(error_log.code_error);
 	ft_putstr_fd(".\n", 2);
 }

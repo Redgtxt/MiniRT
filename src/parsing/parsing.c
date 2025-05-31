@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include <unistd.h>
 
 bool	get_coord(t_coord *coord, char *info)
 {
@@ -63,7 +64,7 @@ bool	get_vector(t_vector *vector, char *info)
 	if (vector->x > 1.0 || vector->y > 1.0 || vector->z > 1.0
 		|| vector->x < -1.0 || vector->y < -1.0 || vector->z < -1.0) //	Melhorar precisao
 		return (false);
-	return (true);	return (true);
+	return (true);
 }
 
 //	RGB //
@@ -191,93 +192,121 @@ bool	get_height(double *height, char *info)
 }
 
 //	Parses the ambient_light input
-bool	parse_amb_light(t_amb_light *amb_light, char **element_info, t_error_log *error_log)
+bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
-	if (!get_light_force(&amb_light->light_force, element_info[1]))
+	if (!get_light_force(&control_panel->amb_light.light_force, element_info[1]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_LIGHT_FORCE), false);
-	if (!get_rgb(&amb_light->rgb, element_info[2]))
+	if (!get_rgb(&control_panel->amb_light.rgb, element_info[2]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_RGB), false);
+	control_panel->data.amb_light++;
 	return (true);
 }
 
 //	Parses the camera input
-bool	parse_camera(t_camera *camera, char **element_info, t_error_log *error_log)
+bool	parse_camera(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
-	if (!get_coord(&camera->coord, element_info[1]))
+	if (!get_coord(&control_panel->camera.coord, element_info[1]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_COORD), false);
-	if (!get_vector(&camera->vector, element_info[2]))
+	if (!get_vector(&control_panel->camera.vector, element_info[2]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_VECTOR), false);
-	if (!get_fov(&camera->fov, element_info[3]))
+	if (!get_fov(&control_panel->camera.fov, element_info[3]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_FOV), false);
+	control_panel->data.camera++;
 	return (true);
 }
 
 //	Parses the light input
-bool	parse_light(t_light *light, char **element_info, t_error_log *error_log)
+bool	parse_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
-	if (!get_coord(&light->coord, element_info[1]))
+	if (!get_coord(&control_panel->light.coord, element_info[1]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_COORD), false);
-	if (!get_brightness(&light->brightness, element_info[2]))
+	if (!get_brightness(&control_panel->light.brightness, element_info[2]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_BRIGHTNESS), false);
-	if (!get_rgb(&light->rgb, element_info[3]))
+	if (!get_rgb(&control_panel->light.rgb, element_info[3]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_RGB), false);
+	control_panel->data.light++;
 	return (true);
 }
 
 //	Parses the sphere input
-bool	parse_sphere(t_sphere **sphere, char **element_info, t_error_log *error_log)
+bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
-	*sphere = ft_calloc(1, sizeof(t_sphere));
-	if (!*sphere)
+	control_panel->sphere = ft_calloc(1, sizeof(t_sphere));
+	if (!control_panel->sphere)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_MALLOC), false);
-	if (!get_coord(&(*sphere)->coord, element_info[1]))
+	if (!get_coord(&control_panel->sphere->coord, element_info[1]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_COORD), false);
-	if (!get_d(&(*sphere)->d, element_info[2]))
+	if (!get_d(&control_panel->sphere->d, element_info[2]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_D), false);
 	//	RADIUS
-	if (!get_rgb(&(*sphere)->rgb, element_info[3]))
+	if (!get_rgb(&control_panel->sphere->rgb, element_info[3]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
-	(*sphere)->next = NULL;
-	(*sphere)->prev = NULL;
+	control_panel->sphere->next = NULL;
+	control_panel->sphere->prev = NULL;
+	control_panel->data.sphere++;
 	return (true);
 }
 
 //	Parses the plane input
-bool	parse_plane(t_plane **plane, char **element_info, t_error_log *error_log)
+bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
-	*plane = ft_calloc(1, sizeof(t_plane));
-	if (!*plane)
+	control_panel->plane = ft_calloc(1, sizeof(t_plane));
+	if (!control_panel->plane)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_MALLOC), false);
-	if (!get_coord(&(*plane)->coord, element_info[1]))
+	if (!get_coord(&control_panel->plane->coord, element_info[1]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_COORD), false);
-	if (!get_vector(&(*plane)->vector, element_info[2]))
+	if (!get_vector(&control_panel->plane->vector, element_info[2]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_VECTOR), false);
-	if (!get_rgb(&(*plane)->rgb, element_info[3]))
+	if (!get_rgb(&control_panel->plane->rgb, element_info[3]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_RGB), false);
-	(*plane)->next = NULL;
-		(*plane)->prev = NULL;
+	control_panel->plane->next = NULL;
+	control_panel->plane->prev = NULL;
+	control_panel->data.plane++;
 	return (true);
 }
 
 //	Parses the cylinder input
-bool	parse_cylinder(t_cylinder **cylinder, char **element_info, t_error_log *error_log)
+bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
-	*cylinder = ft_calloc(1, sizeof(t_cylinder));
-	if (!*cylinder)
+	control_panel->cylinder = ft_calloc(1, sizeof(t_cylinder));
+	if (!control_panel->cylinder)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_MALLOC), false);
-	if (!get_coord(&(*cylinder)->coord, element_info[1]))
+	if (!get_coord(&control_panel->cylinder->coord, element_info[1]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_COORD), false);
-	if (!get_vector(&(*cylinder)->vector, element_info[2]))
+	if (!get_vector(&control_panel->cylinder->vector, element_info[2]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_VECTOR), false);
-	if (!get_d(&(*cylinder)->d, element_info[3]))
+	if (!get_d(&control_panel->cylinder->d, element_info[3]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_D), false);
 	//	Radius
-	if (!get_height(&(*cylinder)->height, element_info[4]))
+	if (!get_height(&control_panel->cylinder->height, element_info[4]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
-	if (!get_rgb(&(*cylinder)->rgb, element_info[5]))
+	if (!get_rgb(&control_panel->cylinder->rgb, element_info[5]))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
-	(*cylinder)->next = NULL;
-	(*cylinder)->prev = NULL;
+	control_panel->cylinder->next = NULL;
+	control_panel->cylinder->prev = NULL;
+	control_panel->data.cylinder++;
+	return (true);
+}
+
+bool	parse_number_elements(t_data data, t_error_log *error_log)
+{
+	if (data.amb_light != 1)
+		error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_NBR_ELEMENTS);
+	else if (data.camera != 1)
+		error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_ELEMENTS);
+	else if (data.light != 1)
+		error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_NBR_ELEMENTS);
+	else if (data.sphere == 0)
+		error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_NBR_ELEMENTS);
+	else if (data.plane == 0)
+		error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_NBR_ELEMENTS);
+	else if (data.cylinder == 0)
+		error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_NBR_ELEMENTS);
+	if (error_log->code_error != 0)
+	{
+		error_log->line_nbr = 0;
+		return (false);
+	}
 	return (true);
 }
 
@@ -286,17 +315,17 @@ bool	parse_element_type(t_control_panel *control_panel, char **element_info)
 {
 	control_panel->error_log.element = element_info[0];
 	if (ft_strncmp(element_info[0], "A", 1) == 0)
-		parse_amb_light(&control_panel->amb_light, element_info, &control_panel->error_log);
+		parse_amb_light(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "C", 1) == 0)
-		parse_camera(&control_panel->camera, element_info, &control_panel->error_log);
+		parse_camera(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "L", 1) == 0)
-		parse_light(&control_panel->light, element_info, &control_panel->error_log);
+		parse_light(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "sp", 2) == 0)
-		parse_sphere(&control_panel->sphere, element_info, &control_panel->error_log);
+		parse_sphere(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "pl", 2) == 0)
-		parse_plane(&control_panel->plane, element_info, &control_panel->error_log);
+		parse_plane(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "cy", 2) == 0)
-		parse_cylinder(&control_panel->cylinder, element_info, &control_panel->error_log);
+		parse_cylinder(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "#", 1) == 0) // REMOVE WHEN DELIVERING {?}
 		return (true);
 	else
@@ -354,6 +383,8 @@ bool	parsing(t_control_panel *control_panel, char *file_name)
 		}
 		free(new_line);
 	}
+	if (!parse_number_elements(control_panel->data, &control_panel->error_log))
+		return (close(fd), print_parsing_error(control_panel->error_log), false);
 	close(fd);
 	return (true);
 }
