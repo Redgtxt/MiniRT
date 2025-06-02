@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/02 11:21:54 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:42:09 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,14 @@ typedef struct s_control_panel
 	t_camera			camera;
 	t_light				light;
 }						t_control_panel;
+
+typedef struct s_hit_record
+{
+	double	cords[3];
+	double	vec3[3];
+	double	t;
+}			t_hit_record;
+
 
 
 /*Ray functions*/
