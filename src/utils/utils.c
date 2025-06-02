@@ -68,6 +68,8 @@ bool	ft_atofd(const char *str, void *dest, char type)
 			return (false);
 		str++;
 	}
+	if (*str == '-')
+		return (false);
 	value = negative * (value + fraction);
 	// Precision loss check if fraction is essentially zero (integer)
 	if (fabsl(fraction) < 1e-15L)

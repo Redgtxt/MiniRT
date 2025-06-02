@@ -34,9 +34,9 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, split_spaces.c utils.c errors.c) \
+	    $(addprefix utils/, split_spaces.c list_handler.c free.c utils.c errors.c) \
 	    $(addprefix Maths/, count.c) \
-	    $(addprefix parsing/, parsing.c)
+	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

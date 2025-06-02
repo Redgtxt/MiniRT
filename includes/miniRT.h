@@ -141,6 +141,36 @@ typedef struct s_control_panel
 //	Parsing.c
 bool	parsing(t_control_panel *control_panel, char *file_name);
 
+//	Parse_elements.c
+bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_camera(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+
+//	Parse_objects.c
+bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+
+//	Parse_values_1.c
+bool	get_coord(t_coord *coord, char *info, t_error_log *error_log);
+bool	get_vector(t_vector *vector, char *info, t_error_log *error_log);
+bool	get_rgb(t_rgb *rgb, char *info, t_error_log *error_log);
+
+//	Parse_values_2.c
+bool	get_fov(mini_int *fov, char *info, t_error_log *error_log);
+bool	get_light_force(float *light_force, char *info, t_error_log *error_log);
+bool	get_brightness(float *brightness, char *info, t_error_log *error_log);
+bool	get_d(double *d, char *info, t_error_log *error_log);
+bool	get_height(double *height, char *info, t_error_log *error_log);
+
+//	List_handler.c
+void	lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere);
+void	lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane);
+void	lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylinder);
+
+//	Free.c
+void	free_control_panel(t_control_panel *control_panel);
+
 //	Utils.c
 size_t	double_array_len(char **array);
 bool	ft_atoc(const char *str, mini_int *dest);

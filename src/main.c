@@ -36,11 +36,16 @@ void	print_elements(t_control_panel *control_panel)
 
 	if (control_panel->sphere)
 	{
-		printf("\nSphere:\n");
-		printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->sphere->coord.x, control_panel->sphere->coord.y, control_panel->sphere->coord.z);
-		printf("\t d = %.2f\n", control_panel->sphere->d);
-		printf("\t radius = %.2f\n", control_panel->sphere->radius);
-		printf("\t rgb = r-> %d g-> %d b-> %d\n", control_panel->sphere->rgb.r, control_panel->sphere->rgb.g, control_panel->sphere->rgb.b);
+		t_sphere *temp = control_panel->sphere;
+		while (temp)
+		{
+			printf("\nSphere:\n");
+			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->coord.x, temp->coord.y, temp->coord.z);
+			printf("\t d = %.2f\n", temp->d);
+			printf("\t radius = %.2f\n", temp->radius);
+			printf("\t rgb = r-> %d g-> %d b-> %d\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			temp = temp->next;
+		}
 	}
 	else
 	{
@@ -49,10 +54,15 @@ void	print_elements(t_control_panel *control_panel)
 
 	if (control_panel->plane)
 	{
-		printf("\nPlane:\n");
-		printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->plane->coord.x, control_panel->plane->coord.y, control_panel->plane->coord.z);
-		printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->plane->vector.x, control_panel->plane->vector.y, control_panel->plane->vector.z);
-		printf("\t rgb = r-> %d g-> %d b-> %d\n", control_panel->plane->rgb.r, control_panel->plane->rgb.g, control_panel->plane->rgb.b);
+		t_plane *temp = control_panel->plane;
+		while (temp)
+		{
+			printf("\nPlane:\n");
+			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->coord.x, temp->coord.y, temp->coord.z);
+			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vector.x, temp->vector.y, temp->vector.z);
+			printf("\t rgb = r-> %d g-> %d b-> %d\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			temp = temp->next;
+		}
 	}
 	else
 	{
@@ -61,13 +71,18 @@ void	print_elements(t_control_panel *control_panel)
 
 	if (control_panel->cylinder)
 	{
-		printf("\nCylinder:\n");
-		printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->cylinder->coord.x, control_panel->cylinder->coord.y, control_panel->cylinder->coord.z);
-		printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->cylinder->vector.x, control_panel->cylinder->vector.y, control_panel->cylinder->vector.z);
-		printf("\t d = %.2f\n", control_panel->cylinder->d);
-		printf("\t radius = %.2f\n", control_panel->cylinder->radius);
-		printf("\t height = %.2f\n", control_panel->cylinder->height);
-		printf("\t rgb = r-> %d g-> %d b-> %d\n", control_panel->cylinder->rgb.r, control_panel->cylinder->rgb.g, control_panel->cylinder->rgb.b);
+		t_cylinder *temp = control_panel->cylinder;
+		while (temp)
+		{
+			printf("\nCylinder:\n");
+			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->coord.x, temp->coord.y, temp->coord.z);
+			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vector.x, temp->vector.y, temp->vector.z);
+			printf("\t d = %.2f\n", temp->d);
+			printf("\t radius = %.2f\n", temp->radius);
+			printf("\t height = %.2f\n", temp->height);
+			printf("\t rgb = r-> %d g-> %d b-> %d\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			temp = temp->next;
+		}
 	}
 	else
 	{
@@ -84,15 +99,13 @@ int main(int argc, char *argv[])
     control_panel = ft_calloc(1, sizeof(t_control_panel));
     if (!control_panel)
         return (1);
-    if (parsing(control_panel, argv[1]))
-    	print_elements(control_panel);
-    if (control_panel->sphere)
-    	free(control_panel->sphere);
-    if (control_panel->plane)
-    	free(control_panel->plane);
-    if (control_panel->cylinder)
-    	free(control_panel->cylinder);
-    free(control_panel);
+    if (!parsing(control_panel, argv[1]))
+    {
+   		print_parsing_error(control_panel->error_log);
+     	return (free_control_panel(control_panel), 1);
+    }
+   	print_elements(control_panel);
+    free_control_panel(control_panel);
     return (0);
 }
 
