@@ -60,7 +60,7 @@ static void	print_value_error(t_error error_code)
 		ft_putstr_fd("No value", 2);
 }
 
-static void	print_general_error(t_error error_code)
+static void	print_general_error(t_error error_code, char error_detail)
 {
 	if (has_error(error_code, ERR_MALLOC))
 		ft_putstr_fd("Memory allocation", 2);
@@ -69,7 +69,11 @@ static void	print_general_error(t_error error_code)
 	else if (has_error(error_code, ERR_NEGATIVE))
 		ft_putstr_fd("Negative number", 2);
 	else if (has_error(error_code, ERR_INVALID_CHAR))
-		ft_putstr_fd("Invalid char", 2);
+	{
+		ft_putstr_fd("Invalid character - '", 2);
+		ft_putchar_fd(error_detail, 2);
+		ft_putchar_fd('\'', 2);
+	}
 	else if (has_error(error_code, ERR_NBR_VALUES))
 		ft_putstr_fd("Not the right number of values", 2);
 	else if (has_error(error_code, ERR_NBR_ELEMENTS))
@@ -99,6 +103,6 @@ void	print_parsing_error(t_error_log error_log)
 	print_value_error(error_log.code_error);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tError details -> ", 2);
-	print_general_error(error_log.code_error);
+	print_general_error(error_log.code_error, error_log.error_char_detail);
 	ft_putstr_fd(".\n", 2);
 }

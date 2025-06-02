@@ -22,7 +22,10 @@ bool	get_coord(t_coord *coord, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]) && info[i] != '.' && info[i] != '-' && info[i] != ',')
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	array = ft_split(info, ',');
@@ -48,7 +51,10 @@ bool	get_vector(t_vector *vector, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]) && info[i] != '.' && info[i] != '-' && info[i] != ',')
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	array = ft_split(info, ',');
@@ -79,7 +85,10 @@ static bool	parse_rgb_chars(char *info, t_error_log *error_log)
 		else if (*info == ',')
 			nbr_len = 0;
 		else
+		{
+			error_log->error_char_detail = *info;
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		if (nbr_len > 3)
 			return (false);
 		info++;
@@ -99,8 +108,8 @@ bool	get_rgb(t_rgb *rgb, char *info, t_error_log *error_log)
 		return (false);
 	if (double_array_len(array) != 3)
 		return (ft_free_double_array(array), false);
-	if (!ft_atoc(array[0], &rgb->r) || !ft_atoc(array[1], &rgb->g)
-			|| !ft_atoc(array[2], &rgb->b))
+	if (!ft_atofd(array[0], &rgb->r, 'f') || !ft_atofd(array[1], &rgb->g, 'f')
+			|| !ft_atofd(array[2], &rgb->b, 'f'))
 		return (ft_free_double_array(array), false);
 	ft_free_double_array(array);
 	return (true);

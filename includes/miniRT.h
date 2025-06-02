@@ -28,8 +28,6 @@
 # define WINDOW_WIDTH 600
 
 typedef unsigned char	mini_int;
-// typedef double			coord;
-// typedef float			vector;
 
 typedef struct s_data
 {
@@ -55,11 +53,11 @@ typedef struct s_vector
 	float				z;
 }						t_vector;
 
-typedef struct s_rgb
+typedef struct s_rgb // mini_int -> float
 {
-	mini_int			r;
-	mini_int			g;
-	mini_int			b;
+	float			r;
+	float			g;
+	float			b;
 }						t_rgb;
 
 typedef struct s_amb_light

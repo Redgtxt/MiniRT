@@ -52,8 +52,11 @@ bool	parse_light(t_control_panel *control_panel, char **element_info, t_error_lo
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_COORD), false);
 	if (!get_brightness(&control_panel->light.brightness, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_BRIGHTNESS), false);
-	if (!get_rgb(&control_panel->light.rgb, element_info[3], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_RGB), false);
+	if (len == 4)
+	{
+		if (!get_rgb(&control_panel->light.rgb, element_info[3], error_log))
+			return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_RGB), false);
+	}
 	control_panel->data.light++;
 	return (true);
 }

@@ -21,10 +21,11 @@ static int	ft_count_words(char const *s)
 	i = 0;
 	while (s[i])
 	{
-		if (((s[i + 1]) == ' ' && s[i] != ' ') || ((s[i + 1]) == '\0' && s[i] != ' ')
-			|| ((s[i + 1]) == '\t' && s[i] != '\t')
-			|| ((s[i + 1]) == '\0' && s[i] != '\t'))
-			count++;
+		if (s[i] != ' ' && s[i] != '\t')
+		{
+			if (s[i + 1] == ' ' || s[i + 1] == '\t'|| s[i + 1] == '\0')
+				count++;
+		}
 		i++;
 	}
 	return (count);

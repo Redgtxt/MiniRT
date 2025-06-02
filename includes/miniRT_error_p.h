@@ -58,7 +58,7 @@ typedef struct s_error_log
 {
 	t_error		code_error;
 	char		*element;
-	char		*error_detail;
+	char		error_char_detail;
 	size_t		line_nbr;
 }				t_error_log;
 

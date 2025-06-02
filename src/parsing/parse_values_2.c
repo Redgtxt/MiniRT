@@ -20,7 +20,10 @@ bool	get_fov(mini_int *fov, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]))
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	if (!ft_atoc(info, fov) || *fov > 180)
@@ -36,7 +39,10 @@ bool	get_light_force(float *light_force, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]) && info[i] != '.' && info[i] != '-')
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	if (!ft_atofd(info, light_force, 'f'))
@@ -53,7 +59,10 @@ bool	get_brightness(float *brightness, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]) && info[i] != '.')
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	if (!ft_atofd(info, brightness, 'f'))
@@ -71,7 +80,10 @@ bool	get_d(double *d, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]) && info[i] != '.')
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	if (!ft_atofd(info, d, 'd'))
@@ -87,7 +99,10 @@ bool	get_height(double *height, char *info, t_error_log *error_log)
 	while(info[i])
 	{
 		if (!ft_isdigit(info[i]) && info[i] != '.' && info[i] != '-')
+		{
+			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+		}
 		i++;
 	}
 	if (!ft_atofd(info, height, 'd'))
