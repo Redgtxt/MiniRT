@@ -36,6 +36,21 @@ typedef float			vec3;
 #define BLUE 3
  
 
+
+typedef struct s_mlx
+{
+    void    *mlx;           
+    void    *win;           
+    void    *img;          
+    char    *addr;          
+    int     bits_per_pixel; 
+    int     line_length;   
+    int     endian;        
+    int     width;         
+    int     height;  
+} t_mlx;
+
+
 typedef struct s_rgb
 {
 	
@@ -155,14 +170,14 @@ typedef struct s_hit_record
 }			t_hit_record;
 
 
+// MLX
+void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 
 /*Ray functions*/
-
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
 void ray_origin(const t_ray *ray, double out[3]);
 void ray_direction(const t_ray *ray, double out[3]);
-
 void ray_at(double t, t_ray ray, double result[3]);
 
 #endif

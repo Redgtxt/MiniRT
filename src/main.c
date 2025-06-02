@@ -93,14 +93,28 @@ int	write_color(double r, double g, double b)
 	ib = (int)(255.999 * b);
 	return ((ir << 16) | (ig << 8) | ib);
 }
+/**
+ * Coloca um pixel na imagem em uma posição específica
+ * @param data Estrutura contendo informações MLX
+ * @param x Coordenada X do pixel
+ * @param y Coordenada Y do pixel
+ * @param color Cor em formato RGB (0xRRGGBB)
+ */
+void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
+{
+    char    *dst;
+    
+    if (x >= 0 && x < data->width && y >= 0 && y < data->height)
+    {
+        dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+        *(unsigned int*)dst = color;
+    }
+}
 
 int	main(void)
 {
-	void		*mlx;
-	void		*mlx_win;
+	    t_mlx       mlx_data;
 	double		aspect_ratio;
-	int			image_width;
-	int			image_height;
 	double		focal_lenght;
 	double		viewport_height;
 	double		viewport_width;
@@ -132,17 +146,21 @@ int	main(void)
 	*/
 	// Image
 	aspect_ratio = 16.0 / 9.0;
-	image_width = WINDOW_WIDTH;
+   	mlx_data.width = WINDOW_WIDTH;
+	 mlx_data.width  = mlx_data.width;
 	// Vamos ver se a image_height fica em pelo menos 1
 	// Arredondo o valor
-	image_height = (int)image_width / aspect_ratio;
-	if (image_height < 1)
-		image_height = 1;
+    mlx_data.height = (int)mlx_data.width / aspect_ratio;
+	  mlx_data.height = mlx_data.height;
+    if (mlx_data.height < 1)
+	{
+        mlx_data.height = 1;
+	}
+    
 	// viewport width
 	focal_lenght = 1.0;
 	viewport_height = 2.0;
-	viewport_width = viewport_height * ((double)image_width
-			/ (double)image_height);
+   viewport_width = viewport_height * ((double)mlx_data.width / (double)mlx_data.height);
 	camera = malloc(sizeof(t_camera));
 	if (!camera)
 		return (1);
@@ -157,8 +175,8 @@ int	main(void)
 		Aqui criamos os pixeis dentro viewport
 	*/
 	vec3_divide(pixel_delta_horizontal, viewport_horizontal,
-		(double)image_width);
-	vec3_divide(pixel_delta_vertical, viewport_vertical, (double)image_height);
+		(double)mlx_data.width );
+	vec3_divide(pixel_delta_vertical, viewport_vertical, (double) mlx_data.height);
 	/*
 		Agora vamos capturar o primeiro pixel
 	*/
@@ -173,23 +191,28 @@ int	main(void)
 	// Consegui a localizacao do primeiro pixel
 	vec3_add(pixel00_loc, viewport_upper_left, half_delta);
 	ft_printf("MiniRT Starting...\n");
-	mlx = mlx_init();
-	if (!mlx)
-	{
-		ft_printf("Error: Could not initialize MLX\n");
-		return (1);
-	}
-	mlx_win = mlx_new_window(mlx, image_width, image_height, "miniRT");
-	if (!mlx_win)
-	{
-		ft_printf("Error: Could not create window\n");
-		return (1);
-	}
+    mlx_data.mlx = mlx_init();
+    if (!mlx_data.mlx)
+    {
+        ft_printf("Error: Could not initialize MLX\n");
+        return (1);
+    }
+    
+   mlx_data.win = mlx_new_window(mlx_data.mlx, mlx_data.width, mlx_data.height, "miniRT");
+    if (!mlx_data.win)
+    {
+        ft_printf("Error: Could not create window\n");
+        return (1);
+    }
+
+	 mlx_data.img = mlx_new_image(mlx_data.mlx, mlx_data.width, mlx_data.height);
+    mlx_data.addr = mlx_get_data_addr(mlx_data.img, &mlx_data.bits_per_pixel, 
+                                     &mlx_data.line_length, &mlx_data.endian);
 	y = 0;
-	while (y < image_height)
+    while (y < mlx_data.height)
 	{
 		x = 0;
-		while (x < image_width)
+        while (x < mlx_data.width)
 		{
 			// pixel_center = pixel00_loc + (x * pixel_delta_horizontal) + (y* pixel_delta_vertical)
 			vec3_scale(pixel_h, pixel_delta_horizontal, x);
@@ -201,13 +224,15 @@ int	main(void)
 			create_ray(&ray, camera->cords, ray_direction);
 			ray_color(&ray, pixel_color);
 			rgb = write_color(pixel_color[0], pixel_color[1], pixel_color[2]);
-			mlx_pixel_put(mlx, mlx_win, x, y, rgb);
+          	my_mlx_pixel_put(&mlx_data, x, y, rgb);
 			x++;
 		}
 		y++;
 	}
+
+	  mlx_put_image_to_window(mlx_data.mlx, mlx_data.win, mlx_data.img, 0, 0);
 	ft_printf("Render Completed\n");
 	free(camera);
-	mlx_loop(mlx);
+	mlx_loop(mlx_data.mlx);
 	return (0);
 }
