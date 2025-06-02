@@ -121,3 +121,12 @@ void vec3_sub_chain(double out[3], const double a[3], const double b[3],
     out[1] = a[1] - b[1] - c[1] - d[1];
     out[2] = a[2] - b[2] - c[2] - d[2];
 }
+
+/// @brief Criar um vetor zero (0,0,0)
+/// @param v vetor que vai ser definido como zero
+void vec3_zero(double v[3])
+{
+    v[0] = 0.0;
+    v[1] = 0.0;
+    v[2] = 0.0;
+}

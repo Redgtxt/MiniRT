@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/29 18:10:55 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/02 11:21:54 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
+#include "vec3.h"
 # define WINDOW_HEIGHT 360
 # define WINDOW_WIDTH  640	
 
@@ -148,6 +149,7 @@ typedef struct s_control_panel
 
 
 /*Ray functions*/
+
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
 void ray_origin(const t_ray *ray, double out[3]);
@@ -155,20 +157,4 @@ void ray_direction(const t_ray *ray, double out[3]);
 
 void ray_at(double t, t_ray ray, double result[3]);
 
-/*Vectos Utils*/
-double vec3_lenght(const double vector[3]);
-void vec3_set(double v[3], double x, double y, double z);
-void vec3_copy(double dest[3], const double src[3]);
-void vec3_scale(double out[3], const double v[3], double s);
-void vec3_add(double out[3], const double a[3], const double b[3]);
-void vec3_sub(double out[3], const double a[3], const double b[3]);
-void vec3_multiply(double out[3], const double a[3], const double b[3]);
-void vec3_divide(double out[3], const double v[3], double t);
-void vec3_scale(double out[3], const double v[3], double scaleFactor);
-double vec3_dot(const double a[3], const double b[3]);
-void vec3_negate(double out[3], const double v[3]);
-void vec3_zero(double v[3]);
-void vec3_unit_vector(double out[3], const double v[3]);
-void vec3_sub_chain(double out[3], const double a[3], const double b[3], 
-                    const double c[3], const double d[3]);
 #endif

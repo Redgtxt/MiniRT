@@ -15,14 +15,7 @@ double vec3_lenght(const double vector[3])
 {
     return (sqrt(lenght_squared(vector)));
 }
-/// @brief Criar um vetor zero (0,0,0)
-/// @param v vetor que vai ser definido como zero
-void vec3_zero(double v[3])
-{
-    v[0] = 0.0;
-    v[1] = 0.0;
-    v[2] = 0.0;
-}
+
 /// @brief Calcular um ponto ao longo de um raio
 /// @param t parâmetro do raio (distância)
 /// @param ray raio que contém origem e direção

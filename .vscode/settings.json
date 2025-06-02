@@ -2,6 +2,8 @@
     "files.associations": {
         "minishell.h": "c",
         "format": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "minirt.h": "c",
+        "random": "cpp"
     }
 }
