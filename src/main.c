@@ -81,7 +81,7 @@ void	ray_color(const t_ray *ray, double out_color[3])
 	vec3_scale(scaled_blue, blue, a);
 	vec3_add(out_color, scaled_white, scaled_blue);
 }
-
+ 
 int	write_color(double r, double g, double b)
 {
 	int	ir;
@@ -109,6 +109,25 @@ void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
         dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
         *(unsigned int*)dst = color;
     }
+}
+
+static int	close_window(t_mlx mlx_data)
+{
+	mlx_loop_end(mlx_data.mlx);
+	return (0);
+}
+
+int	key_hook(int keycode, t_mlx mlx_data)
+{
+	if (keycode == KEY_ESC)
+		close_window(mlx_data);
+	return (0);
+}
+
+void	game_hooks(t_mlx *mlx_data)
+{
+	mlx_hook(mlx_data->win, 17, 0, close_window, mlx_data);
+	mlx_key_hook(mlx_data->win, key_hook, mlx_data);
 }
 
 int	main(void)
@@ -160,7 +179,7 @@ int	main(void)
 	// viewport width
 	focal_lenght = 1.0;
 	viewport_height = 2.0;
-   viewport_width = viewport_height * ((double)mlx_data.width / (double)mlx_data.height);
+	viewport_width = viewport_height * ((double)mlx_data.width / (double)mlx_data.height);
 	camera = malloc(sizeof(t_camera));
 	if (!camera)
 		return (1);
@@ -233,6 +252,7 @@ int	main(void)
 	  mlx_put_image_to_window(mlx_data.mlx, mlx_data.win, mlx_data.img, 0, 0);
 	ft_printf("Render Completed\n");
 	free(camera);
+	game_hooks(&mlx_data);
 	mlx_loop(mlx_data.mlx);
 	return (0);
 }

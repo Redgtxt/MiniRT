@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/02 18:42:09 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:38:02 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "vec3.h"
 # define WINDOW_HEIGHT 360
 # define WINDOW_WIDTH  640	
-
+# define KEY_ESC 65307
 
 
 typedef unsigned char	mini_int;
