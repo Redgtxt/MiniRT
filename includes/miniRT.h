@@ -164,20 +164,34 @@ typedef struct s_control_panel
 
 typedef struct s_hit_record
 {
-	double	cords[3];
-	double	vec3[3];
+	double	position[3];
+	double	normal[3];
 	double	t;
 }			t_hit_record;
 
 
+typedef struct s_scene_objects {
+    t_sphere    *spheres;      // Array de esferas
+    int         sphere_count;  // Número de esferas
+	//t_plane     *planes;       
+	//int         plane_count;   
+	//t_cylinder  *cylinders;    
+	//int         cylinder_count; 
+} t_scene_objects;
+
+
 // MLX
 void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
-
+int	close_window(t_mlx *mlx_data);
+int	key_hook(int keycode, t_mlx *mlx_data);
+void	game_hooks(t_mlx *mlx_data);
 /*Ray functions*/
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
 void ray_origin(const t_ray *ray, double out[3]);
 void ray_direction(const t_ray *ray, double out[3]);
 void ray_at(double t, t_ray ray, double result[3]);
+
+/*	sphere	*/
 
 #endif

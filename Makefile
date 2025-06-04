@@ -35,7 +35,9 @@ MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
 	    $(addprefix utils/, utils.c ray.c vector_utils.c) \
-	    $(addprefix Maths/,)  \
+	    $(addprefix Mlx/, hooks.c)  \
+	    $(addprefix Sphere/,init_sphere.c sphere_collision.c)  \
+	  #  $(addprefix Maths/,)  \
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -48,7 +50,8 @@ all: $(NAME)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/utils
-	@mkdir -p $(OBJ_DIR)/Maths
+	@mkdir -p $(OBJ_DIR)/Mlx 
+	@mkdir -p $(OBJ_DIR)/Sphere 
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
 
 $(LIBFT):
