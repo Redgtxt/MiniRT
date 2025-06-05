@@ -26,7 +26,7 @@ bool    linked_list_to_sphere_array(t_sphere **sphere_list, int size_array)
         current = current->next;
         i++;
     }
-    // free_linked list;
+    free_sphere(*sphere_list);
     *sphere_list = array;
     return (true);
 }

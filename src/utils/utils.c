@@ -1,35 +1,106 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 15:10:48 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/06/05 15:10:50 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 
 
-//returna o tamanho de um vetor ao quadrado
-/*
-    esta funcao serve para calcular o valor total de um vetor para depois so ter de calcular a raiz quadrada em um valor em ves de ter de fazer em varios individuais
-*/
-static double lenght_squared(const double vector[3])
+size_t	double_array_len(char **array)
 {
-    return (vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+	size_t	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }
 
-//vai returnar o tamanho de um vetor 
-double vec3_lenght(const double vector[3])
+bool	ft_atoc(const char *str, mini_int *dest)
 {
-    return (sqrt(lenght_squared(vector)));
+	int	value;
+
+	if (!str)
+		return (0);
+	value = 0;
+	while (*str >= '0' && *str <= '9')
+	{
+		value = (value * 10) + *str - 48;
+		if (value > 255)
+			return (false);
+		str++;
+	}
+	*dest = (mini_int)value;
+	return (true);
 }
 
-/// @brief Calcular um ponto ao longo de um raio
-/// @param t parâmetro do raio (distância)
-/// @param ray raio que contém origem e direção
-/// @param result vetor onde será armazenado o ponto calculado
-/// 
-/// Fórmula: P(t) = A + t*B
-/// onde A é a origem do raio e B é a direção do raio
-void ray_at(double t, t_ray ray, double result[3])
+bool	ft_atofd(const char *str, void *dest, char type)
 {
-    double scaled_direction[3];
-    
-    // Escalar a direção pelo parâmetro t
-    vec3_scale(scaled_direction, ray.direction, t);
-    
-    // Somar a origem com a direção escalada
-    vec3_add(result, ray.origin, scaled_direction);
+	long double	value;
+	long double	fraction;
+	long double	division;
+	double		negative;
+	bool		decimal;
+
+	if (!str || !dest || !type)
+		return (false);
+	value = 0.0;
+	fraction = 0.0;
+	division = 10.0;
+	negative = 1.0;
+	decimal = false;
+	if (*str == '-')
+	{
+		negative = -1.0;
+		str++;
+	}
+	while ((*str >= '0' && *str <= '9') || *str == '.')
+	{
+		if (*str == '.')
+		{
+			if (decimal)
+				return (false);
+			decimal = true;
+		}
+		else if (!decimal)
+			value = (value * 10.0) + (*str - 48);
+		else
+		{
+			fraction += (*str - 48) / division;
+			division *= 10.0;
+		}
+		if ((type == 'd' && value + fraction > DBL_MAX)
+			|| (type == 'f' && value + fraction > FLT_MAX))
+			return (false);
+		str++;
+	}
+	if (*str == '-')
+		return (false);
+	value = negative * (value + fraction);
+	// Precision loss check if fraction is essentially zero (integer)
+	if (fabsl(fraction) < 1e-15L)
+	{
+    	if (type == 'f')
+     	{
+        	if (fabsl(value) > 16777216.0L) // 2^24
+            	return (false);
+      	}
+      	else if (type == 'd')
+        {
+        	if (fabsl(value) > 9007199254740992.0L) // 2^53
+            	return (false);
+        }
+	}
+	if (type == 'f')
+		*(float *)dest = (float)value;
+	else if (type == 'd')
+		*(double *)dest = (double)value;
+	return (true);
 }

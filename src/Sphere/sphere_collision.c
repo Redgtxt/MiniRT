@@ -59,7 +59,7 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
     double closest_so_far = ray_tmax;
     t_hit_record temp_rec;
 
-    int i = 0;
+    size_t i = 0;
     while (i < scene->data.sphere_count) {
         if (have_hit_sphere(&scene->sphere[i], ray, ray_tmin, closest_so_far, &temp_rec)) {
             hit_anything = true;

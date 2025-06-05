@@ -1,4 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
+/*   Updated: 2025/06/05 16:43:32 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/miniRT.h"
+
+void	print_elements(t_control_panel *control_panel)
+{
+	if (!control_panel)
+	{
+		fprintf(stderr, "Error: control_panel is NULL\n");
+		return;
+	}
+
+	printf("Ambient Light:\n");
+	printf("\t light_force = %.2f\n", control_panel->amb_light.light_force);
+	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->amb_light.rgb.r, control_panel->amb_light.rgb.g, control_panel->amb_light.rgb.b);
+
+	printf("\nCamera:\n");
+	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.cords[0], control_panel->camera.cords[1], control_panel->camera.cords[2]);
+	printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.vec3[0], control_panel->camera.vec3[1], control_panel->camera.vec3[2]);
+	printf("\t fov = %d\n", control_panel->camera.fov);
+
+	printf("\nLight:\n");
+	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.cords[0], control_panel->light.cords[1], control_panel->light.cords[2]);
+	printf("\t brightness = %.2f\n", control_panel->light.brightness);
+	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb.r, control_panel->light.rgb.g, control_panel->light.rgb.b);
+
+	if (control_panel->sphere)
+	{
+		t_sphere *temp = control_panel->sphere;
+		while (temp)
+		{
+			printf("\nSphere:\n");
+			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
+			printf("\t d = %.2f\n", temp->d);
+			printf("\t radius = %.2f\n", temp->radius);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			temp = temp->next;
+		}
+	}
+	else
+	{
+		fprintf(stderr, "Warning: sphere is NULL\n");
+	}
+
+	if (control_panel->plane)
+	{
+		t_plane *temp = control_panel->plane;
+		while (temp)
+		{
+			printf("\nPlane:\n");
+			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
+			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			temp = temp->next;
+		}
+	}
+	else
+	{
+		fprintf(stderr, "Warning: plane is NULL\n");
+	}
+
+	if (control_panel->cylinder)
+	{
+		t_cylinder *temp = control_panel->cylinder;
+		while (temp)
+		{
+			printf("\nCylinder:\n");
+			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
+			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
+			printf("\t d = %.2f\n", temp->d);
+			printf("\t radius = %.2f\n", temp->radius);
+			printf("\t height = %.2f\n", temp->height);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			temp = temp->next;
+		}
+	}
+	else
+	{
+		fprintf(stderr, "Warning: cylinder is NULL\n");
+	}
+}
 
 void	normalize_vec(double out[3], const double v[3])
 {
@@ -40,11 +130,9 @@ double	hit_sphere(const double center[3], double radius, const t_ray *r)
 	}
 }
 
-void	ray_color(const t_ray *ray, double out_color[3])
+void	ray_color(t_control_panel *control_panel, const t_ray *ray, double out_color[3])
 {
 	double	t;
-	double	sphere_center[3];
-	double	sphere_radius;
 	double hit_point[3];
 	double normal[3];
 	double unit_normal[3];
@@ -54,15 +142,13 @@ void	ray_color(const t_ray *ray, double out_color[3])
 	double	blue[3] = {0.5, 0.7, 1.0};
 	double	scaled_white[3], scaled_blue[3];
 
-	vec3_set(sphere_center, 0, 0, -1);
-	sphere_radius = 0.5;
-	t = hit_sphere(sphere_center, sphere_radius, ray);
+	t = hit_sphere(control_panel->sphere->cords, control_panel->sphere->radius, ray);
 	if (t > 0.0)
 	{
 		// Calcule o ponto de colisão
 		ray_at(t, *ray, hit_point);
 		// Calcule o vetor normal (N = point_of_collision - sphere_center)
-		vec3_sub(normal, hit_point, sphere_center);
+		vec3_sub(normal, hit_point, control_panel->sphere->cords);
 		// Normalize o vetor
 		vec3_unit_vector(unit_normal, normal);
 		// Mapeie a normal para cor: 0.5 * color(N.x+1, N.y+1, N.z+1)
@@ -93,15 +179,14 @@ int	write_color(double r, double g, double b)
 	ib = (int)(255.999 * b);
 	return ((ir << 16) | (ig << 8) | ib);
 }
-
-int	main(void)
+ 
+int	main(int argc, char *argv[])
 {
 	    t_mlx       mlx_data;
 	double		aspect_ratio;
 	double		focal_lenght;
 	double		viewport_height;
 	double		viewport_width;
-	t_camera	*camera;
 	double		viewport_horizontal[3];
 	double		viewport_vertical[3];
 	double		pixel_delta_horizontal[3];
@@ -123,7 +208,18 @@ int	main(void)
 			t_ray ray;
 			double pixel_color[3];
 	int			rgb;
+    t_control_panel *control_panel;
 
+    if (argc != 2)
+        return (1);
+    control_panel = ft_calloc(1, sizeof(t_control_panel));
+    if (!control_panel)
+        return (1);
+    if (!parsing(control_panel, argv[1]))
+    {
+   		print_parsing_error(control_panel->error_log);
+     	return (free_control_panel(control_panel), 1);
+    }
 	/*
 		Init viewport
 	*/
@@ -144,11 +240,6 @@ int	main(void)
 	focal_lenght = 1.0;
 	viewport_height = 2.0;
 	viewport_width = viewport_height * ((double)mlx_data.width / (double)mlx_data.height);
-	camera = malloc(sizeof(t_camera));
-	if (!camera)
-		return (1);
-	// Vamos dar valores a camera
-	vec3_set(camera->cords, 0, 0, 0);
 	/*
 		Aqui criamos o quadrado do viewport
 	*/
@@ -167,12 +258,13 @@ int	main(void)
 	vec3_divide(viewport_h_half, viewport_horizontal, 2.0);
 	vec3_divide(viewport_v_half, viewport_vertical, 2.0);
 	// viewport_upper_left = camera_center - focal_offset- viewport_horizontal/2 - viewport_vertical/2
-	vec3_sub_chain(viewport_upper_left, camera->cords, focal_offset,
+	vec3_sub_chain(viewport_upper_left, control_panel->camera.cords, focal_offset,
 		viewport_h_half, viewport_v_half);
 	vec3_add(pixel_delta_sum, pixel_delta_horizontal, pixel_delta_vertical);
 	vec3_scale(half_delta, pixel_delta_sum, 0.5);
 	// Consegui a localizacao do primeiro pixel
 	vec3_add(pixel00_loc, viewport_upper_left, half_delta);
+	print_elements(control_panel);
 	ft_printf("MiniRT Starting...\n");
     mlx_data.mlx = mlx_init();
     if (!mlx_data.mlx)
@@ -203,9 +295,9 @@ int	main(void)
 			vec3_add(sum_pixel, pixel_h, pixel_v);
 			// Estou a andar para a  posicao de onde o raio vai sair
 			vec3_add(pixel_center, pixel00_loc, sum_pixel);
-			vec3_sub(ray_direction, pixel_center, camera->cords);
-			create_ray(&ray, camera->cords, ray_direction);
-			ray_color(&ray, pixel_color);
+			vec3_sub(ray_direction, pixel_center, control_panel->camera.cords);
+			create_ray(&ray, control_panel->camera.cords, ray_direction);
+			ray_color(control_panel, &ray, pixel_color);
 			rgb = write_color(pixel_color[0], pixel_color[1], pixel_color[2]);
           	my_mlx_pixel_put(&mlx_data, x, y, rgb);
 			x++;
@@ -215,8 +307,68 @@ int	main(void)
 
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.win, mlx_data.img, 0, 0);
 	ft_printf("Render Completed\n");
-	free(camera);
 	game_hooks(&mlx_data);
 	mlx_loop(mlx_data.mlx);
 	return (0);
+} 
+/* 
+
+
+int main(int argc, char *argv[])
+{
+    t_control_panel *control_panel;
+
+    if (argc != 2)
+        return (1);
+    control_panel = ft_calloc(1, sizeof(t_control_panel));
+    if (!control_panel)
+        return (1);
+    if (!parsing(control_panel, argv[1]))
+    {
+   		print_parsing_error(control_panel->error_log);
+     	return (free_control_panel(control_panel), 1);
+    }
+   	print_elements(control_panel);
+    free_control_panel(control_panel);
+    return (0);
 }
+ */
+
+    // void *mlx;
+    // void *mlx_win;
+
+    // ft_printf("MiniRT Starting...\n");
+
+    // mlx = mlx_init();
+    // if (!mlx)
+    // {
+    //     ft_printf("Error: Could not initialize MLX\n");
+    //     return (1);
+    // }
+
+    // mlx_win = mlx_new_window(mlx, WINDOW_HEIGHT, WINDOW_WIDTH, "miniRT");
+    // if (!mlx_win)
+    // {
+    //     ft_printf("Error: Could not create window\n");
+    //     return (1);
+    // }
+
+    // int i = 0;
+    // while (WINDOW_HEIGHT >= i)
+    // {
+
+    //     int j = 0;
+
+    //     while (WINDOW_WIDTH >= j)
+    //     {
+    //         mlx_pixel_put(mlx, mlx_win, i,j, 0x0000FF);
+    //         mlx_pixel_put(mlx, mlx_win, i,0, 0xFF0000);
+    //        j++;
+    //     }
+
+    //     i++;
+    // }
+
+
+    // ft_printf("Window created successfully\n");
+    // mlx_loop(mlx);

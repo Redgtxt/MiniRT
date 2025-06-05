@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/05 14:14:54 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:23:40 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,15 @@
 # include "../Library/get_next_line/get_next_line.h"
 # include "../Library/libft/libft.h"
 # include "../Library/minilibx-linux/mlx.h"
+# include "miniRT_error_p.h"
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
-#include "vec3.h"
+# include "vec3.h"
+# include <float.h>
+# include <unistd.h>
+
 # define WINDOW_HEIGHT 360
 # define WINDOW_WIDTH  640	
 # define KEY_ESC 65307
@@ -50,11 +54,21 @@ typedef struct s_mlx
     int     height;  
 } t_mlx;
 
+typedef struct s_data
+{
+	size_t		amb_light_count;
+	size_t		camera_count;
+	size_t		light_count;
+	size_t		sphere_count;
+	size_t		plane_count;
+	size_t		cylinder_count;
+}				t_data;
 
 typedef struct s_rgb
 {
-	
-	float			RGB[4];
+	float			r;
+	float			g;
+	float			b;
 }						t_rgb;
 
 typedef struct s_ray
@@ -70,9 +84,7 @@ typedef struct s_ray
 typedef struct s_amb_light
 {
 	float				light_force;
-
 	t_rgb				rgb;
-
 }						t_amb_light;
 
 typedef struct s_camera
@@ -88,8 +100,7 @@ typedef struct s_light
 {
 	cord				cords[3];
 	float				brightness;
-	t_rgb rgb; // nao e usado no mandatory
-
+	t_rgb				rgb; // nao e usado no mandatory
 }						t_light;
 
 typedef struct s_sphere
@@ -102,15 +113,11 @@ typedef struct s_sphere
 	(E passado no subject)
 	*/
 	double				d;
-
 	// Acho que e fixe ter para calculos (vamos ter de o calcular)
 	double				radius;
-
 	t_rgb				rgb;
-
-	struct s_sphere		*next;
 	struct s_sphere		*prev;
-
+	struct s_sphere		*next;
 }						t_sphere;
 
 typedef struct s_plane
@@ -119,13 +126,11 @@ typedef struct s_plane
 
 	cord				cords[3];
 
-	vec3				vector[3];
+	vec3				vec3[3];
 
 	t_rgb				rgb;
-
 	struct s_plane		*prev;
 	struct s_plane		*next;
-
 }						t_plane;
 
 typedef struct s_cylinder
@@ -133,33 +138,31 @@ typedef struct s_cylinder
 	//     coordenadas do centro do CILINDRO
 
 	cord				cords[3];
-	vec3				vector[3];
+	vec3				vec3[3];
 
 	/*
 	Diametro do CILINDRO(E passado no subject)
 	*/
 	double				d;
-
 	// Acho que e fixe ter para calculos (vamos ter de o calcular)
 	double				radius;
-
 	double				height;
-
 	t_rgb				rgb;
-
-	struct s_cylinder	*next;
 	struct s_cylinder	*prev;
+	struct s_cylinder	*next;
 
 }						t_cylinder;
 
 typedef struct s_control_panel
 {
-	t_sphere			*sphere;
-	t_plane				*plane;
-	t_cylinder			*cylinder;
 	t_amb_light			amb_light;
 	t_camera			camera;
 	t_light				light;
+	t_sphere			*sphere;
+	t_plane				*plane;
+	t_cylinder			*cylinder;
+	t_data				data;
+	t_error_log			error_log;
 }						t_control_panel;
 
 typedef struct s_hit_record
@@ -192,5 +195,50 @@ bool    linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 
 	/*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record);
+
+//	Parsing.c
+bool	parsing(t_control_panel *control_panel, char *file_name);
+
+//	Parse_elements.c
+bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_camera(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+
+//	Parse_objects.c
+bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+
+//	Parse_values_1.c
+bool	get_coord(cord *coord, char *info, t_error_log *error_log);
+bool	get_vector(vec3 *vector, char *info, t_error_log *error_log);
+bool	get_rgb(t_rgb *rgb, char *info, t_error_log *error_log);
+
+//	Parse_values_2.c
+bool	get_fov(mini_int *fov, char *info, t_error_log *error_log);
+bool	get_light_force(float *light_force, char *info, t_error_log *error_log);
+bool	get_brightness(float *brightness, char *info, t_error_log *error_log);
+bool	get_d(double *d, char *info, t_error_log *error_log);
+bool	get_height(double *height, char *info, t_error_log *error_log);
+
+//	List_handler.c
+void	lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere);
+void	lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane);
+void	lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylinder);
+
+//	Free.c
+void	free_sphere(t_sphere *sphere);
+void	free_plane(t_plane *plane);
+void	free_cylinder(t_cylinder *cylinder);
+void	free_control_panel(t_control_panel *control_panel);
+
+//	Utils.c
+size_t	double_array_len(char **array);
+bool	ft_atoc(const char *str, mini_int *dest);
+bool	ft_atofd(const char *str, void *dest, char type);
+char	**split_spaces(char const *s);
+
+//	Extra -> Tests
+void	print_elements(t_control_panel *control_panel);
 
 #endif
