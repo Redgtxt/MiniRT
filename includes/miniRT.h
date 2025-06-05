@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/03 18:38:02 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:14:54 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,21 +170,14 @@ typedef struct s_hit_record
 }			t_hit_record;
 
 
-typedef struct s_scene_objects {
-    t_sphere    *spheres;      // Array de esferas
-    int         sphere_count;  // Número de esferas
-	//t_plane     *planes;       
-	//int         plane_count;   
-	//t_cylinder  *cylinders;    
-	//int         cylinder_count; 
-} t_scene_objects;
-
 
 // MLX
 void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 int	close_window(t_mlx *mlx_data);
 int	key_hook(int keycode, t_mlx *mlx_data);
 void	game_hooks(t_mlx *mlx_data);
+
+
 /*Ray functions*/
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
@@ -192,6 +185,12 @@ void ray_origin(const t_ray *ray, double out[3]);
 void ray_direction(const t_ray *ray, double out[3]);
 void ray_at(double t, t_ray ray, double result[3]);
 
-/*	sphere	*/
+		/*	sphere	*/
+
+	/*	Init	Sphere array	*/
+bool    linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
+
+	/*Sphere Collision*/
+bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record);
 
 #endif

@@ -51,8 +51,8 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
     vec3_divide(record->normal,temp,sphere->radius);
     return true;
     
-}
-bool hit_spheres(t_scene_objects *scene, const t_ray *ray, double ray_tmin, 
+} 
+ bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, 
                  double ray_tmax, t_hit_record *record)
 {
     bool hit_anything = false;
@@ -60,8 +60,8 @@ bool hit_spheres(t_scene_objects *scene, const t_ray *ray, double ray_tmin,
     t_hit_record temp_rec;
 
     int i = 0;
-    while (i < scene->sphere_count) {
-        if (have_hit_sphere(&scene->spheres[i], ray, ray_tmin, closest_so_far, &temp_rec)) {
+    while (i < scene->data.sphere_count) {
+        if (have_hit_sphere(&scene->sphere[i], ray, ray_tmin, closest_so_far, &temp_rec)) {
             hit_anything = true;
             closest_so_far = temp_rec.t;
             *record = temp_rec;  // Copia o registro do hit mais próximo
@@ -70,6 +70,6 @@ bool hit_spheres(t_scene_objects *scene, const t_ray *ray, double ray_tmin,
     }
 
     return hit_anything;
-}
+} 
 
 
