@@ -22,7 +22,7 @@ void	print_elements(t_control_panel *control_panel)
 
 	printf("Ambient Light:\n");
 	printf("\t light_force = %.2f\n", control_panel->amb_light.light_force);
-	printf("\t rgb = r-> %d g-> %d b-> %d\n", control_panel->amb_light.rgb.r, control_panel->amb_light.rgb.g, control_panel->amb_light.rgb.b);
+	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->amb_light.rgb.r, control_panel->amb_light.rgb.g, control_panel->amb_light.rgb.b);
 
 	printf("\nCamera:\n");
 	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.coord.x, control_panel->camera.coord.y, control_panel->camera.coord.z);
@@ -32,7 +32,7 @@ void	print_elements(t_control_panel *control_panel)
 	printf("\nLight:\n");
 	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.coord.x, control_panel->light.coord.y, control_panel->light.coord.z);
 	printf("\t brightness = %.2f\n", control_panel->light.brightness);
-	printf("\t rgb = r-> %d g-> %d b-> %d\n", control_panel->light.rgb.r, control_panel->light.rgb.g, control_panel->light.rgb.b);
+	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb.r, control_panel->light.rgb.g, control_panel->light.rgb.b);
 
 	if (control_panel->sphere)
 	{
@@ -43,7 +43,7 @@ void	print_elements(t_control_panel *control_panel)
 			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->coord.x, temp->coord.y, temp->coord.z);
 			printf("\t d = %.2f\n", temp->d);
 			printf("\t radius = %.2f\n", temp->radius);
-			printf("\t rgb = r-> %d g-> %d b-> %d\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
 			temp = temp->next;
 		}
 	}
@@ -60,7 +60,7 @@ void	print_elements(t_control_panel *control_panel)
 			printf("\nPlane:\n");
 			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->coord.x, temp->coord.y, temp->coord.z);
 			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vector.x, temp->vector.y, temp->vector.z);
-			printf("\t rgb = r-> %d g-> %d b-> %d\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
 			temp = temp->next;
 		}
 	}
@@ -80,7 +80,7 @@ void	print_elements(t_control_panel *control_panel)
 			printf("\t d = %.2f\n", temp->d);
 			printf("\t radius = %.2f\n", temp->radius);
 			printf("\t height = %.2f\n", temp->height);
-			printf("\t rgb = r-> %d g-> %d b-> %d\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
 			temp = temp->next;
 		}
 	}
@@ -90,24 +90,24 @@ void	print_elements(t_control_panel *control_panel)
 	}
 }
 
-int main(int argc, char *argv[])
-{
-    t_control_panel *control_panel;
+// int main(int argc, char *argv[])
+// {
+//     t_control_panel *control_panel;
 
-    if (argc != 2)
-        return (1);
-    control_panel = ft_calloc(1, sizeof(t_control_panel));
-    if (!control_panel)
-        return (1);
-    if (!parsing(control_panel, argv[1]))
-    {
-   		print_parsing_error(control_panel->error_log);
-     	return (free_control_panel(control_panel), 1);
-    }
-   	print_elements(control_panel);
-    free_control_panel(control_panel);
-    return (0);
-}
+//     if (argc != 2)
+//         return (1);
+//     control_panel = ft_calloc(1, sizeof(t_control_panel));
+//     if (!control_panel)
+//         return (1);
+//     if (!parsing(control_panel, argv[1]))
+//     {
+//    		print_parsing_error(control_panel->error_log);
+//      	return (free_control_panel(control_panel), 1);
+//     }
+//    	print_elements(control_panel);
+//     free_control_panel(control_panel);
+//     return (0);
+// }
 
 
     // void *mlx;
