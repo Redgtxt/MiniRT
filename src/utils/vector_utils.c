@@ -15,6 +15,20 @@ double vec3_lenght(const double vector[3])
     return (sqrt(lenght_squared(vector)));
 }
 
+
+void	vec3_normalize(double out[3], const double v[3])
+{
+	double	temp_v[3];
+	double	len;
+
+	vec3_copy(temp_v, v);
+	len = vec3_lenght(temp_v);
+	if (len == 0.0)
+		vec3_zero(out); // evitar divisão por zero
+	else
+		vec3_scale(out, v, 1.0 / len);
+}
+
 /// @brief Calcular um ponto ao longo de um raio
 /// @param t parâmetro do raio (distância)
 /// @param ray raio que contém origem e direção

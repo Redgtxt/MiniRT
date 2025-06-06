@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/05 16:23:40 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:39:57 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 # include "vec3.h"
 # include <float.h>
 # include <unistd.h>
+
+
+#define PI 3.1415926535897932385
+#define D_INFINITY ((double)INFINITY)
 
 # define WINDOW_HEIGHT 360
 # define WINDOW_WIDTH  640	
@@ -71,15 +75,6 @@ typedef struct s_rgb
 	float			b;
 }						t_rgb;
 
-typedef struct s_ray
-{
-	cord				origin[3];
-
-	double				direction[3];
-
-	//	struct s_ray *next;
-	//	struct s_ray *prev;
-}						t_ray;
 
 typedef struct s_amb_light
 {
@@ -150,7 +145,6 @@ typedef struct s_cylinder
 	t_rgb				rgb;
 	struct s_cylinder	*prev;
 	struct s_cylinder	*next;
-
 }						t_cylinder;
 
 typedef struct s_control_panel
@@ -165,11 +159,20 @@ typedef struct s_control_panel
 	t_error_log			error_log;
 }						t_control_panel;
 
+typedef struct s_ray
+{
+	cord				origin[3];
+
+	double				direction[3];
+
+}						t_ray;
+
 typedef struct s_hit_record
 {
 	double	position[3];
 	double	normal[3];
 	double	t;
+	bool	front_face;
 }			t_hit_record;
 
 
@@ -187,7 +190,8 @@ void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
 void ray_origin(const t_ray *ray, double out[3]);
 void ray_direction(const t_ray *ray, double out[3]);
 void ray_at(double t, t_ray ray, double result[3]);
-
+void ray_color(t_control_panel *control_panel, const t_ray *ray, double out_color[3]);
+void	vec3_normalize(double out[3], const double v[3]);
 		/*	sphere	*/
 
 	/*	Init	Sphere array	*/
@@ -195,6 +199,32 @@ bool    linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 
 	/*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record);
+bool hit_world(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record);
+double degrees_to_radians(double degrees);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //	Parsing.c
 bool	parsing(t_control_panel *control_panel, char *file_name);

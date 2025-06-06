@@ -18,15 +18,34 @@
 
 */
 
+/// @brief Se front_face for 1 significa que o raio bateu na parte de tras da esfera.
+///        Se front_face for 0 significa que batemos de frente na esfera
+/// @param ray 
+/// @param  
+/// @param record 
+static void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record)
+{
+    
+
+    record->front_face = vec3_dot(ray->direction, outward_normal) < 0;
+
+   // Se o raio vem do lado oposto à normal, mantemos a normal como está
+    // Caso contrário, invertemos a direção da normal
+    if (record->front_face)
+        vec3_copy(record->normal, outward_normal);
+    else
+        vec3_negate(record->normal,outward_normal);
+}
+
 static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ray_tmin,double ray_tmax,t_hit_record *record)
 {
 	double	oc[3];
 	double	discriminant;
     double  sqrtd;
-    vec3_sub(oc, sphere->cords, ray->origin);               // oc = center - r->origin
-	double a = vec3_lenght(ray->direction);          // direction.length_squared()
-	double h = vec3_dot(ray->direction, oc);         // dot(direction, oc)
-	double c = vec3_lenght(oc) - sphere->radius * sphere->radius;  // oc.length_squared()- radius²
+    vec3_sub(oc, ray->origin, sphere->cords);            // oc = center - r->origin
+    double a = vec3_dot(ray->direction, ray->direction);
+    double h = vec3_dot(ray->direction, oc); 
+    double c = vec3_dot(oc, oc) - sphere->radius * sphere->radius;
 
     discriminant = h * h - a * c;
     if(0 > discriminant)
@@ -36,22 +55,28 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
     sqrtd = sqrt(discriminant);
     double root;
 
-    root = (h - sqrtd) / a;
+    root = (-h - sqrtd) / a;
     if(root <= ray_tmin || ray_tmax <= root)
     {
-        root = (h + sqrtd) / a;
+        root = (-h + sqrtd) / a;
         if(root <= ray_tmin || ray_tmax <= root)
             return false;
     }
 
     record->t = root;
     ray_at(record->t,*ray,record->position);
-    double temp[3];
-    vec3_sub(temp,record->position ,sphere->cords);
-    vec3_divide(record->normal,temp,sphere->radius);
+    double outward_normal[3];
+
+
+
+    vec3_sub(outward_normal, record->position, sphere->cords);
+    vec3_normalize(outward_normal, outward_normal);
+    set_face_normal(ray,outward_normal,record);
     return true;
-    
 } 
+
+
+
  bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, 
                  double ray_tmax, t_hit_record *record)
 {
@@ -72,4 +97,19 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
     return hit_anything;
 } 
 
+bool hit_world(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record)
+{
+    t_hit_record temp_rec;
+    bool hit_anything = false;
+    double closest_so_far = ray_tmax;
+    
+    // Verificamos colisões com todas as esferas
+    if (hit_spheres(scene, ray, ray_tmin, closest_so_far, &temp_rec)) {
+        hit_anything = true;
+        closest_so_far = temp_rec.t;
+        *record = temp_rec;
+    }
 
+    //EM BREVE VAMOS TER OUTRAS FUNCOES DE HIT YUPIII    
+    return hit_anything;
+}

@@ -1,5 +1,11 @@
 #include "../../includes/miniRT.h"
 
+
+double degrees_to_radians(double degrees)
+{
+    return degrees * PI / 180.0;
+}
+
 /// @brief Will store the values of the ray
 /// @param cords 
 /// @param vector3 
@@ -43,3 +49,29 @@ void ray_direction(const t_ray *ray, double out[3])
     vec3_copy(out, ray->direction);
 }
 
+void ray_color(t_control_panel *control_panel, const t_ray *ray, double out_color[3])
+{
+    t_hit_record record;
+    double unit_direction[3];
+    double white[3] = {1.0, 1.0, 1.0};
+    double blue[3] = {0.5, 0.7, 1.0};
+    double temp[3];
+    
+    if (hit_world(control_panel, ray, 0.001, D_INFINITY, &record))
+    {
+        // Map normal to color
+        out_color[0] = 0.5 * (record.normal[0] + 1.0);
+        out_color[1] = 0.5 * (record.normal[1] + 1.0);
+        out_color[2] = 0.5 * (record.normal[2] + 1.0);
+        return;
+    }
+    
+    // Background - gradient from white to blue
+    vec3_normalize(unit_direction, ray->direction);
+    double a = 0.5 * (unit_direction[1] + 1.0);
+    
+    // Calculate (1.0-a)*white + a*blue
+    vec3_scale(out_color, white, 1.0 - a);
+    vec3_scale(temp, blue, a);
+    vec3_add(out_color, out_color, temp);
+}
