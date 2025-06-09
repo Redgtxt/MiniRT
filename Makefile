@@ -37,7 +37,8 @@ SRC_FILES = main.c \
 	    $(addprefix utils/, utils.c ray.c vector_utils.c split_spaces.c list_handler.c free.c errors.c) \
 	    $(addprefix Mlx/, hooks.c)  \
 	    $(addprefix Sphere/,init_sphere.c sphere_collision.c)  \
-	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c)
+	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \
+	    $(addprefix interval/, interval.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -53,6 +54,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/Mlx 
 	@mkdir -p $(OBJ_DIR)/Sphere 
 	@mkdir -p $(OBJ_DIR)/parsing
+	@mkdir -p $(OBJ_DIR)/interval
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
 
 $(LIBFT):

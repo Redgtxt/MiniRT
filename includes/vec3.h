@@ -16,7 +16,7 @@ void vec3_negate(double out[3], const double v[3]);
 void vec3_zero(double v[3]);
 void vec3_unit_vector(double out[3], const double v[3]);
 void vec3_sub_chain(double out[3], const double a[3], const double b[3], 
-                    const double c[3], const double d[3]);
+                    const double c[3]);
 
 
 #endif

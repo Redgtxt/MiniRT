@@ -162,11 +162,11 @@ void vec3_unit_vector(double out[3], const double v[3])
 }
 
 void vec3_sub_chain(double out[3], const double a[3], const double b[3], 
-                    const double c[3], const double d[3])
+                    const double c[3])
 {
-    out[0] = a[0] - b[0] - c[0] - d[0];
-    out[1] = a[1] - b[1] - c[1] - d[1];
-    out[2] = a[2] - b[2] - c[2] - d[2];
+    out[0] = a[0] - b[0] - c[0];
+    out[1] = a[1] - b[1] - c[1];
+    out[2] = a[2] - b[2] - c[2];
 }
 
 /// @brief Criar um vetor zero (0,0,0)

@@ -37,7 +37,7 @@ static void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hi
         vec3_negate(record->normal,outward_normal);
 }
 
-static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ray_tmin,double ray_tmax,t_hit_record *record)
+static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record)
 {
 	double	oc[3];
 	double	discriminant;
@@ -56,10 +56,10 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
     double root;
 
     root = (-h - sqrtd) / a;
-    if(root <= ray_tmin || ray_tmax <= root)
+    if(!interval_surrounds(root,t_ray))
     {
         root = (-h + sqrtd) / a;
-        if(root <= ray_tmin || ray_tmax <= root)
+        if(!interval_surrounds(root,t_ray))
             return false;
     }
 
@@ -77,16 +77,15 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
 
 
 
- bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, 
-                 double ray_tmax, t_hit_record *record)
+ bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record)
 {
     bool hit_anything = false;
-    double closest_so_far = ray_tmax;
+    double closest_so_far = t_ray.max;
     t_hit_record temp_rec;
 
     size_t i = 0;
     while (i < scene->data.sphere_count) {
-        if (have_hit_sphere(&scene->sphere[i], ray, ray_tmin, closest_so_far, &temp_rec)) {
+        if (have_hit_sphere(&scene->sphere[i], ray, interval_create(t_ray.min,closest_so_far), &temp_rec)) {
             hit_anything = true;
             closest_so_far = temp_rec.t;
             *record = temp_rec;  // Copia o registro do hit mais próximo
@@ -97,14 +96,14 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,double ra
     return hit_anything;
 } 
 
-bool hit_world(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record)
+bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hit_record *record)
 {
     t_hit_record temp_rec;
     bool hit_anything = false;
-    double closest_so_far = ray_tmax;
+    double closest_so_far = t_ray.max;
     
     // Verificamos colisões com todas as esferas
-    if (hit_spheres(scene, ray, ray_tmin, closest_so_far, &temp_rec)) {
+    if (hit_spheres(scene, ray,interval_create(t_ray.min,closest_so_far), &temp_rec)) {
         hit_anything = true;
         closest_so_far = temp_rec.t;
         *record = temp_rec;

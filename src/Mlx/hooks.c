@@ -7,11 +7,11 @@
  * @param y Coordenada Y do pixel
  * @param color Cor em formato RGB (0xRRGGBB)
  */
-void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
+void    my_mlx_pixel_put(t_control_panel *control_panel, t_mlx *data, int x, int y, int color)
 {
     char    *dst;
     
-    if (x >= 0 && x < data->width && y >= 0 && y < data->height)
+    if (x >= 0 && x < control_panel->camera.image_width && y >= 0 && y < control_panel->camera.image_height)
     {
         dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
         *(unsigned int*)dst = color;

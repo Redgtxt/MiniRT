@@ -56,8 +56,8 @@ void ray_color(t_control_panel *control_panel, const t_ray *ray, double out_colo
     double white[3] = {1.0, 1.0, 1.0};
     double blue[3] = {0.5, 0.7, 1.0};
     double temp[3];
-    
-    if (hit_world(control_panel, ray, 0.001, D_INFINITY, &record))
+       
+    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
     {
         // Map normal to color
         out_color[0] = 0.5 * (record.normal[0] + 1.0);

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/06 13:39:57 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:04:27 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include "vec3.h"
+#include "interval.h"
 # include <float.h>
 # include <unistd.h>
 
@@ -35,8 +36,7 @@
 
 
 typedef unsigned char	mini_int;
-typedef double			cord;
-typedef float			vec3;
+typedef double			vec3;
 
 #define TRANS 0
 #define RED 1
@@ -54,8 +54,6 @@ typedef struct s_mlx
     int     bits_per_pixel; 
     int     line_length;   
     int     endian;        
-    int     width;         
-    int     height;  
 } t_mlx;
 
 typedef struct s_data
@@ -84,16 +82,25 @@ typedef struct s_amb_light
 
 typedef struct s_camera
 {
-	cord				cords[3];
+	vec3				cords[3];
 
 	vec3				vec3[3];
 
 	mini_int			fov;
+
+	int					image_height;	// Rendered image height
+	int					image_width;
+	double				aspect_ratio;
+	vec3				center;	//camera center
+	double				pixel00_loc[3]; // Location of pixel 0, 0
+	double   			pixel_delta_u[3];  // Offset to pixel to the right
+    double   			pixel_delta_v[3];  // Offset to pixel below
+
 }						t_camera;
 
 typedef struct s_light
 {
-	cord				cords[3];
+	vec3				cords[3];
 	float				brightness;
 	t_rgb				rgb; // nao e usado no mandatory
 }						t_light;
@@ -102,7 +109,7 @@ typedef struct s_sphere
 {
 	// coordenadas do centro da esfera
 
-	cord				cords[3];
+	vec3				cords[3];
 
 	/*Diametro da Espera
 	(E passado no subject)
@@ -119,7 +126,7 @@ typedef struct s_plane
 {
 	//    PODE NAO SER O CENTRO (PELOS VISTOS PLANOS SAO INFINITOS)
 
-	cord				cords[3];
+	vec3				cords[3];
 
 	vec3				vec3[3];
 
@@ -132,7 +139,7 @@ typedef struct s_cylinder
 {
 	//     coordenadas do centro do CILINDRO
 
-	cord				cords[3];
+	vec3				cords[3];
 	vec3				vec3[3];
 
 	/*
@@ -161,7 +168,7 @@ typedef struct s_control_panel
 
 typedef struct s_ray
 {
-	cord				origin[3];
+	vec3				origin[3];
 
 	double				direction[3];
 
@@ -178,7 +185,7 @@ typedef struct s_hit_record
 
 
 // MLX
-void    my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
+void    my_mlx_pixel_put(t_control_panel *control_panel, t_mlx *data, int x, int y, int color);
 int	close_window(t_mlx *mlx_data);
 int	key_hook(int keycode, t_mlx *mlx_data);
 void	game_hooks(t_mlx *mlx_data);
@@ -198,8 +205,8 @@ void	vec3_normalize(double out[3], const double v[3]);
 bool    linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 
 	/*Sphere Collision*/
-bool hit_spheres(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record);
-bool hit_world(t_control_panel *scene, const t_ray *ray, double ray_tmin, double ray_tmax, t_hit_record *record);
+ bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hit_record *record);
 double degrees_to_radians(double degrees);
 
 
@@ -240,7 +247,7 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 
 //	Parse_values_1.c
-bool	get_coord(cord *coord, char *info, t_error_log *error_log);
+bool	get_coord(vec3 *coord, char *info, t_error_log *error_log);
 bool	get_vector(vec3 *vector, char *info, t_error_log *error_log);
 bool	get_rgb(t_rgb *rgb, char *info, t_error_log *error_log);
 
