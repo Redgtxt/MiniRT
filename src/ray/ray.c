@@ -1,15 +1,12 @@
 #include "../../includes/miniRT.h"
 
 
-double degrees_to_radians(double degrees)
-{
-    return degrees * PI / 180.0;
-}
+
 
 /// @brief Will store the values of the ray
 /// @param cords 
 /// @param vector3 
-/// @return 0 in sucess
+/// @return 
 void init_ray(t_ray *ray)
 {
     ray->origin[0] = 0;
@@ -31,6 +28,47 @@ void create_ray(t_ray *ray, const double origin[3], const double direction[3])
 {
     vec3_copy(ray->origin, origin);
     vec3_copy(ray->direction, direction);
+}
+
+void sample_square(double out[3])
+{
+    out[0] = random_double_0_to_1() - 0.5;
+    out[1] = random_double_0_to_1() - 0.5;
+    out[2] = 0,0;
+}
+
+t_ray get_ray(int i, int j, t_control_panel *control_panel)
+{
+    double offset[3];
+    double pixel_sample[3];
+    double pixel_offset_u[3];
+    double pixel_offset_v[3];
+    double ray_direction[3];
+    t_ray ray;
+    
+    vec3_zero(offset);
+    
+    // Obter um offset aleatório para anti-aliasing
+    if(ANTIALIASING)
+        sample_square(offset);
+    
+    // Calcular o ponto de amostragem do pixel com offset
+    // pixel_sample = pixel00_loc + (i + offset.x) * pixel_delta_u + (j + offset.y) * pixel_delta_v
+    vec3_scale(pixel_offset_u, control_panel->camera.pixel_delta_u, i + offset[0]);
+    vec3_scale(pixel_offset_v, control_panel->camera.pixel_delta_v, j + offset[1]);
+    
+    // Primeiro adiciona pixel00_loc + pixel_offset_u
+    vec3_add(pixel_sample, control_panel->camera.pixel00_loc, pixel_offset_u);
+    // Depois adiciona o resultado anterior + pixel_offset_v
+    vec3_add(pixel_sample, pixel_sample, pixel_offset_v);
+    
+    // ray_direction = pixel_sample - ray_origin (camera center)
+    vec3_sub(ray_direction, pixel_sample, control_panel->camera.cords);
+    
+    // Criar e retornar o ray com origem na câmera e direção para o pixel
+    create_ray(&ray, control_panel->camera.cords, ray_direction);
+    
+    return ray;
 }
 
 /// @brief Get ray origin (equivalent to origin() method)

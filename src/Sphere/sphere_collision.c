@@ -50,7 +50,6 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interva
     discriminant = h * h - a * c;
     if(0 > discriminant)
         return false;
-    
     //Temos algum intersecao
     sqrtd = sqrt(discriminant);
     double root;

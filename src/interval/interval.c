@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interval.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 14:01:22 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/06/11 14:01:23 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../../includes/interval.h"
 
 /*
@@ -54,4 +67,23 @@ t_interval interval_create(double min, double max)
 bool    interval_surrounds(double x,t_interval interval)
 {
         return interval.min < x && x < interval.max;
+}
+
+/*
+
+    double clamp(double x) const {
+        if (x < min) return min;
+        if (x > max) return max;
+        return x;
+    }
+
+*/
+
+double  clamp(double x,t_interval interval)
+{
+    if(interval.min > x)
+        return interval.min;
+    if(x > interval.max)
+        return interval.max;
+    return x;
 }
