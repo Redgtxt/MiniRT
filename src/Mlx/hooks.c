@@ -28,10 +28,20 @@ int	close_window(t_mlx *mlx_data)
     return (0);
 }
 
-int	key_hook(int keycode, t_mlx *mlx_data)
+int	key_hook(int keycode, t_control_panel *control_panel)
 {
 	if (keycode == KEY_ESC)
-		close_window(mlx_data);
+    {
+		close_window(control_panel->mlx);
+    }
+    if(keycode == 'f')
+    {
+        control_panel->camera.antialiasing = !control_panel->camera.antialiasing;
+        setup_antialiasing(control_panel);
+        render_scene(control_panel);
+    }
+
+    
 	return (0);
 }
 

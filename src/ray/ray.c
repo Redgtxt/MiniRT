@@ -34,7 +34,7 @@ void sample_square(double out[3])
 {
     out[0] = random_double_0_to_1() - 0.5;
     out[1] = random_double_0_to_1() - 0.5;
-    out[2] = 0,0;
+    out[2] = 0.0;
 }
 
 t_ray get_ray(int i, int j, t_control_panel *control_panel)
@@ -47,9 +47,9 @@ t_ray get_ray(int i, int j, t_control_panel *control_panel)
     t_ray ray;
     
     vec3_zero(offset);
-    
+
     // Obter um offset aleatório para anti-aliasing
-    if(ANTIALIASING)
+    if(control_panel->camera.antialiasing)
         sample_square(offset);
     
     // Calcular o ponto de amostragem do pixel com offset

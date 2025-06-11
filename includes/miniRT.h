@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/11 17:41:05 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:59:08 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@
 #include <time.h> //BONUS
 #include "vec3.h"
 #include "interval.h"
+#define REDHB "\e[0;101m"
+#define GRNHB "\e[0;102m"
+#define reset "\e[0m"
+#define BBLK "\e[1;30m"
+#define BHGRN "\e[1;92m"
+#define BHYEL "\e[1;93m"
+#define HMAG "\e[1;95m"
+
 
 #define PI 3.1415926535897932385
 #define D_INFINITY ((double)INFINITY)
-#define	ANTIALIASING false //BONUS
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
 #define KEY_ESC 65307
@@ -94,6 +101,7 @@ typedef struct s_camera
 	int samples_per_pixel;	 // Count of random samples for each pixel
 	double pixel_samples_scale;
 
+	bool antialiasing;
 } t_camera;
 
 typedef struct s_light
@@ -162,6 +170,7 @@ typedef struct s_control_panel
 	t_cylinder *cylinder;
 	t_data data;
 	t_error_log error_log;
+	t_mlx	*mlx;
 } t_control_panel;
 
 typedef struct s_ray
@@ -183,7 +192,7 @@ typedef struct s_hit_record
 // MLX
 void my_mlx_pixel_put(t_control_panel *control_panel, t_mlx *data, int x, int y, int color);
 int close_window(t_mlx *mlx_data);
-int key_hook(int keycode, t_mlx *mlx_data);
+int	key_hook(int keycode, t_control_panel *control_panel);
 void game_hooks(t_mlx *mlx_data);
 
 /*Ray functions*/
@@ -208,6 +217,10 @@ bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 /*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+//Scene
+void render_scene(t_control_panel *control_panel);
+void setup_antialiasing(t_control_panel *control_panel);
 
 //	Parsing.c
 bool parsing(t_control_panel *control_panel, char *file_name);
