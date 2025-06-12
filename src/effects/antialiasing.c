@@ -1,5 +1,12 @@
 #include "../../includes/miniRT.h"
 
+void sample_square(double out[3])
+{
+    out[0] = random_double_0_to_1() - 0.5;
+    out[1] = random_double_0_to_1() - 0.5;
+    out[2] = 0.0;
+}
+
 void setup_antialiasing(t_control_panel *control_panel)
 {
 	static bool first_time = true;

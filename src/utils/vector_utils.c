@@ -177,3 +177,45 @@ void vec3_zero(double v[3])
     v[1] = 0.0;
     v[2] = 0.0;
 }
+
+/**
+ * @brief Gera um vetor com valores aleatórios no intervalo [0,1)
+ * @param out Vetor de saída para armazenar os valores gerados
+ */
+void vec3_random(double out[3])
+{
+    out[0] = random_double_0_to_1();
+    out[1] = random_double_0_to_1();
+    out[2] = random_double_0_to_1();
+}
+
+/**
+ * @brief Gera um vetor com valores aleatórios no intervalo [min,max)
+ * @param out Vetor de saída para armazenar os valores gerados
+ * @param min Valor mínimo do intervalo
+ * @param max Valor máximo do intervalo
+ */
+void vec3_random_range(double out[3],double min,double max)
+{
+    out[0] = random_double(min,max);
+    out[1] = random_double(min,max);
+    out[2] = random_double(min,max);
+}
+
+void vec3_random_utit_vector(double good_point[3])
+{
+    double p[3]; //position of the point created
+    double  lensq;
+    vec3_zero(p);
+    vec3_zero(good_point);
+    while (true)
+    {
+        vec3_random_range(p,-1,1);
+        lensq = lenght_squared(p);
+        if(1e-160 < lensq && lensq <= 1)//1 × 10^(-160)
+        {
+            vec3_divide(good_point,p,sqrt(lensq));
+            break;
+        }
+    }
+}

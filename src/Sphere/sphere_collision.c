@@ -95,6 +95,7 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interva
     return hit_anything;
 } 
 
+
 bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hit_record *record)
 {
     t_hit_record temp_rec;
@@ -110,4 +111,22 @@ bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hi
 
     //EM BREVE VAMOS TER OUTRAS FUNCOES DE HIT YUPIII    
     return hit_anything;
+}
+
+
+void random_on_hemisphere(double normal[3],double out[3])
+{
+    double on_unit_sphere[3];
+
+    
+    vec3_zero(on_unit_sphere);
+    vec3_random_utit_vector(on_unit_sphere);
+    if(vec3_dot(on_unit_sphere,normal) > 0.0)
+    {
+        vec3_copy(out,on_unit_sphere);
+    }else
+    {
+        vec3_negate(out,on_unit_sphere);
+    }
+
 }

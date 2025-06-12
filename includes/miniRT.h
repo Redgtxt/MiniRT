@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/11 18:59:08 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:50:33 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,15 @@ bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 /*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+void random_on_hemisphere(double normal[3],double out[3]);
 
 //Scene
 void render_scene(t_control_panel *control_panel);
+//antialiasing
 void setup_antialiasing(t_control_panel *control_panel);
+void sample_square(double out[3]);
+//Camera
+void get_values_camera(t_control_panel *control_panel);
 
 //	Parsing.c
 bool parsing(t_control_panel *control_panel, char *file_name);
