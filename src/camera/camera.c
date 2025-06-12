@@ -5,7 +5,7 @@
 static void setup_camera_dimensions(t_control_panel *control_panel)
 {
 	control_panel->camera.aspect_ratio = 16.0 / 9.0;
-	setup_antialiasing(control_panel);
+	setup_antialiasing(control_panel,100);
 	control_panel->camera.image_width = WINDOW_WIDTH;
 	control_panel->camera.image_height = (int)control_panel->camera.image_width / control_panel->camera.aspect_ratio;
 	if (control_panel->camera.image_height < 1)

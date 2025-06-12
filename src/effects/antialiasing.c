@@ -7,13 +7,14 @@ void sample_square(double out[3])
     out[2] = 0.0;
 }
 
-void setup_antialiasing(t_control_panel *control_panel)
+void setup_antialiasing(t_control_panel *control_panel,int num_of_samples)
 {
-	static bool first_time = true;
+	static bool first_time;
 
-	  if(control_panel->camera.antialiasing)
+    first_time = true;
+	if(control_panel->camera.antialiasing)
         {
-            control_panel->camera.samples_per_pixel = 100;
+            control_panel->camera.samples_per_pixel = num_of_samples;
 			printf("\n" HMAG "Antialiasing: APPLYING" reset "\n" );
         }
         else

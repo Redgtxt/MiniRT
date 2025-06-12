@@ -222,7 +222,7 @@ void random_on_hemisphere(double normal[3],double out[3]);
 //Scene
 void render_scene(t_control_panel *control_panel);
 //antialiasing
-void setup_antialiasing(t_control_panel *control_panel);
+void setup_antialiasing(t_control_panel *control_panel,int num_of_samples);
 void sample_square(double out[3]);
 //Camera
 void get_values_camera(t_control_panel *control_panel);

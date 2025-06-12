@@ -159,7 +159,6 @@ void render_scene(t_control_panel *control_panel)
 			x++;
 		}
 
-		// Mostrar progresso do renderizador (opcional)
 		if (y % 10 == 0)
 			ft_printf(BHYEL "\rScanlines remaining: %d " reset, (control_panel->camera.image_height - y));
 

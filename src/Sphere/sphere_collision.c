@@ -99,8 +99,11 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interva
 bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hit_record *record)
 {
     t_hit_record temp_rec;
-    bool hit_anything = false;
-    double closest_so_far = t_ray.max;
+    bool hit_anything;
+    double closest_so_far;
+
+    hit_anything = false;
+    closest_so_far = t_ray.max;
     
     // Verificamos colisões com todas as esferas
     if (hit_spheres(scene, ray,interval_create(t_ray.min,closest_so_far), &temp_rec)) {
