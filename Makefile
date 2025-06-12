@@ -39,7 +39,8 @@ SRC_FILES = main.c \
 	    $(addprefix Sphere/,init_sphere.c sphere_collision.c)  \
 	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \
 	    $(addprefix interval/, interval.c)\
-	    $(addprefix ray/, ray.c ray_utils.c)
+	    $(addprefix ray/, ray.c ray_utils.c)\
+	    $(addprefix effects/, antialiasing.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -57,6 +58,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/parsing
 	@mkdir -p $(OBJ_DIR)/interval
 	@mkdir -p $(OBJ_DIR)/ray
+	@mkdir -p $(OBJ_DIR)/effects
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
 
 $(LIBFT):
@@ -79,10 +81,8 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo "$(BLUE)Running checks...$(RESET)"
 	@if [ -f $(NAME) ]; then echo "$(GREEN)$(NAME) created successfully! 🎉$(RESET)"; fi
 
-#mudar regra quando tiver-mos cena para executar
 rt:	
 	./miniRT elements_input.rt
-
 
 valgrind: $(NAME)
 	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
