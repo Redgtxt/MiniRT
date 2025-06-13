@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:01:17 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/11 14:09:07 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:24:28 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ double random_double_0_to_1()
     // Retorna um número real aleatório no intervalo [0, 1)
     return (double)rand() / ((double)RAND_MAX + 1.0);
 }
+
+
 
 double random_double(double min, double max) 
 {

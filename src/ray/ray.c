@@ -95,10 +95,13 @@ void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, doubl
     if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
     {
         double direction[3];
+        double random[3];
         double recurisive_color[3];
         t_ray next_ray;
-
-        random_on_hemisphere(record.normal, direction);
+        
+        vec3_random(random);
+       // random_on_hemisphere(record.normal, direction);
+       vec3_add(direction,record.normal,random);
         create_ray(&next_ray, record.position, direction);
         ray_color(control_panel, depth -1 , &next_ray, recurisive_color);
 
