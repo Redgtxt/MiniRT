@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/12 17:23:55 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:11:18 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void render_scene(t_control_panel *control_panel)
 			if (!control_panel->camera.antialiasing)
 			{
 				ray = get_ray(x, y, control_panel);
-				ray_color(control_panel, &ray, pixel_color);
+				ray_color(control_panel,control_panel->camera.max_bounces, &ray, pixel_color);
 			}
 			else
 			{
@@ -140,7 +140,7 @@ void render_scene(t_control_panel *control_panel)
 				{
 					vec3_zero(sample_color);
 					ray = get_ray(x, y, control_panel);
-					ray_color(control_panel, &ray, sample_color);
+					ray_color(control_panel, control_panel->camera.max_bounces,&ray, sample_color);
 					pixel_color[0] += sample_color[0];
 					pixel_color[1] += sample_color[1];
 					pixel_color[2] += sample_color[2];
@@ -155,7 +155,7 @@ void render_scene(t_control_panel *control_panel)
 			}
 
 			rgb = write_color(pixel_color[0], pixel_color[1], pixel_color[2]);
-			my_mlx_pixel_put(control_panel, mlx_data, x, y, rgb);
+			my_mlx_pixel_put(control_panel, x, y, rgb);
 			x++;
 		}
 
@@ -185,7 +185,7 @@ t_control_panel *inicialize(int argc, char *argv[])
 	if (!parsing(control_panel, argv[1]))
 	{
 		print_parsing_error(control_panel->error_log);
-		return (free_control_panel(control_panel), NULL);
+		return (free_control_panel_lists(control_panel), NULL);
 	}
 	get_values_camera(control_panel);
 	return control_panel;
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 	render_scene(control_panel);
 
 	// Configurar hooks
-	mlx_hook(mlx_data.win, 17, 0, close_window, &mlx_data);
+	mlx_hook(mlx_data.win, 17, 0, close_window, control_panel);
 	mlx_key_hook(mlx_data.win, key_hook, control_panel);
 
 	mlx_loop(mlx_data.mlx);

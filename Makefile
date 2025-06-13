@@ -14,7 +14,8 @@ WHITE   = \033[1;37m
 #       FLAGS              #
 # ======================== #
 CC        = cc
-FLAGS     = -Wall -Werror -Wextra -O3 -Ofast
+FLAGS     = -Wall -Werror -Wextra -O3 -Ofast -g
+VFLAGS    = --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -s
 MLX_FLAGS = -lm -lX11 -lXext
 
 NAME      = miniRT
@@ -86,9 +87,9 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 rt:	
 	./miniRT elements_input.rt
 
-valgrind: $(NAME)
+val: re 
 	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME)
+	@valgrind $(VFLAGS) ./miniRT elements_input.rt
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
@@ -106,4 +107,4 @@ re: fclean all
 # ======================== #
 #        PHONY             #
 # ======================== #
-.PHONY: all clean fclean re rt valgrind
+.PHONY: all clean fclean re rt val

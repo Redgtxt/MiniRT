@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/12 15:50:33 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:48:46 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ typedef struct s_camera
 	double pixel_delta_v[3]; // Offset to pixel below
 	int samples_per_pixel;	 // Count of random samples for each pixel
 	double pixel_samples_scale;
-
+	
+	double	max_bounces;// Maximum number of ray bounces into scene
 	bool antialiasing;
 } t_camera;
 
@@ -190,10 +191,10 @@ typedef struct s_hit_record
 } t_hit_record;
 
 // MLX
-void my_mlx_pixel_put(t_control_panel *control_panel, t_mlx *data, int x, int y, int color);
-int close_window(t_mlx *mlx_data);
+void    my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
+int close_window(t_control_panel *control_panel);
 int	key_hook(int keycode, t_control_panel *control_panel);
-void game_hooks(t_mlx *mlx_data);
+void game_hooks(t_control_panel *control_panel);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);
@@ -201,7 +202,7 @@ void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
 void ray_origin(const t_ray *ray, double out[3]);
 void ray_direction(const t_ray *ray, double out[3]);
 void ray_at(double t, t_ray ray, double result[3]);
-void ray_color(t_control_panel *control_panel, const t_ray *ray, double out_color[3]);
+void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3]);
 void vec3_normalize(double out[3], const double v[3]);
 t_ray get_ray(int i, int j, t_control_panel *control_panel);
 
@@ -261,7 +262,7 @@ void lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylind
 void free_sphere(t_sphere *sphere);
 void free_plane(t_plane *plane);
 void free_cylinder(t_cylinder *cylinder);
-void free_control_panel(t_control_panel *control_panel);
+void	free_control_panel_lists(t_control_panel *control_panel);
 
 //	Utils.c
 size_t double_array_len(char **array);

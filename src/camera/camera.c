@@ -41,4 +41,5 @@ void get_values_camera(t_control_panel *control_panel)
 {
 	setup_camera_dimensions(control_panel);
 	setup_camera_viewport(control_panel);
+	control_panel->camera.max_bounces = 50;
 }

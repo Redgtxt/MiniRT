@@ -19,7 +19,7 @@ void	free_sphere(t_sphere *sphere)
 	temp = sphere;
 	while (temp)
 	{
-		temp = temp ->next;
+		temp = temp->next;
 		free(sphere);
 		sphere = temp;
 	}
@@ -32,7 +32,7 @@ void	free_plane(t_plane *plane)
 	temp = plane;
 	while (temp)
 	{
-		temp = temp ->next;
+		temp = temp->next;
 		free(plane);
 		plane = temp;
 	}
@@ -45,13 +45,13 @@ void	free_cylinder(t_cylinder *cylinder)
 	temp = cylinder;
 	while (temp)
 	{
-		temp = temp ->next;
+		temp = temp->next;
 		free(cylinder);
 		cylinder = temp;
 	}
 }
 
-void	free_control_panel(t_control_panel *control_panel)
+void	free_control_panel_lists(t_control_panel *control_panel)
 {
 	if (control_panel->sphere)
 		free_sphere(control_panel->sphere);
