@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/13 15:11:18 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:59:25 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,7 @@ void print_elements(t_control_panel *control_panel)
 		fprintf(stderr, "Warning: cylinder is NULL\n");
 	}
 }
-int write_color(double r, double g, double b)
-{
-	int ir;
-	int ig;
-	int ib;
-	t_interval intensity;
 
-	// Translate the [0,1] component values to the byte range [0,255].
-	intensity = interval_create(0.000, 0.999);
-	ir = (int)(256 * clamp(r, intensity));
-	ig = (int)(256 * clamp(g, intensity));
-	ib = (int)(256 * clamp(b, intensity));
-	return ((ir << 16) | (ig << 8) | ib);
-}
 
 void render_scene(t_control_panel *control_panel)
 {

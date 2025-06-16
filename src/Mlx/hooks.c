@@ -35,7 +35,7 @@ int close_window(t_control_panel *control_panel)
         free(mlx_data->mlx);
     }
     free_control_panel_lists(control_panel);
-        exit(0);
+    exit(0);
     return (0);
 }
 static void clear_image(t_control_panel *control_panel)
@@ -73,11 +73,43 @@ static void config_antialising_render(int keycode, t_control_panel *control_pane
         clear_image(control_panel);
         render_scene(control_panel);
     }
+    else if (keycode == 48)
+    {
+        control_panel->camera.antialiasing = false;
+        setup_antialiasing(control_panel, 1);
+        printf("\n" HMAG "Antialiasing: DISABLED" reset "\n");
+        clear_image(control_panel);
+        render_scene(control_panel);
+    }
 }
+static void change_object_brightness(int keycode, t_control_panel *control_panel)
+{
+    t_interval interval;
 
+    interval = interval_create(0, 1);
+    if (keycode == ARROW_LEFT_KEY)
+    {
+        control_panel->light.object_brightness -= .1;
+        control_panel->light.object_brightness = clamp(control_panel->light.object_brightness, interval);
+        printf(HMAG "Object brightness: %.1f " reset, control_panel->light.object_brightness);
+
+        clear_image(control_panel);
+        render_scene(control_panel);
+    }
+    if (keycode == ARROW_RIGHT_KEY)
+    {
+
+        control_panel->light.object_brightness += .1;
+        control_panel->light.object_brightness = clamp(control_panel->light.object_brightness, interval);
+        printf(HMAG "Object brightness: %.1f " reset, control_panel->light.object_brightness);
+
+        clear_image(control_panel);
+        render_scene(control_panel);
+    }
+}
 int key_hook(int keycode, t_control_panel *control_panel)
 {
-    //printf("Tecla pressionada: %d (%c)\n", keycode, keycode);
+    printf("Tecla pressionada: %d (%c)\n", keycode, keycode);
     if (keycode == KEY_ESC)
     {
         close_window(control_panel);
@@ -87,11 +119,11 @@ int key_hook(int keycode, t_control_panel *control_panel)
     {
         control_panel->camera.antialiasing = false;
         setup_antialiasing(control_panel, 1);
-        ft_printf(BHYEL "\rResetting schene" reset "\n");
+        ft_printf(BHYEL "\rResetting scene" reset "\n");
         clear_image(control_panel);
         render_scene(control_panel);
     }
-
+    change_object_brightness(keycode, control_panel);
     return (0);
 }
 

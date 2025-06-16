@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:01:22 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/11 14:01:23 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:22:21 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,6 @@ bool    interval_surrounds(double x,t_interval interval)
         return interval.min < x && x < interval.max;
 }
 
-/*
-
-    double clamp(double x) const {
-        if (x < min) return min;
-        if (x > max) return max;
-        return x;
-    }
-
-*/
 
 double  clamp(double x,t_interval interval)
 {

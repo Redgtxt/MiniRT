@@ -35,7 +35,7 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c errors.c) \
+	    $(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c errors.c draw_color.c) \
 	    $(addprefix Mlx/, hooks.c)  \
 	    $(addprefix Sphere/,init_sphere.c sphere_collision.c)  \
 	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \

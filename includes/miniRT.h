@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/13 14:48:46 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:19:05 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
 #define KEY_ESC 65307
+#define ARROW_LEFT_KEY 65361
+#define ARROW_RIGHT_KEY 65363
 
 typedef unsigned char mini_int;
 typedef double vec3;
@@ -102,6 +104,7 @@ typedef struct s_camera
 	double pixel_samples_scale;
 	
 	double	max_bounces;// Maximum number of ray bounces into scene
+	
 	bool antialiasing;
 } t_camera;
 
@@ -109,6 +112,7 @@ typedef struct s_light
 {
 	vec3 cords[3];
 	float brightness;
+	double	object_brightness;
 	t_rgb rgb; // nao e usado no mandatory
 } t_light;
 
@@ -210,6 +214,7 @@ t_ray get_ray(int i, int j, t_control_panel *control_panel);
 double degrees_to_radians(double degrees);
 double random_double_0_to_1();
 double random_double(double min, double max);
+int write_color(double r, double g, double b);
 /*	sphere	*/
 
 /*	Init	Sphere array	*/
