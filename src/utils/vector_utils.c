@@ -9,7 +9,7 @@ static double lenght_squared(const double vector[3])
     return (vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
 }
 
-//vai returnar o tamanho de um vetor 
+//vai returnar o tamanho de um vetor
 double vec3_lenght(const double vector[3])
 {
     return (sqrt(lenght_squared(vector)));
@@ -33,16 +33,16 @@ void	vec3_normalize(double out[3], const double v[3])
 /// @param t parâmetro do raio (distância)
 /// @param ray raio que contém origem e direção
 /// @param result vetor onde será armazenado o ponto calculado
-/// 
+///
 /// Fórmula: P(t) = A + t*B
 /// onde A é a origem do raio e B é a direção do raio
 void ray_at(double t, t_ray ray, double result[3])
 {
     double scaled_direction[3];
-    
+
     // Escalar a direção pelo parâmetro t
     vec3_scale(scaled_direction, ray.direction, t);
-    
+
     // Somar a origem com a direção escalada
     vec3_add(result, ray.origin, scaled_direction);
 }
@@ -70,7 +70,7 @@ void vec3_copy(double dest[3], const double src[3])
 
 			/*	ARITHETIC OPERATIONS	*/
 
-			
+
 /// @brief Add the value of a complet vector example a[0] + b[0]
 /// @param out // Vector with the final result
 /// @param a //Vector used to calculat
@@ -149,19 +149,19 @@ void vec3_negate(double out[3], const double v[3])
 /// @brief Criar um vetor unitário (normalizado) a partir de um vetor
 /// @param out vetor de saída onde será armazenado o vetor unitário
 /// @param v vetor de entrada a ser normalizado
-/// 
+///
 /// Esta função calcula v / |v| onde |v| é o comprimento do vetor
 void vec3_unit_vector(double out[3], const double v[3])
 {
     double len = vec3_lenght((double*)v);
-    
+
     if (len == 0.0)
         vec3_zero(out);  // evitar divisão por zero
     else
         vec3_scale(out, v, 1.0 / len);
 }
 
-void vec3_sub_chain(double out[3], const double a[3], const double b[3], 
+void vec3_sub_chain(double out[3], const double a[3], const double b[3],
                     const double c[3])
 {
     out[0] = a[0] - b[0] - c[0];
@@ -218,4 +218,10 @@ void vec3_random_utit_vector(double good_point[3])
             break;
         }
     }
+}
+
+bool vec3_near_zero(double out[3])
+{
+    double s = 1e-8;
+    return fabs(out[0]) < s && fabs(out[1]) < s && fabs(out[2]) < s;
 }

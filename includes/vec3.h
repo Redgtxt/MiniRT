@@ -1,6 +1,5 @@
 #ifndef VEC3_H
 # define VEC3_H
-#include "miniRT.h"
 
 /*Vectos Utils*/
 double vec3_lenght(const double vector[3]);
@@ -15,10 +14,11 @@ double vec3_dot(const double a[3], const double b[3]);
 void vec3_negate(double out[3], const double v[3]);
 void vec3_zero(double v[3]);
 void vec3_unit_vector(double out[3], const double v[3]);
-void vec3_sub_chain(double out[3], const double a[3], const double b[3], 
+void vec3_sub_chain(double out[3], const double a[3], const double b[3],
                     const double c[3]);
 void vec3_random(double out[3]);
 void vec3_random_range(double out[3],double min,double max);
 void vec3_random_utit_vector(double good_point[3]);
+bool vec3_near_zero(double out[3]);
 
 #endif

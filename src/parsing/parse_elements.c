@@ -19,7 +19,7 @@ bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_erro
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_NBR_VALUES), false);
 	if (!get_light_force(&control_panel->amb_light.light_force, element_info[1], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_LIGHT_FORCE), false);
-	if (!get_rgb(&control_panel->amb_light.rgb, element_info[2], error_log))
+	if (!get_rgb(control_panel->amb_light.rgb, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_RGB), false);
 	control_panel->data.amb_light_count++;
 	return (true);
@@ -54,7 +54,7 @@ bool	parse_light(t_control_panel *control_panel, char **element_info, t_error_lo
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_BRIGHTNESS), false);
 	if (len == 4)
 	{
-		if (!get_rgb(&control_panel->light.rgb, element_info[3], error_log))
+		if (!get_rgb(control_panel->light.rgb, element_info[3], error_log))
 			return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_RGB), false);
 	}
 	control_panel->data.light_count++;

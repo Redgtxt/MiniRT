@@ -28,8 +28,12 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 	if (!get_d(&sphere->d, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_D), false);
 	//	RADIUS
-	if (!get_rgb(&sphere->rgb, element_info[3], error_log))
+	if (!get_rgb(sphere->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
+	sphere->material.albedo[0] = sphere->rgb[0];
+	sphere->material.albedo[1] = sphere->rgb[1];
+	sphere->material.albedo[2] = sphere->rgb[2];
+	sphere->material.type = LAMBERTIAN;
 	control_panel->data.sphere_count++;
 	return (true);
 }
@@ -49,7 +53,7 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_COORD), false);
 	if (!get_vector(plane->vec3, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_VECTOR), false);
-	if (!get_rgb(&plane->rgb, element_info[3], error_log))
+	if (!get_rgb(plane->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_RGB), false);
 	control_panel->data.plane_count++;
 	return (true);
@@ -75,7 +79,7 @@ bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 	//	Radius
 	if (!get_height(&cylinder->height, element_info[4], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
-	if (!get_rgb(&cylinder->rgb, element_info[5], error_log))
+	if (!get_rgb(cylinder->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
 	control_panel->data.cylinder_count++;
 	return (true);
