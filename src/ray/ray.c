@@ -76,7 +76,38 @@ void ray_direction(const t_ray *ray, double out[3])
     vec3_copy(out, ray->direction);
 }
 
-void ray_color(t_control_panel *control_panel, int depth, const t_ray *ray, double out_color[3])
+bool lambertian_scatter(t_hit_record *rec, double attenuation[3], t_ray *scattered) {
+    double scatter_direction[3];
+
+    // Generate a random direction in the same hemisphere as the surface normal
+    random_on_hemisphere(rec->normal, scatter_direction);
+
+    // Handle degenerate scatter direction (very close to zero)
+    if (vec3_near_zero(scatter_direction)) {
+        vec3_copy(scatter_direction, rec->normal);
+    }
+
+    // Create the scattered ray: origin at hit point, direction = scatter direction
+    create_ray(scattered, rec->position, scatter_direction);
+
+    // Attenuation is simply the material's albedo (color)
+    vec3_copy(attenuation, rec->material->albedo);
+
+    return true;
+}
+
+bool scatter(const t_material *mat, t_hit_record *rec, double attenuation[3], t_ray *scattered)
+{
+    if (mat->type == LAMBERTIAN)
+        return lambertian_scatter(rec, attenuation, scattered);
+    // else if (mat->type == METAL)
+    //     return metal_scatter(mat, r_in, rec, attenuation, scattered);
+    // else if (mat->type == DIELECTRIC)
+    //     return dielectric_scatter(mat, r_in, rec, attenuation, scattered);
+    return false;
+}
+
+void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3])
 {
     t_hit_record record;
     double unit_direction[3];
@@ -91,25 +122,41 @@ void ray_color(t_control_panel *control_panel, int depth, const t_ray *ray, doub
         return;
     }
 
-    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
-    {
-        double direction[3];
-        double random[3];
-        double recurisive_color[3];
-        t_ray next_ray;
 
-        vec3_random(random);
-        // random_on_hemisphere(record.normal, direction);
-        vec3_add(direction, record.normal, random);
-        create_ray(&next_ray, record.position, direction);
-        ray_color(control_panel, depth - 1, &next_ray, recurisive_color);
+    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record)) {
+        t_ray scattered;
+        double attenuation[3];
 
-        // Map normal to color
-        out_color[0] = control_panel->light.object_brightness * recurisive_color[0];
-        out_color[1] = control_panel->light.object_brightness * recurisive_color[1];
-        out_color[2] = control_panel->light.object_brightness * recurisive_color[2];
+        if (scatter(record.material, &record, attenuation, &scattered)) {
+            double color[3];
+            ray_color(control_panel, depth - 1, &scattered, color);
+            vec3_multiply(color, color, attenuation); // final_color *= attenuation
+            // out_color[0] = control_panel->light.object_brightness * recurisive_color[0];
+            // out_color[1] = control_panel->light.object_brightness * recurisive_color[1];
+            // out_color[2] = control_panel->light.object_brightness * recurisive_color[2];
+            vec3_copy(out_color, color);
+            return;
+        }
+
+        vec3_zero(out_color);
         return;
     }
+    // if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
+    // {
+    //     double direction[3];
+    //     double recurisive_color[3];
+    //     t_ray next_ray;
+
+    //     random_on_hemisphere(record.normal, direction);
+    //     create_ray(&next_ray, record.position, direction);
+    //     ray_color(control_panel, depth -1 , &next_ray, recurisive_color);
+
+    //     // Map normal to color
+    //     out_color[0] = 0.5 * recurisive_color[0];
+    //     out_color[1] = 0.5 * recurisive_color[1];
+    //     out_color[2] = 0.5 * recurisive_color[2];
+    //     return;
+    // }
 
     // Background - gradient from white to blue
     vec3_normalize(unit_direction, ray->direction);

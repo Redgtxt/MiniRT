@@ -96,7 +96,7 @@ static bool	parse_rgb_chars(char *info, t_error_log *error_log)
 	return (true);
 }
 
-bool	get_rgb(t_rgb *rgb, char *info, t_error_log *error_log)
+bool	get_rgb(double rgb[3], char *info, t_error_log *error_log)
 {
 	char	**array;
 
@@ -108,8 +108,8 @@ bool	get_rgb(t_rgb *rgb, char *info, t_error_log *error_log)
 		return (false);
 	if (double_array_len(array) != 3)
 		return (ft_free_double_array(array), false);
-	if (!ft_atofd(array[0], &rgb->r, 'f') || !ft_atofd(array[1], &rgb->g, 'f')
-			|| !ft_atofd(array[2], &rgb->b, 'f'))
+	if (!ft_atofd(array[0], &rgb[0], 'd') || !ft_atofd(array[1], &rgb[1], 'd')
+			|| !ft_atofd(array[2], &rgb[2], 'd'))
 		return (ft_free_double_array(array), false);
 	ft_free_double_array(array);
 	return (true);

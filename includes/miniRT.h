@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 15:11:31 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:21:41 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 #include <time.h> //BONUS
 #include "vec3.h"
 #include "interval.h"
+
+//	Printf colors
 #define REDHB "\e[0;101m"
 #define GRNHB "\e[0;102m"
 #define reset "\e[0m"
@@ -51,6 +53,17 @@ typedef double vec3;
 #define GREEN 2
 #define BLUE 3
 
+typedef enum e_material_type
+{
+	LAMBERTIAN,
+}			t_material_type;
+
+typedef struct s_material
+{
+	t_material_type type;
+	double			albedo[3];
+}			t_material;
+
 typedef struct s_mlx
 {
 	void *mlx;
@@ -72,17 +85,10 @@ typedef struct s_data
 	size_t cylinder_count;
 } t_data;
 
-typedef struct s_rgb
-{
-	float r;
-	float g;
-	float b;
-} t_rgb;
-
 typedef struct s_amb_light
 {
 	float light_force;
-	t_rgb rgb;
+	double rgb[3];
 } t_amb_light;
 
 typedef struct s_camera
@@ -102,7 +108,7 @@ typedef struct s_camera
 	double pixel_delta_v[3]; // Offset to pixel below
 	int samples_per_pixel;	 // Count of random samples for each pixel
 	double pixel_samples_scale;
-	
+
 	double	max_bounces;// Maximum number of ray bounces into scene
 	
 	bool antialiasing;
@@ -113,7 +119,7 @@ typedef struct s_light
 	vec3 cords[3];
 	float brightness;
 	double	object_brightness;
-	t_rgb rgb; // nao e usado no mandatory
+	double rgb[3];
 } t_light;
 
 typedef struct s_sphere
@@ -128,7 +134,8 @@ typedef struct s_sphere
 	double d;
 	// Acho que e fixe ter para calculos (vamos ter de o calcular)
 	double radius;
-	t_rgb rgb;
+	double rgb[3];
+	t_material	material;
 	struct s_sphere *prev;
 	struct s_sphere *next;
 } t_sphere;
@@ -141,7 +148,8 @@ typedef struct s_plane
 
 	vec3 vec3[3];
 
-	t_rgb rgb;
+	double rgb[3];
+	t_material	material;
 	struct s_plane *prev;
 	struct s_plane *next;
 } t_plane;
@@ -160,7 +168,8 @@ typedef struct s_cylinder
 	// Acho que e fixe ter para calculos (vamos ter de o calcular)
 	double radius;
 	double height;
-	t_rgb rgb;
+	double rgb[3];
+	t_material	material;
 	struct s_cylinder *prev;
 	struct s_cylinder *next;
 } t_cylinder;
@@ -192,6 +201,7 @@ typedef struct s_hit_record
 	double normal[3];
 	double t;
 	bool front_face;
+	t_material *material;
 } t_hit_record;
 
 // MLX
@@ -254,7 +264,7 @@ bool parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 //	Parse_values_1.c
 bool get_coord(vec3 *coord, char *info, t_error_log *error_log);
 bool get_vector(vec3 *vector, char *info, t_error_log *error_log);
-bool get_rgb(t_rgb *rgb, char *info, t_error_log *error_log);
+bool get_rgb(double rgb[3], char *info, t_error_log *error_log);
 
 //	Parse_values_2.c
 bool get_fov(mini_int *fov, char *info, t_error_log *error_log);

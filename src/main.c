@@ -22,7 +22,7 @@ void print_elements(t_control_panel *control_panel)
 
 	printf("Ambient Light:\n");
 	printf("\t light_force = %.2f\n", control_panel->amb_light.light_force);
-	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->amb_light.rgb.r, control_panel->amb_light.rgb.g, control_panel->amb_light.rgb.b);
+	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->amb_light.rgb[0], control_panel->amb_light.rgb[1], control_panel->amb_light.rgb[2]);
 
 	printf("\nCamera:\n");
 	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.cords[0], control_panel->camera.cords[1], control_panel->camera.cords[2]);
@@ -32,7 +32,7 @@ void print_elements(t_control_panel *control_panel)
 	printf("\nLight:\n");
 	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.cords[0], control_panel->light.cords[1], control_panel->light.cords[2]);
 	printf("\t brightness = %.2f\n", control_panel->light.brightness);
-	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb.r, control_panel->light.rgb.g, control_panel->light.rgb.b);
+	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb[0], control_panel->light.rgb[1], control_panel->light.rgb[2]);
 
 	if (control_panel->sphere)
 	{
@@ -47,9 +47,9 @@ void print_elements(t_control_panel *control_panel)
 			printf("\t d = %.2f (diameter)\n", control_panel->sphere[i].d);
 			printf("\t radius = %.2f\n", control_panel->sphere[i].radius);
 			printf("\t rgb = r-> %f g-> %f b-> %f\n",
-				   control_panel->sphere[i].rgb.r,
-				   control_panel->sphere[i].rgb.g,
-				   control_panel->sphere[i].rgb.b);
+				   control_panel->sphere[i].rgb[0],
+				   control_panel->sphere[i].rgb[1],
+				   control_panel->sphere[i].rgb[2]);
 		}
 	}
 	else
@@ -65,7 +65,7 @@ void print_elements(t_control_panel *control_panel)
 			printf("\nPlane:\n");
 			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
 			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
 			temp = temp->next;
 		}
 	}
@@ -85,7 +85,7 @@ void print_elements(t_control_panel *control_panel)
 			printf("\t d = %.2f\n", temp->d);
 			printf("\t radius = %.2f\n", temp->radius);
 			printf("\t height = %.2f\n", temp->height);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb.r, temp->rgb.g, temp->rgb.b);
+			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
 			temp = temp->next;
 		}
 	}

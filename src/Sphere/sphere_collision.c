@@ -13,7 +13,7 @@
 
     COORDENADAS DO CENTRO DELA
     RAIO DA ESFERA
-    DIAMETRO DA ESFERA 
+    DIAMETRO DA ESFERA
     TALVEZ A COR
 
 */
@@ -25,7 +25,7 @@
 /// @param record 
 void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record)
 {
-    
+
 
     record->front_face = vec3_dot(ray->direction, outward_normal) < 0;
 
@@ -37,14 +37,14 @@ void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_recor
         vec3_negate(record->normal,outward_normal);
 }
 
-static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record)
+static bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record)
 {
 	double	oc[3];
 	double	discriminant;
     double  sqrtd;
     vec3_sub(oc, ray->origin, sphere->cords);            // oc = center - r->origin
     double a = vec3_dot(ray->direction, ray->direction);
-    double h = vec3_dot(ray->direction, oc); 
+    double h = vec3_dot(ray->direction, oc);
     double c = vec3_dot(oc, oc) - sphere->radius * sphere->radius;
 
     discriminant = h * h - a * c;
@@ -71,8 +71,9 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interva
     vec3_sub(outward_normal, record->position, sphere->cords);
     vec3_normalize(outward_normal, outward_normal);
     set_face_normal(ray,outward_normal,record);
+    record->material = &sphere->material;
     return true;
-} 
+}
 
 
 
@@ -93,7 +94,7 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interva
     }
 
     return hit_anything;
-} 
+}
 
 
 
@@ -110,7 +111,7 @@ bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hi
 
     hit_anything = false;
     closest_so_far = t_ray.max;
-    
+
     // Verificamos colisões com todas as esferas
     if (hit_spheres(scene, ray,interval_create(t_ray.min,closest_so_far), &temp_rec)) {
         hit_anything = true;
@@ -133,7 +134,7 @@ void random_on_hemisphere(double normal[3],double out[3])
 {
     double on_unit_sphere[3];
 
-    
+
     vec3_zero(on_unit_sphere);
     vec3_random_utit_vector(on_unit_sphere);
     if(vec3_dot(on_unit_sphere,normal) > 0.0)
