@@ -1,6 +1,6 @@
 #include "../../includes/miniRT.h"
 
-static bool have_hit_plane(const t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record)
+static bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record)
 {
     double denom;
     double p0l0[3];
@@ -36,6 +36,7 @@ static bool have_hit_plane(const t_plane *plane, const t_ray *ray, t_interval t_
 
     // Definir o lado da face
     set_face_normal(ray, outward_normal, record);
+    record->material = &plane->material;
 
     return true;
 }

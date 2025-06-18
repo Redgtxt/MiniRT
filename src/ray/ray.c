@@ -123,7 +123,8 @@ void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, doubl
     }
 
 
-    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record)) {
+    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
+    {
         t_ray scattered;
         double attenuation[3];
 

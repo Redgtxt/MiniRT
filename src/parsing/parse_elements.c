@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/05 15:29:09 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:38:08 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_erro
 bool	parse_camera(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
 	if (double_array_len(element_info) != 4)
-		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_VALUES), false);
+	return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_VALUES), false);
 	if (!get_coord(control_panel->camera.cords, element_info[1], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_COORD), false);
+	return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_COORD), false);
 	if (!get_vector(control_panel->camera.vec3, element_info[2], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_VECTOR), false);
+	return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_VECTOR), false);
 	if (!get_fov(&control_panel->camera.fov, element_info[3], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_FOV), false);
+	return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_FOV), false);
 	control_panel->data.camera_count++;
 	return (true);
 }

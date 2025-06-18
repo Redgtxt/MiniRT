@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/05 16:24:31 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:17:32 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_VECTOR), false);
 	if (!get_rgb(plane->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_RGB), false);
+	plane->material.albedo[0] = plane->rgb[0];
+	plane->material.albedo[1] = plane->rgb[1];
+	plane->material.albedo[2] = plane->rgb[2];
+	plane->material.type = LAMBERTIAN;
 	control_panel->data.plane_count++;
 	return (true);
 }

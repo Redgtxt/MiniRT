@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:01:56 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/18 12:26:17 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:27:58 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int key_hook(int keycode, t_control_panel *control_panel)
         close_window(control_panel);
     }
     config_antialising_render(keycode, control_panel);
-    change_object_brightness(keycode, control_panel);
+ //   change_object_brightness(keycode, control_panel);
     return (0);
 }
 
