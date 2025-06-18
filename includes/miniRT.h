@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/13 14:48:46 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:16:20 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ typedef struct s_plane
 	vec3 vec3[3];
 
 	double rgb[3];
+	t_material	material;
 	struct s_plane *prev;
 	struct s_plane *next;
 } t_plane;
@@ -164,6 +165,7 @@ typedef struct s_cylinder
 	double radius;
 	double height;
 	double rgb[3];
+	t_material	material;
 	struct s_cylinder *prev;
 	struct s_cylinder *next;
 } t_cylinder;
