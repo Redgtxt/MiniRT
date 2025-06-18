@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parse_values_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/27 16:00:08 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:34:35 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	get_fov(mini_int *fov, char *info, t_error_log *error_log)
 	return (true);
 }
 
-bool	get_light_force(float *light_force, char *info, t_error_log *error_log)
+bool	get_light_force(double *light_force, char *info, t_error_log *error_log)
 {
 	size_t	i;
 
@@ -45,7 +45,7 @@ bool	get_light_force(float *light_force, char *info, t_error_log *error_log)
 		}
 		i++;
 	}
-	if (!ft_atofd(info, light_force, 'f'))
+	if (!ft_atofd(info, light_force, 'd'))
 		return (false);
 	return (true);
 }

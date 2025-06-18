@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 15:21:41 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:54:31 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
 #define KEY_ESC 65307
+#define ARROW_UP_KEY 65362
+#define ARROW_DOWN_KEY 65364
 #define ARROW_LEFT_KEY 65361
 #define ARROW_RIGHT_KEY 65363
 
@@ -87,7 +89,7 @@ typedef struct s_data
 
 typedef struct s_amb_light
 {
-	float light_force;
+	double light_force;
 	double rgb[3];
 } t_amb_light;
 
@@ -212,6 +214,7 @@ void game_hooks(t_control_panel *control_panel);
 void clear_image(t_control_panel *control_panel);
 void config_antialising_render(int keycode, t_control_panel *control_panel);
 void change_object_brightness(int keycode, t_control_panel *control_panel);
+void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);
@@ -268,7 +271,7 @@ bool get_rgb(double rgb[3], char *info, t_error_log *error_log);
 
 //	Parse_values_2.c
 bool get_fov(mini_int *fov, char *info, t_error_log *error_log);
-bool get_light_force(float *light_force, char *info, t_error_log *error_log);
+bool get_light_force(double *light_force, char *info, t_error_log *error_log);
 bool get_brightness(float *brightness, char *info, t_error_log *error_log);
 bool get_d(double *d, char *info, t_error_log *error_log);
 bool get_height(double *height, char *info, t_error_log *error_log);

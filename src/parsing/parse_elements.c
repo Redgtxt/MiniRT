@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 15:38:08 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:32:15 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_erro
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_LIGHT_FORCE), false);
 	if (!get_rgb(control_panel->amb_light.rgb, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_RGB), false);
+	vec3_normalize(control_panel->amb_light.rgb, control_panel->amb_light.rgb);
 	control_panel->data.amb_light_count++;
 	return (true);
 }

@@ -42,5 +42,5 @@ void get_values_camera(t_control_panel *control_panel)
 	setup_camera_dimensions(control_panel);
 	setup_camera_viewport(control_panel);
 	control_panel->camera.max_bounces = 50;
-	control_panel->light.object_brightness = .3;//gama de um objeto, vai dar para mudar o valor nas setas
+	control_panel->light.object_brightness = 1;//gama de um objeto, vai dar para mudar o valor nas setas
 }

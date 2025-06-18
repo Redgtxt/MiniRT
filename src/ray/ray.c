@@ -107,13 +107,13 @@ bool scatter(const t_material *mat, t_hit_record *rec, double attenuation[3], t_
     return false;
 }
 
+
 void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3])
 {
     t_hit_record record;
     double unit_direction[3];
     double white[3] = {1.0, 1.0, 1.0};
     double temp[3];
-    double blue[3] = {0.5, 0.7, 1.0};
 
     // printf("rrrrr\n");
     if (0 >= depth)
@@ -132,39 +132,21 @@ void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, doubl
             double color[3];
             ray_color(control_panel, depth - 1, &scattered, color);
             vec3_multiply(color, color, attenuation); // final_color *= attenuation
-            // out_color[0] = control_panel->light.object_brightness * recurisive_color[0];
-            // out_color[1] = control_panel->light.object_brightness * recurisive_color[1];
-            // out_color[2] = control_panel->light.object_brightness * recurisive_color[2];
+            vec3_scale(color, color, control_panel->light.object_brightness); 
             vec3_copy(out_color, color);
             return;
         }
-
+        
         vec3_zero(out_color);
         return;
     }
-    // if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
-    // {
-    //     double direction[3];
-    //     double recurisive_color[3];
-    //     t_ray next_ray;
-
-    //     random_on_hemisphere(record.normal, direction);
-    //     create_ray(&next_ray, record.position, direction);
-    //     ray_color(control_panel, depth -1 , &next_ray, recurisive_color);
-
-    //     // Map normal to color
-    //     out_color[0] = 0.5 * recurisive_color[0];
-    //     out_color[1] = 0.5 * recurisive_color[1];
-    //     out_color[2] = 0.5 * recurisive_color[2];
-    //     return;
-    // }
 
     // Background - gradient from white to blue
     vec3_normalize(unit_direction, ray->direction);
     double a = 0.5 * (unit_direction[1] + 1.0);
 
     // Calculate (1.0-a)*white + a*blue
-    vec3_scale(out_color, white, 1.0 - a);
-    vec3_scale(temp, blue, a);
+    vec3_scale(out_color, white, control_panel->amb_light.light_force - a);
+    vec3_scale(temp, control_panel->amb_light.rgb, a);
     vec3_add(out_color, out_color, temp);
 }

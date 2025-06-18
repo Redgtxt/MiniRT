@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 16:17:32 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:55:42 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 	//	RADIUS
 	if (!get_rgb(sphere->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
-	sphere->material.albedo[0] = sphere->rgb[0];
-	sphere->material.albedo[1] = sphere->rgb[1];
-	sphere->material.albedo[2] = sphere->rgb[2];
+	vec3_normalize(sphere->material.albedo, sphere->rgb);
 	sphere->material.type = LAMBERTIAN;
 	control_panel->data.sphere_count++;
 	return (true);
@@ -55,9 +53,7 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_VECTOR), false);
 	if (!get_rgb(plane->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_RGB), false);
-	plane->material.albedo[0] = plane->rgb[0];
-	plane->material.albedo[1] = plane->rgb[1];
-	plane->material.albedo[2] = plane->rgb[2];
+	vec3_normalize(plane->material.albedo, plane->rgb);
 	plane->material.type = LAMBERTIAN;
 	control_panel->data.plane_count++;
 	return (true);
