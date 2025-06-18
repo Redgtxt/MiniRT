@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/13 15:11:12 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:44:21 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ bool	parsing(t_control_panel *control_panel, char *file_name)
 		return (close(fd), false);
 	close(fd);
 	linked_list_to_sphere_array(&control_panel->sphere, control_panel->data.sphere_count); // create function to convert all objects
+	linked_list_to_plane_array(&control_panel->plane,control_panel->data.plane_count);
 	return (true);
 }
 

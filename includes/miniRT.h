@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/16 18:19:05 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:11:31 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,9 @@ void    my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color
 int close_window(t_control_panel *control_panel);
 int	key_hook(int keycode, t_control_panel *control_panel);
 void game_hooks(t_control_panel *control_panel);
+void clear_image(t_control_panel *control_panel);
+void config_antialising_render(int keycode, t_control_panel *control_panel);
+void change_object_brightness(int keycode, t_control_panel *control_panel);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);
@@ -219,12 +222,14 @@ int write_color(double r, double g, double b);
 
 /*	Init	Sphere array	*/
 bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
+bool linked_list_to_plane_array(t_plane **plane_list, int size_array);
 
 /*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 void random_on_hemisphere(double normal[3],double out[3]);
-
+void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record);
+ bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 //Scene
 void render_scene(t_control_panel *control_panel);
 //antialiasing

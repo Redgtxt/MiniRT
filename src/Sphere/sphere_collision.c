@@ -23,7 +23,7 @@
 /// @param ray 
 /// @param  
 /// @param record 
-static void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record)
+void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record)
 {
     
 
@@ -96,6 +96,12 @@ static bool    have_hit_sphere(const t_sphere *sphere,const t_ray *ray,t_interva
 } 
 
 
+
+// bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record)
+// {
+
+// }
+
 bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hit_record *record)
 {
     t_hit_record temp_rec;
@@ -107,6 +113,12 @@ bool hit_world(t_control_panel *scene, const t_ray *ray,  t_interval t_ray, t_hi
     
     // Verificamos colisões com todas as esferas
     if (hit_spheres(scene, ray,interval_create(t_ray.min,closest_so_far), &temp_rec)) {
+        hit_anything = true;
+        closest_so_far = temp_rec.t;
+        *record = temp_rec;
+    }
+
+        if (hit_planes(scene, ray,interval_create(t_ray.min,closest_so_far), &temp_rec)) {
         hit_anything = true;
         closest_so_far = temp_rec.t;
         *record = temp_rec;

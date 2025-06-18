@@ -36,8 +36,8 @@ MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
 	    $(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c errors.c draw_color.c) \
-	    $(addprefix Mlx/, hooks.c)  \
-	    $(addprefix Sphere/,init_sphere.c sphere_collision.c)  \
+	    $(addprefix Mlx/, hooks.c mlx_utils.c mlx_antialising.c mlx_brightness.c)  \
+	    $(addprefix Sphere/,init_sphere.c sphere_collision.c plane_collisions.c)  \
 	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \
 	    $(addprefix interval/, interval.c)\
 	    $(addprefix ray/, ray.c ray_utils.c)\
