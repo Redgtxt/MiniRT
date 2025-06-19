@@ -225,3 +225,13 @@ bool vec3_near_zero(double out[3])
     double s = 1e-8;
     return fabs(out[0]) < s && fabs(out[1]) < s && fabs(out[2]) < s;
 }
+/// @brief Calcular o produto vetorial (cross product) de dois vetores
+/// @param out vetor de saída para armazenar o resultado
+/// @param a primeiro vetor
+/// @param b segundo vetor
+void vec3_cross(double out[3], const double a[3], const double b[3])
+{
+    out[0] = a[1] * b[2] - a[2] * b[1];
+    out[1] = a[2] * b[0] - a[0] * b[2];
+    out[2] = a[0] * b[1] - a[1] * b[0];
+}

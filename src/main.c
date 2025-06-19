@@ -12,87 +12,102 @@
 
 #include "../includes/miniRT.h"
 
+
 void print_elements(t_control_panel *control_panel)
 {
-	if (!control_panel)
+    if (!control_panel)
+    {
+        fprintf(stderr, "Error: control_panel is NULL\n");
+        return;
+    }
+
+    printf("Ambient Light:\n");
+    printf("\t light_force = %.2f\n", control_panel->amb_light.light_force);
+    printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->amb_light.rgb[0], control_panel->amb_light.rgb[1], control_panel->amb_light.rgb[2]);
+
+    printf("\nCamera:\n");
+    printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.cords[0], control_panel->camera.cords[1], control_panel->camera.cords[2]);
+    printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.vec3[0], control_panel->camera.vec3[1], control_panel->camera.vec3[2]);
+    printf("\t fov = %d\n", control_panel->camera.fov);
+
+    printf("\nLight:\n");
+    printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.cords[0], control_panel->light.cords[1], control_panel->light.cords[2]);
+    printf("\t brightness = %.2f\n", control_panel->light.brightness);
+    printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb[0], control_panel->light.rgb[1], control_panel->light.rgb[2]);
+
+    // Verificar se há esferas e se data.sphere_count é válido
+    if (control_panel->sphere && control_panel->data.sphere_count > 0)
+    {
+        printf("\nSPHERES AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.sphere_count; i++)
+        {
+            printf("\nSphere %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
+                   control_panel->sphere[i].cords[0],
+                   control_panel->sphere[i].cords[1],
+                   control_panel->sphere[i].cords[2]);
+            printf("\t d = %.2f (diameter)\n", control_panel->sphere[i].d);
+            printf("\t radius = %.2f\n", control_panel->sphere[i].radius);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n",
+                   control_panel->sphere[i].rgb[0],
+                   control_panel->sphere[i].rgb[1],
+                   control_panel->sphere[i].rgb[2]);
+        }
+    }
+    else
+    {
+        printf("\nNo spheres found or sphere array is NULL\n");
+    }
+
+    // Verificar se há planos
+	if (control_panel->plane && control_panel->data.plane_count > 0)
 	{
-		fprintf(stderr, "Error: control_panel is NULL\n");
-		return;
-	}
-
-	printf("Ambient Light:\n");
-	printf("\t light_force = %.2f\n", control_panel->amb_light.light_force);
-	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->amb_light.rgb[0], control_panel->amb_light.rgb[1], control_panel->amb_light.rgb[2]);
-
-	printf("\nCamera:\n");
-	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.cords[0], control_panel->camera.cords[1], control_panel->camera.cords[2]);
-	printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.vec3[0], control_panel->camera.vec3[1], control_panel->camera.vec3[2]);
-	printf("\t fov = %d\n", control_panel->camera.fov);
-
-	printf("\nLight:\n");
-	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.cords[0], control_panel->light.cords[1], control_panel->light.cords[2]);
-	printf("\t brightness = %.2f\n", control_panel->light.brightness);
-	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb[0], control_panel->light.rgb[1], control_panel->light.rgb[2]);
-
-	if (control_panel->sphere)
-	{
-		printf("\nSPHERES AFTER ARRAY CONVERSION:\n");
-		for (size_t i = 0; i < control_panel->data.sphere_count; i++)
+		printf("\nPLANES AFTER ARRAY CONVERSION:\n");
+		for (size_t i = 0; i < control_panel->data.plane_count; i++)
 		{
-			printf("\nSphere %zu:\n", i + 1);
+			printf("\nPlane %zu:\n", i + 1);
 			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
-				   control_panel->sphere[i].cords[0],
-				   control_panel->sphere[i].cords[1],
-				   control_panel->sphere[i].cords[2]);
-			printf("\t d = %.2f (diameter)\n", control_panel->sphere[i].d);
-			printf("\t radius = %.2f\n", control_panel->sphere[i].radius);
+				control_panel->plane[i].cords[0],
+				control_panel->plane[i].cords[1],
+				control_panel->plane[i].cords[2]);
+			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n",
+				control_panel->plane[i].vec3[0],
+				control_panel->plane[i].vec3[1],
+				control_panel->plane[i].vec3[2]);
 			printf("\t rgb = r-> %f g-> %f b-> %f\n",
-				   control_panel->sphere[i].rgb[0],
-				   control_panel->sphere[i].rgb[1],
-				   control_panel->sphere[i].rgb[2]);
+				control_panel->plane[i].rgb[0],
+				control_panel->plane[i].rgb[1],
+				control_panel->plane[i].rgb[2]);
 		}
 	}
-	else
-	{
-		fprintf(stderr, "Warning: sphere is NULL\n");
-	}
-
-	if (control_panel->plane)
-	{
-		t_plane *temp = control_panel->plane;
-		while (temp)
-		{
-			printf("\nPlane:\n");
-			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
-			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
-			temp = temp->next;
-		}
-	}
-	else
-	{
-		fprintf(stderr, "Warning: plane is NULL\n");
-	}
-
-	if (control_panel->cylinder)
-	{
-		t_cylinder *temp = control_panel->cylinder;
-		while (temp)
-		{
-			printf("\nCylinder:\n");
-			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
-			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
-			printf("\t d = %.2f\n", temp->d);
-			printf("\t radius = %.2f\n", temp->radius);
-			printf("\t height = %.2f\n", temp->height);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
-			temp = temp->next;
-		}
-	}
-	else
-	{
-		fprintf(stderr, "Warning: cylinder is NULL\n");
-	}
+    else
+    {
+        printf("\nNo planes found or plane list is NULL\n");
+    }
+/*
+    // Verificar se há cilindros
+    if (control_panel->cylinder && control_panel->data.cylinder_count > 0)
+    {
+        t_cylinder *temp = control_panel->cylinder;
+        int count = 0;
+        while (temp && count < (int)control_panel->data.cylinder_count)
+        {
+            printf("\nCylinder %d:\n", count + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
+            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
+            printf("\t d = %.2f\n", temp->d);
+            printf("\t radius = %.2f\n", temp->radius);
+            printf("\t height = %.2f\n", temp->height);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
+            temp = temp->next;
+            count++;
+        }
+    }
+    else
+    {
+        printf("\nNo cylinders found or cylinder list is NULL\n");
+    }
+		*/
 }
 
 

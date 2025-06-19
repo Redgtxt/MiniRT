@@ -20,5 +20,5 @@ void vec3_random(double out[3]);
 void vec3_random_range(double out[3],double min,double max);
 void vec3_random_utit_vector(double good_point[3]);
 bool vec3_near_zero(double out[3]);
-
+void vec3_cross(double out[3], const double a[3], const double b[3]);
 #endif

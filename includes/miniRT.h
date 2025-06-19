@@ -104,12 +104,18 @@ typedef struct s_camera
 	int image_height; // Rendered image height
 	int image_width;
 	double aspect_ratio;
-	vec3 center;			 // camera center
 	double pixel00_loc[3];	 // Location of pixel 0, 0
 	double pixel_delta_u[3]; // Offset to pixel to the right
 	double pixel_delta_v[3]; // Offset to pixel below
 	int samples_per_pixel;	 // Count of random samples for each pixel
 	double pixel_samples_scale;
+
+	double	lookat[3];
+	double	vup[3];	
+
+	double	u[3];
+	double	v[3];
+	double	W[3];
 
 	double	max_bounces;// Maximum number of ray bounces into scene
 	
