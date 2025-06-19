@@ -58,13 +58,37 @@ typedef double vec3;
 typedef enum e_material_type
 {
 	LAMBERTIAN,
+	METAL
 }			t_material_type;
+
+typedef struct s_ray
+{
+	vec3 origin[3];
+
+	double direction[3];
+
+} t_ray;
 
 typedef struct s_material
 {
 	t_material_type type;
 	double			albedo[3];
 }			t_material;
+
+typedef struct s_data_scatter
+{
+	t_ray	scattered;
+    double	attenuation[3];
+}				t_data_scatter;
+
+typedef struct s_hit_record
+{
+	double position[3];
+	double normal[3];
+	double t;
+	bool front_face;
+	t_material *material;
+} t_hit_record;
 
 typedef struct s_mlx
 {
@@ -112,7 +136,7 @@ typedef struct s_camera
 	double pixel_samples_scale;
 
 	double	max_bounces;// Maximum number of ray bounces into scene
-	
+
 	bool antialiasing;
 } t_camera;
 
@@ -189,23 +213,6 @@ typedef struct s_control_panel
 	t_mlx	*mlx;
 } t_control_panel;
 
-typedef struct s_ray
-{
-	vec3 origin[3];
-
-	double direction[3];
-
-} t_ray;
-
-typedef struct s_hit_record
-{
-	double position[3];
-	double normal[3];
-	double t;
-	bool front_face;
-	t_material *material;
-} t_hit_record;
-
 // MLX
 void    my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
 int close_window(t_control_panel *control_panel);
@@ -268,6 +275,7 @@ bool parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 bool get_coord(vec3 *coord, char *info, t_error_log *error_log);
 bool get_vector(vec3 *vector, char *info, t_error_log *error_log);
 bool get_rgb(double rgb[3], char *info, t_error_log *error_log);
+bool	get_material(t_material *object_material, double rgb[3], char *info, t_error_log *error_log);
 
 //	Parse_values_2.c
 bool get_fov(mini_int *fov, char *info, t_error_log *error_log);

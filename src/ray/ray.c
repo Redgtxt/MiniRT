@@ -76,7 +76,8 @@ void ray_direction(const t_ray *ray, double out[3])
     vec3_copy(out, ray->direction);
 }
 
-bool lambertian_scatter(t_hit_record *rec, double attenuation[3], t_ray *scattered) {
+//	LAMBERTIAN MATERIAL
+bool lambertian_scatter(t_hit_record *rec, t_data_scatter *data_scatter) {
     double scatter_direction[3];
 
     // Generate a random direction in the same hemisphere as the surface normal
@@ -88,58 +89,55 @@ bool lambertian_scatter(t_hit_record *rec, double attenuation[3], t_ray *scatter
     }
 
     // Create the scattered ray: origin at hit point, direction = scatter direction
-    create_ray(scattered, rec->position, scatter_direction);
+    create_ray(&data_scatter->scattered, rec->position, scatter_direction);
 
     // Attenuation is simply the material's albedo (color)
-    vec3_copy(attenuation, rec->material->albedo);
+    vec3_copy(data_scatter->attenuation, rec->material->albedo);
 
     return true;
 }
+//	-------------------	//
 
-bool scatter(const t_material *mat, t_hit_record *rec, double attenuation[3], t_ray *scattered)
+//	METAL MATERIAL
+void reflect(const double v[3], const double n[3], double out[3])
+{
+    double dot_vn = vec3_dot(v, n);        // dot(v, n)
+    double scaled_normal[3];
+
+    vec3_scale(scaled_normal, n, 2.0 * dot_vn); // 2 * dot(v, n) * n
+    vec3_sub(out, v, scaled_normal);           // out = v - 2 * dot(v,n) * n
+}
+
+bool metal_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)
+{
+    double reflected[3];
+    reflect(r_in->direction, rec->normal, reflected);
+
+    create_ray(&data_scatter->scattered, rec->position, reflected);
+    vec3_copy(data_scatter->attenuation, rec->material->albedo);
+
+    // Only reflect if the ray is in the same hemisphere as the surface normal
+    return (vec3_dot(data_scatter->scattered.direction, rec->normal) > 0);
+}
+//	------------------	//
+
+bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)
 {
     if (mat->type == LAMBERTIAN)
-        return lambertian_scatter(rec, attenuation, scattered);
-    // else if (mat->type == METAL)
-    //     return metal_scatter(mat, r_in, rec, attenuation, scattered);
+        return lambertian_scatter(rec, data_scatter);
+    else if (mat->type == METAL)
+        return metal_scatter(r_in, rec, data_scatter);
     // else if (mat->type == DIELECTRIC)
     //     return dielectric_scatter(mat, r_in, rec, attenuation, scattered);
     return false;
 }
 
 
-void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3])
+void	set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_color[3])
 {
-    t_hit_record record;
-    double unit_direction[3];
-    double white[3] = {1.0, 1.0, 1.0};
+	double unit_direction[3];
+	double white[3] = {1.0, 1.0, 1.0};
     double temp[3];
-
-    // printf("rrrrr\n");
-    if (0 >= depth)
-    {
-        vec3_zero(out_color);
-        return;
-    }
-
-
-    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
-    {
-        t_ray scattered;
-        double attenuation[3];
-
-        if (scatter(record.material, &record, attenuation, &scattered)) {
-            double color[3];
-            ray_color(control_panel, depth - 1, &scattered, color);
-            vec3_multiply(color, color, attenuation); // final_color *= attenuation
-            vec3_scale(color, color, control_panel->light.object_brightness); 
-            vec3_copy(out_color, color);
-            return;
-        }
-        
-        vec3_zero(out_color);
-        return;
-    }
 
     // Background - gradient from white to blue
     vec3_normalize(unit_direction, ray->direction);
@@ -149,4 +147,31 @@ void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, doubl
     vec3_scale(out_color, white, control_panel->amb_light.light_force - a);
     vec3_scale(temp, control_panel->amb_light.rgb, a);
     vec3_add(out_color, out_color, temp);
+}
+
+void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3])
+{
+    t_hit_record record;
+
+    if (0 >= depth)
+    {
+        vec3_zero(out_color);
+        return;
+    }
+    if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
+    {
+   		t_data_scatter	data_scatter;
+
+        if (scatter(record.material, ray, &record, &data_scatter)) {
+            double color[3];
+            ray_color(control_panel, depth - 1, &data_scatter.scattered, color);
+            vec3_multiply(color, color, data_scatter.attenuation); // final_color *= attenuation
+            vec3_scale(color, color, control_panel->light.object_brightness);
+            vec3_copy(out_color, color);
+            return;
+        }
+        vec3_zero(out_color);
+        return;
+    }
+    set_amb_light(control_panel,ray, out_color);
 }
