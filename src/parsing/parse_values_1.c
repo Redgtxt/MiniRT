@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include <unistd.h>
 
 bool	get_coord(vec3 *coord, char *info, t_error_log *error_log)
 {
@@ -115,3 +116,19 @@ bool	get_rgb(double rgb[3], char *info, t_error_log *error_log)
 	return (true);
 }
 //	---	//
+
+bool	get_material(t_material *object_material, double rgb[3], char *info, t_error_log *error_log)
+{
+	size_t	info_len;
+
+	(void)error_log;
+	info_len = ft_strlen(info);
+	vec3_normalize(object_material->albedo, rgb);
+	if (!info)
+		object_material->type = LAMBERTIAN;
+	else if (info_len == ft_strlen("METAL") && !ft_strncmp(info, "METAL", info_len))
+		object_material->type = METAL;
+	else
+		return (false);
+	return (true);
+}

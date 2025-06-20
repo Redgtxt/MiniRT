@@ -16,8 +16,10 @@
 bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
 	t_sphere	*sphere;
+	size_t		len;
 
-	if (double_array_len(element_info) != 4)
+	len = double_array_len(element_info);
+	if (len != 4 && len != 5)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_NBR_VALUES), false);
 	sphere = ft_calloc(1, sizeof(t_sphere));
 	if (!sphere)
@@ -30,8 +32,8 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 	//	RADIUS
 	if (!get_rgb(sphere->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
-	vec3_normalize(sphere->material.albedo, sphere->rgb);
-	sphere->material.type = LAMBERTIAN;
+	if (!get_material(&sphere->material, sphere->rgb, element_info[4], error_log))
+		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, 0), false);
 	control_panel->data.sphere_count++;
 	return (true);
 }
@@ -40,8 +42,10 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
 	t_plane	*plane;
+	size_t	len;
 
-	if (double_array_len(element_info) != 4)
+	len = double_array_len(element_info);
+	if (len != 4 && len != 5)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_NBR_VALUES), false);
 	plane = ft_calloc(1, sizeof(t_plane));
 	if (!plane)
@@ -53,8 +57,8 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_VECTOR), false);
 	if (!get_rgb(plane->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_RGB), false);
-	vec3_normalize(plane->material.albedo, plane->rgb);
-	plane->material.type = LAMBERTIAN;
+	if (!get_material(&plane->material, plane->rgb, element_info[4], error_log))
+		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, 0), false);
 	control_panel->data.plane_count++;
 	return (true);
 }
@@ -63,8 +67,10 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
 	t_cylinder	*cylinder;
+	size_t	len;
 
-	if (double_array_len(element_info) != 6)
+	len = double_array_len(element_info);
+	if (len != 6 && len != 7)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_NBR_VALUES), false);
 	cylinder = ft_calloc(1, sizeof(t_cylinder));
 	if (!cylinder)
@@ -81,6 +87,8 @@ bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
 	if (!get_rgb(cylinder->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
+	if (!get_material(&cylinder->material, cylinder->rgb, element_info[4], error_log))
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, 0), false);
 	control_panel->data.cylinder_count++;
 	return (true);
 }
