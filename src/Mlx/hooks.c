@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:01:56 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/18 18:55:15 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:30:24 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 int key_hook(int keycode, t_control_panel *control_panel)
 {
-    //printf("Tecla pressionada: %d (%c)\n", keycode, keycode);
     if (keycode == KEY_ESC)
     {
         close_window(control_panel);

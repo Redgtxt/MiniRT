@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 18:54:31 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:50:32 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 #define BHGRN "\e[1;92m"
 #define BHYEL "\e[1;93m"
 #define HMAG "\e[1;95m"
+// Cores para a interface
+#define COLOR_WHITE     0xFFFFFF
+#define COLOR_BLACK     0x000000
+#define COLOR_GRAY      0x808080
+#define COLOR_DARK_GRAY 0x404040
+#define COLOR_BLUE      0x0080FF
+#define COLOR_RED       0xFF0000
 
 
 #define PI 3.1415926535897932385
@@ -90,6 +97,36 @@ typedef struct s_hit_record
 	t_material *material;
 } t_hit_record;
 
+// Estrutura para o slider
+typedef struct s_slider
+{
+    int x;          // posição x do slider
+    int y;          // posição y do slider
+    int width;      // largura do slider
+    int height;     // altura do slider
+    double min_val; // valor mínimo
+    double max_val; // valor máximo
+    double *value;  // ponteiro para o valor atual
+    int dragging;   // flag se está sendo arrastado
+    char *label;    // texto do slider
+} t_slider;
+
+// Estrutura para a janela de controle
+typedef struct s_control_window
+{
+    void *mlx;
+    void *win;
+    void *img;
+    char *addr;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
+    int width;
+    int height;
+    t_slider *sliders;
+    int slider_count;
+} t_control_window;
+
 typedef struct s_mlx
 {
 	void *mlx;
@@ -99,6 +136,7 @@ typedef struct s_mlx
 	int bits_per_pixel;
 	int line_length;
 	int endian;
+	t_control_window *control_win;//Window 
 } t_mlx;
 
 typedef struct s_data
@@ -228,6 +266,9 @@ void clear_image(t_control_panel *control_panel);
 void config_antialising_render(int keycode, t_control_panel *control_panel);
 void change_object_brightness(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
+
+//Window control
+void control_mlx_pixel_put(t_control_window *control_win, int x, int y, int color);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:52:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/18 12:26:23 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:49:07 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color)
         dst = mlx_data->addr + (y * mlx_data->line_length + x * (mlx_data->bits_per_pixel / 8));
         *(unsigned int *)dst = color;
     }
+}
+
+void control_mlx_pixel_put(t_control_window *control_win, int x, int y, int color)
+{
+    char *dst;
+    
+    if (x < 0 || x >= control_win->width || y < 0 || y >= control_win->height)
+        return;
+    dst = control_win->addr + (y * control_win->line_length + x * (control_win->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
 }
 
 int close_window(t_control_panel *control_panel)
