@@ -40,6 +40,7 @@ SRC_FILES = main.c \
 	    $(addprefix Sphere/,init_sphere.c sphere_collision.c plane_collisions.c)  \
 	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \
 	    $(addprefix interval/, interval.c)\
+	    $(addprefix light/, light.c)\
 	    $(addprefix ray/, ray.c ray_utils.c)\
 	    $(addprefix effects/, antialiasing.c)\
 	    $(addprefix camera/, camera.c)
@@ -55,11 +56,12 @@ all: $(NAME)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/utils
-	@mkdir -p $(OBJ_DIR)/Mlx 
-	@mkdir -p $(OBJ_DIR)/Sphere 
+	@mkdir -p $(OBJ_DIR)/Mlx
+	@mkdir -p $(OBJ_DIR)/Sphere
 	@mkdir -p $(OBJ_DIR)/parsing
 	@mkdir -p $(OBJ_DIR)/interval
 	@mkdir -p $(OBJ_DIR)/ray
+	@mkdir -p $(OBJ_DIR)/light
 	@mkdir -p $(OBJ_DIR)/effects
 	@mkdir -p $(OBJ_DIR)/camera
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
@@ -84,10 +86,10 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo "$(BLUE)Running checks...$(RESET)"
 	@if [ -f $(NAME) ]; then echo "$(GREEN)$(NAME) created successfully! 🎉$(RESET)"; fi
 
-rt:	
+rt:
 	./miniRT elements_input.rt
 
-val: re 
+val: re
 	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
 	@valgrind $(VFLAGS) ./miniRT elements_input.rt
 

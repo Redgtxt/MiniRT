@@ -51,7 +51,7 @@ bool	get_light_force(double *light_force, char *info, t_error_log *error_log)
 }
 
 //	NOTE: Melhorar precisao > 1.0
-bool	get_brightness(float *brightness, char *info, t_error_log *error_log)
+bool	get_brightness(double *brightness, char *info, t_error_log *error_log)
 {
 	size_t	i;
 
@@ -65,7 +65,7 @@ bool	get_brightness(float *brightness, char *info, t_error_log *error_log)
 		}
 		i++;
 	}
-	if (!ft_atofd(info, brightness, 'f'))
+	if (!ft_atofd(info, brightness, 'd'))
 		return (false);
 	if (*brightness > 1.0) //	Melhorar precisao
 		return (false);

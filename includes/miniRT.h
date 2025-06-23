@@ -36,6 +36,7 @@
 #define BHYEL "\e[1;93m"
 #define HMAG "\e[1;95m"
 
+#define LIGHT_INT_SCL 2.5
 
 #define PI 3.1415926535897932385
 #define D_INFINITY ((double)INFINITY)
@@ -73,6 +74,8 @@ typedef struct s_material
 {
 	t_material_type type;
 	double			albedo[3];
+ 	double specular[3];       // Specular color
+    double shininess;         // Specular exponent
 }			t_material;
 
 typedef struct s_data_scatter
@@ -135,7 +138,7 @@ typedef struct s_camera
 	double pixel_samples_scale;
 
 	double	lookat[3];
-	double	vup[3];	
+	double	vup[3];
 
 	double	u[3];
 	double	v[3];
@@ -149,7 +152,7 @@ typedef struct s_camera
 typedef struct s_light
 {
 	vec3 cords[3];
-	float brightness;
+	double brightness;
 	double	object_brightness;
 	double rgb[3];
 } t_light;
@@ -229,6 +232,11 @@ void config_antialising_render(int keycode, t_control_panel *control_panel);
 void change_object_brightness(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 
+/*Light*/
+bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
+void diffuse_comp(t_control_panel *panel, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
+
+
 /*Ray functions*/
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
@@ -286,7 +294,7 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 //	Parse_values_2.c
 bool get_fov(mini_int *fov, char *info, t_error_log *error_log);
 bool get_light_force(double *light_force, char *info, t_error_log *error_log);
-bool get_brightness(float *brightness, char *info, t_error_log *error_log);
+bool get_brightness(double *brightness, char *info, t_error_log *error_log);
 bool get_d(double *d, char *info, t_error_log *error_log);
 bool get_height(double *height, char *info, t_error_log *error_log);
 

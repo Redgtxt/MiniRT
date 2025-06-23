@@ -112,6 +112,7 @@ bool	get_rgb(double rgb[3], char *info, t_error_log *error_log)
 	if (!ft_atofd(array[0], &rgb[0], 'd') || !ft_atofd(array[1], &rgb[1], 'd')
 			|| !ft_atofd(array[2], &rgb[2], 'd'))
 		return (ft_free_double_array(array), false);
+	vec3_normalize(rgb, rgb);
 	ft_free_double_array(array);
 	return (true);
 }
@@ -123,11 +124,20 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 
 	(void)error_log;
 	info_len = ft_strlen(info);
-	vec3_normalize(object_material->albedo, rgb);
+	vec3_copy(object_material->albedo, rgb);
 	if (!info)
+	{
 		object_material->type = LAMBERTIAN;
+		vec3_set(object_material->specular, 0.5, 0.5, 0.5);
+		object_material->shininess = 32.0;
+	}
 	else if (info_len == ft_strlen("METAL") && !ft_strncmp(info, "METAL", info_len))
+	{
 		object_material->type = METAL;
+		vec3_set(object_material->specular, 1.0, 1.0, 1.0);
+		object_material->shininess = 200.0;
+
+	}
 	else
 		return (false);
 	return (true);
