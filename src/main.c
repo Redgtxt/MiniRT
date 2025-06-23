@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 15:40:15 by randrade         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:10:14 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,42 +196,27 @@ t_control_panel *inicialize(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	t_mlx mlx_data;
-	t_control_panel *control_panel;
+	t_control_panel *cp;
 
-	control_panel = inicialize(argc, argv);
-	if (!control_panel)
+	cp = inicialize(argc, argv);
+	if (!cp)
 		return 1;
 
-	print_elements(control_panel);
+	print_elements(cp);
 	ft_printf("MiniRT Starting...\n");
 	srand(time(NULL));
-	mlx_data.mlx = mlx_init();
-	if (!mlx_data.mlx)
-	{
-		ft_printf("Error: Could not initialize MLX\n");
-		return (1);
-	}
+	
+	if(init_values_main_win(&mlx_data,cp))
+		return 1;
 
-	mlx_data.win = mlx_new_window(mlx_data.mlx, control_panel->camera.image_width, control_panel->camera.image_height, "miniRT");
-	if (!mlx_data.win)
-	{
-		ft_printf("Error: Could not create window\n");
-		return (1);
-	}
-
-	mlx_data.img = mlx_new_image(mlx_data.mlx, control_panel->camera.image_width, control_panel->camera.image_height);
-	mlx_data.addr = mlx_get_data_addr(mlx_data.img, &mlx_data.bits_per_pixel,
-									  &mlx_data.line_length, &mlx_data.endian);
-
-	// Armazenar a estrutura mlx_data dentro de control_panel para acesso nas callbacks
-	control_panel->mlx = &mlx_data;
-
+	if(create_control_window(cp))
+		return 1;
 	// Renderizar a cena inicial
-	render_scene(control_panel);
+	render_scene(cp);
 
 	// Configurar hooks
-	mlx_hook(mlx_data.win, 17, 0, close_window, control_panel);
-	mlx_key_hook(mlx_data.win, key_hook, control_panel);
+	mlx_hook(mlx_data.win, 17, 0, close_window, cp);
+	mlx_key_hook(mlx_data.win, key_hook, cp);
 
 	mlx_loop(mlx_data.mlx);
 	return (0);

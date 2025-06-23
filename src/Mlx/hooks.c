@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:01:56 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/20 17:30:24 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:48:45 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 int key_hook(int keycode, t_control_panel *control_panel)
 {
+    printf("Keycode (%d)\n",keycode);
     if (keycode == KEY_ESC)
     {
         close_window(control_panel);

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/20 17:50:32 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:57:22 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,35 +97,27 @@ typedef struct s_hit_record
 	t_material *material;
 } t_hit_record;
 
-// Estrutura para o slider
-typedef struct s_slider
+typedef struct s_button
 {
-    int x;          // posição x do slider
-    int y;          // posição y do slider
-    int width;      // largura do slider
-    int height;     // altura do slider
-    double min_val; // valor mínimo
-    double max_val; // valor máximo
-    double *value;  // ponteiro para o valor atual
-    int dragging;   // flag se está sendo arrastado
-    char *label;    // texto do slider
-} t_slider;
+	int x;
+	int y;
+	int width;
+	int height;
+	int color;
+}t_button;
 
-// Estrutura para a janela de controle
-typedef struct s_control_window
+
+typedef struct s_win_config
 {
-    void *mlx;
-    void *win;
-    void *img;
-    char *addr;
-    int bits_per_pixel;
-    int line_length;
-    int endian;
-    int width;
-    int height;
-    t_slider *sliders;
-    int slider_count;
-} t_control_window;
+	void *mlx;
+	void *win;
+	void *img;
+	char *addr;
+	int bits_per_pixel;
+	int line_length;
+	int endian;
+	t_button button;
+} t_win_config;
 
 typedef struct s_mlx
 {
@@ -136,7 +128,6 @@ typedef struct s_mlx
 	int bits_per_pixel;
 	int line_length;
 	int endian;
-	t_control_window *control_win;//Window 
 } t_mlx;
 
 typedef struct s_data
@@ -255,6 +246,7 @@ typedef struct s_control_panel
 	t_data data;
 	t_error_log error_log;
 	t_mlx	*mlx;
+	t_win_config	*config_win;
 } t_control_panel;
 
 // MLX
@@ -266,9 +258,13 @@ void clear_image(t_control_panel *control_panel);
 void config_antialising_render(int keycode, t_control_panel *control_panel);
 void change_object_brightness(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
-
+int init_values_main_win(t_mlx *mlx_data,t_control_panel *control_panel);
 //Window control
-void control_mlx_pixel_put(t_control_window *control_win, int x, int y, int color);
+int	create_control_window(t_control_panel  *cp);
+void draw_button(t_control_panel *cp,t_button button);
+
+//mouse
+int mouse_handler(int mousecode, int x, int y, void *param);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);

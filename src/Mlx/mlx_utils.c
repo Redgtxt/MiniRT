@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:52:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/20 17:49:07 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:13:35 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,20 @@ void my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color)
     }
 }
 
-void control_mlx_pixel_put(t_control_window *control_win, int x, int y, int color)
-{
-    char *dst;
-    
-    if (x < 0 || x >= control_win->width || y < 0 || y >= control_win->height)
-        return;
-    dst = control_win->addr + (y * control_win->line_length + x * (control_win->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
-}
+
 
 int close_window(t_control_panel *control_panel)
 {
     t_mlx *mlx_data;
+
+    if (control_panel->config_win)
+    {
+        if (control_panel->config_win->img)
+            mlx_destroy_image(control_panel->config_win->mlx, control_panel->config_win->img);
+        if (control_panel->config_win->win)
+            mlx_destroy_window(control_panel->config_win->mlx, control_panel->config_win->win);
+        free(control_panel->config_win);
+    }
 
     mlx_data = control_panel->mlx;
     if (mlx_data->img)
