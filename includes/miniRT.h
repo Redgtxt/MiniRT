@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/23 16:57:22 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:03:08 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@
 #define D_INFINITY ((double)INFINITY)
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
+#define W_WIDTH 400 //window de controlo
+#define W_HEIGHT 400 //window de controlo
 #define KEY_ESC 65307
 #define ARROW_UP_KEY 65362
 #define ARROW_DOWN_KEY 65364
@@ -106,6 +108,22 @@ typedef struct s_button
 	int color;
 }t_button;
 
+typedef struct s_slider
+{
+	int x;              // posição x do slider
+    int y;              // posição y do slider
+    int width;          // largura total do slider
+    int height;         // altura da barra do slider
+    int handle_width;   // largura do "handle" (botão deslizante)
+    int handle_height;  // altura do handle
+    float min_value;    // valor mínimo
+    float max_value;    // valor máximo
+    float current_value; // valor atual
+    int color_bar;      // cor da barra
+    int color_handle;   // cor do handle
+    int is_dragging;    // flag para saber se está sendo arrastado
+} t_slider;
+
 
 typedef struct s_win_config
 {
@@ -117,6 +135,7 @@ typedef struct s_win_config
 	int line_length;
 	int endian;
 	t_button button;
+	t_slider slider;
 } t_win_config;
 
 typedef struct s_mlx
@@ -259,13 +278,21 @@ void config_antialising_render(int keycode, t_control_panel *control_panel);
 void change_object_brightness(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 int init_values_main_win(t_mlx *mlx_data,t_control_panel *control_panel);
+void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);
 //Window control
 int	create_control_window(t_control_panel  *cp);
+//button
 void draw_button(t_control_panel *cp,t_button button);
 
-//mouse
-int mouse_handler(int mousecode, int x, int y, void *param);
+//slider
+void draw_slider(t_control_panel *cp,t_slider slider);
+void draw_slider_values(t_control_panel *cp, t_slider slider);
 
+//mouse
+int mouse_release_handler(int button, int x, int y, void *param);
+int mouse_move_handler(int x, int y, void *param);
+int mouse_press_handler(int button, int x, int y, void *param);
+void update_slider_value(t_slider *slider, int mouse_x);
 /*Ray functions*/
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);

@@ -1,24 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control_window.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/06/24 17:13:11 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 
-#define W_WIDTH 400
-#define W_HEIGHT 400
-
-int create_control_window(t_control_panel *cp)
+static t_win_config    *init_control_window(t_control_panel *cp)
 {
     t_win_config *control_data;
-    t_button my_button = {100, 100, 200, 50, 0x00FF00};
 
-    // Alocar memória para a estrutura de controle
-    control_data = malloc(sizeof(t_win_config));
+      control_data = malloc(sizeof(t_win_config));
     if (!control_data)
-        return (1);
+        return (NULL);
 
     control_data->mlx = cp->mlx->mlx;
     if (!control_data->mlx)
     {
         ft_printf("Error: Could not initialize MLX\n");
         free(control_data);
-        return (1);
+        return (NULL);
     }
 
     control_data->win = mlx_new_window(control_data->mlx, W_WIDTH, W_HEIGHT, "miniRT Control");
@@ -26,88 +33,39 @@ int create_control_window(t_control_panel *cp)
     {
         ft_printf("Error: Could not create window\n");
         free(control_data);
-        return (1);
+        return (NULL);
     }
 
     control_data->img = mlx_new_image(control_data->mlx, W_WIDTH, W_HEIGHT);
     control_data->addr = mlx_get_data_addr(control_data->img, &control_data->bits_per_pixel,
                                            &control_data->line_length, &control_data->endian);
 
-    // Armazenar os dados da janela de controle
-    cp->config_win = control_data;
 
-    // Configurar o botão com as dimensões corretas
-    control_data->button = my_button;
-
-    draw_button(cp, my_button);
-    mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->img, 0, 0);
-
-    mlx_mouse_hook(control_data->win,mouse_handler,cp);
-    return (0);
+    return control_data;
 }
 
-static void pixel_put_win_control(t_control_panel *cp, int x, int y, int color)
+int create_control_window(t_control_panel *cp)
 {
-    char *dst;
     t_win_config *control_data;
-    t_interval x_interval;
-    t_interval y_interval;
-
-    control_data = cp->config_win;
-    if (!control_data)
-        return;
-
-    // Criar intervalos para os limites da janela de controle
-    x_interval = interval_create(0, W_WIDTH - 1);
-    y_interval = interval_create(0, W_HEIGHT - 1);
-
-    // Verificar se o pixel está dentro dos limites
-    if (interval_contains(x, x_interval) && interval_contains(y, y_interval))
-    {
-        dst = control_data->addr + (y * control_data->line_length + x * (control_data->bits_per_pixel / 8));
-        *(unsigned int *)dst = color;
-    }
-}
-
-void draw_button(t_control_panel *cp, t_button button)
-{
-    int i;
-    int j;
-
-    i = 0;
-    while (i < button.height)
-    {
-        j = 0;
-        while (j < button.width)
-        {
-            pixel_put_win_control(cp, button.x + j, button.y + i, button.color);
-            j++;
-        }
-        i++;
-    }
-}
-
-int mouse_handler(int mousecode, int x, int y, void *param)
-{
-    t_control_panel *cp = (t_control_panel *)param;
-    t_button button;
-    t_interval x_interval;
-    t_interval y_interval;
+    t_button my_button = {100, 100, 200, 50, 0x00FF00};
+    t_slider my_slider = {50, 200, 300, 10, 20, 30, 0.0, 1.0, cp->amb_light.light_force, 0x808080, 0xFF0000, 0};
     
-    if (!cp || !cp->config_win)
-        return (0);
-        
-    button = cp->config_win->button;
+    control_data = init_control_window(cp);
+    cp->config_win = control_data;
+    control_data->button = my_button;
+    control_data->slider = my_slider;
     
-    if (mousecode == 1)
-    {
-        x_interval = interval_create(button.x, button.x + button.width);
-        y_interval = interval_create(button.y, button.y + button.height);
-        if (interval_contains(x, x_interval) && interval_contains(y, y_interval))
-        {
-            printf("Botão clicado!\n");
-            render_scene(cp);
-        }
-    }
+    draw_button(cp, my_button);
+    draw_slider(cp, my_slider);
+    mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->img, 0, 0);
+    mlx_string_put(control_data->mlx, control_data->win, 175, 130, 0xFF0000, "RENDER");
+    draw_slider_values(cp, my_slider);
+    
+    // Usar mlx_hook em vez de mlx_mouse_hook para ter controle total
+    mlx_hook(control_data->win, 4, 1L<<2, mouse_press_handler, cp);   // ButtonPress
+    mlx_hook(control_data->win, 5, 1L<<3, mouse_release_handler, cp); // ButtonRelease
+    mlx_hook(control_data->win, 6, 1L<<6, mouse_move_handler, cp);    // Motion notify
+    
     return (0);
 }
+
