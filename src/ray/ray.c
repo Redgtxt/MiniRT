@@ -139,14 +139,23 @@ void	set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_
 	double white[3] = {1.0, 1.0, 1.0};
     double temp[3];
 
-    // Background - gradient from white to blue
+    // If ambient light force is 0, then no light
+    if (control_panel->amb_light.light_force <= 0.0)
+    {
+        vec3_zero(out_color);
+        return;
+    }
+    // // Background - gradient from white to blue
     vec3_normalize(unit_direction, ray->direction);
     double a = 0.5 * (unit_direction[1] + 1.0);
 
-    // Calculate (1.0-a)*white + a*blue
+    // // Calculate (1.0-a)*white + a*blue
     vec3_scale(out_color, white, control_panel->amb_light.light_force - a);
     vec3_scale(temp, control_panel->amb_light.rgb, a);
     vec3_add(out_color, out_color, temp);
+
+    // Apply ambient light color scaled by its force
+    vec3_scale(out_color, out_color, control_panel->amb_light.light_force);
 }
 
 void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_color[3])
@@ -162,10 +171,6 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
     {
         t_data_scatter data_scatter;
         vec3 color[3] = {0, 0, 0};
-
-        // Ambient component
-        vec3_scale(color, panel->amb_light.rgb, panel->amb_light.light_force);
-        vec3_multiply(color, color, rec.material->albedo);
 
         // Process each light source
         if (!is_shadowed(panel, rec.position, &panel->light))
@@ -205,15 +210,14 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
             vec3 scattered_color[3];
             ray_color(panel, depth - 1, &data_scatter.scattered, scattered_color);
             vec3_multiply(scattered_color, scattered_color, data_scatter.attenuation);
+            vec3_scale(color, color, panel->light.object_brightness);
             vec3_add(color, color, scattered_color);
         }
 
         vec3_copy(out_color, color);
     }
     else
-    {
         set_amb_light(panel, ray, out_color);
-    }
 }
 
 // void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3])
