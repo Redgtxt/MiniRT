@@ -139,12 +139,6 @@ void	set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_
 	double white[3] = {1.0, 1.0, 1.0};
     double temp[3];
 
-    // If ambient light force is 0, then no light
-    if (control_panel->amb_light.light_force <= 0.0)
-    {
-        vec3_zero(out_color);
-        return;
-    }
     // // Background - gradient from white to blue
     vec3_normalize(unit_direction, ray->direction);
     double a = 0.5 * (unit_direction[1] + 1.0);
