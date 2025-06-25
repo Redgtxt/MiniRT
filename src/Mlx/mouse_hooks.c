@@ -68,6 +68,11 @@ int mouse_move_handler(int x, int y, void *param)
         mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
                                cp->config_win->img, 0, 0);
         
+        // Draw sphere image in upper left corner
+        if (cp->config_win->image.sphere)
+            mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win, 
+                                   cp->config_win->image.sphere, 10, 10);
+        
         // Redesenhar textos
         mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, 0xFF0000, "RENDER");
         draw_slider_values(cp, *slider);

@@ -14,8 +14,8 @@
 /*
     MASOQUISMO.exe
     
-    []Primeiro criar um hook que vai incrementar ou decrementar uma variavel atraves das setas do teclado se tiver dentro da janela de controlo
-        []Depois vou fazer funcionar para mudar o idx de um array
+    [x]Primeiro criar um hook que vai incrementar ou decrementar uma variavel atraves das setas do teclado se tiver dentro da janela de controlo
+        [x]Depois vou fazer funcionar para mudar o idx de um array
     
 */
 
@@ -48,7 +48,8 @@ static t_win_config    *init_control_window(t_control_panel *cp)
     control_data->addr = mlx_get_data_addr(control_data->img, &control_data->bits_per_pixel,
                                            &control_data->line_length, &control_data->endian);
 
-
+    int img_width, img_height;
+    control_data->image.sphere = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/sphere_small.xpm", &img_width, &img_height);
     return control_data;
 }
 
@@ -57,9 +58,9 @@ static void change_object(int keycode, t_control_panel *cp)
     if (keycode == ARROW_RIGHT_KEY)
     {
         cp->data.idx_obj++;
-        if(cp->data.idx_obj > cp->data.sphere_count)
+        if(cp->data.idx_obj > (int)cp->data.sphere_count)
             cp->data.idx_obj = 0;
-        printf("IDX value: %zu have increased\n",cp->data.idx_obj);
+        printf("IDX value: %d have increased\n",cp->data.idx_obj);
     }
     if (keycode == ARROW_LEFT_KEY)
     {
@@ -67,7 +68,7 @@ static void change_object(int keycode, t_control_panel *cp)
     cp->data.idx_obj--;
     if(0 > cp->data.idx_obj)
         cp->data.idx_obj = cp->data.sphere_count;
-      printf("IDX value: %zu have decreased\n",cp->data.idx_obj);
+      printf("IDX value: %d have decreased\n",cp->data.idx_obj);
     }
 }
 
@@ -100,6 +101,11 @@ int create_control_window(t_control_panel *cp)
     draw_button(cp, my_button);
     draw_slider(cp, my_slider);
     mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->img, 0, 0);
+    
+    // Draw sphere image in upper left corner
+    if (control_data->image.sphere)
+        mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->image.sphere, 10, 10);
+    
     mlx_string_put(control_data->mlx, control_data->win, 175, 130, 0xFF0000, "RENDER");
     draw_slider_values(cp, my_slider);
     control_win_hooks(control_data,cp);

@@ -127,6 +127,11 @@ typedef struct s_slider
     int is_dragging;    // flag para saber se está sendo arrastado
 } t_slider;
 
+typedef struct s_image
+{
+	void *sphere;
+}t_image;
+
 
 typedef struct s_win_config
 {
@@ -139,6 +144,7 @@ typedef struct s_win_config
 	int endian;
 	t_button button;
 	t_slider slider;
+	t_image  image;
 } t_win_config;
 
 typedef struct s_mlx
@@ -160,7 +166,7 @@ typedef struct s_data
 	size_t sphere_count;
 	size_t plane_count;
 	size_t cylinder_count;
-	size_t idx_obj;
+	 int idx_obj;
 } t_data;
 
 typedef struct s_amb_light

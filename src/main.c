@@ -190,6 +190,7 @@ t_control_panel *inicialize(int argc, char *argv[])
 		return (free_control_panel_lists(control_panel), NULL);
 	}
 	get_values_camera(control_panel);
+	
 	return control_panel;
 }
 
