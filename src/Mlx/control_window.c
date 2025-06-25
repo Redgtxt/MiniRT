@@ -6,11 +6,19 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/24 17:13:11 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:33:43 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+/*
+    MASOQUISMO.exe
+    
+    []Primeiro criar um hook que vai incrementar ou decrementar uma variavel atraves das setas do teclado se tiver dentro da janela de controlo
+        []Depois vou fazer funcionar para mudar o idx de um array
+    
+*/
+
 
 static t_win_config    *init_control_window(t_control_panel *cp)
 {
@@ -44,6 +52,40 @@ static t_win_config    *init_control_window(t_control_panel *cp)
     return control_data;
 }
 
+static void change_object(int keycode, t_control_panel *cp)
+{
+    if (keycode == ARROW_RIGHT_KEY)
+    {
+        cp->data.idx_obj++;
+        if(cp->data.idx_obj > cp->data.sphere_count)
+            cp->data.idx_obj = 0;
+        printf("IDX value: %zu have increased\n",cp->data.idx_obj);
+    }
+    if (keycode == ARROW_LEFT_KEY)
+    {
+        
+    cp->data.idx_obj--;
+    if(0 > cp->data.idx_obj)
+        cp->data.idx_obj = cp->data.sphere_count;
+      printf("IDX value: %zu have decreased\n",cp->data.idx_obj);
+    }
+}
+
+static int control_win_key_hook(int keycode, t_control_panel *cp)
+{
+    change_object(keycode,cp);
+   
+    return (0);
+}
+
+static void control_win_hooks(t_win_config *control_data,t_control_panel *cp)
+{
+    mlx_key_hook(control_data->win, control_win_key_hook, cp);
+    mlx_hook(control_data->win, 4, 1L<<2, mouse_press_handler, cp);   // ButtonPress
+    mlx_hook(control_data->win, 5, 1L<<3, mouse_release_handler, cp); // ButtonRelease
+    mlx_hook(control_data->win, 6, 1L<<6, mouse_move_handler, cp);    // Motion notify
+}
+
 int create_control_window(t_control_panel *cp)
 {
     t_win_config *control_data;
@@ -60,11 +102,8 @@ int create_control_window(t_control_panel *cp)
     mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->img, 0, 0);
     mlx_string_put(control_data->mlx, control_data->win, 175, 130, 0xFF0000, "RENDER");
     draw_slider_values(cp, my_slider);
-    
-    // Usar mlx_hook em vez de mlx_mouse_hook para ter controle total
-    mlx_hook(control_data->win, 4, 1L<<2, mouse_press_handler, cp);   // ButtonPress
-    mlx_hook(control_data->win, 5, 1L<<3, mouse_release_handler, cp); // ButtonRelease
-    mlx_hook(control_data->win, 6, 1L<<6, mouse_move_handler, cp);    // Motion notify
+    control_win_hooks(control_data,cp);
+
     
     return (0);
 }

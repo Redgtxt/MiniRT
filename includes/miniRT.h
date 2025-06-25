@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/25 13:52:22 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:21:47 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef struct s_data
 	size_t sphere_count;
 	size_t plane_count;
 	size_t cylinder_count;
+	size_t idx_obj;
 } t_data;
 
 typedef struct s_amb_light
