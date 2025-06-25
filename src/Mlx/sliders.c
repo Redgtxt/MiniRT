@@ -24,17 +24,17 @@ void draw_slider_values(t_control_panel *cp, t_slider slider)
 {
     char min_str[20], max_str[20], current_str[20];
     
-    // Converter valores para strings
+
     sprintf(min_str, "%.1f", slider.min_value);
     sprintf(max_str, "%.1f", slider.max_value);
     sprintf(current_str, "%.1f", slider.current_value);
     
-    // Desenhar valor mínimo à esquerda
+
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 
                    slider.x - 20, slider.y + slider.height + 15, 
                    0xFFFFFF, min_str);
     
-    // Desenhar valor máximo à direita
+
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 
                    slider.x + slider.width + 5, slider.y + slider.height + 15, 
                    0xFFFFFF, max_str);
@@ -76,7 +76,7 @@ void update_slider_value(t_slider *slider, int mouse_x)
     t_interval slider_limits;
     int clamped_mouse_x;
     
-    // Criar intervalo para os limites do slider
+
     slider_limits = interval_create(slider->x, slider->x + slider->width - slider->handle_width);
     
     // clamp para limitar a posição do mouse dentro dos limites do slider
