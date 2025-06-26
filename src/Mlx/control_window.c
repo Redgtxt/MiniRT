@@ -72,10 +72,12 @@ static void change_object(int keycode, t_control_panel *cp)
     }
 }
 
+
+
 static int control_win_key_hook(int keycode, t_control_panel *cp)
 {
     change_object(keycode,cp);
-   
+
     return (0);
 }
 
@@ -92,11 +94,19 @@ int create_control_window(t_control_panel *cp)
     t_win_config *control_data;
     t_button my_button = {100, 100, 200, 50, 0x00FF00};
     t_slider my_slider = {50, 200, 300, 10, 20, 30, 0.0, 1.0, cp->amb_light.light_force, 0x808080, 0xFF0000, 0};
-    
+        
     control_data = init_control_window(cp);
     cp->config_win = control_data;
     control_data->button = my_button;
     control_data->slider = my_slider;
+    
+    // Inicializar sliders RGB com valores padrão da primeira esfera
+    if (cp->sphere && cp->data.sphere_count > 0)
+    {
+        control_data->red_slider = (t_slider){60, 250, 300, 10, 20, 30, 0.0, 1.0, cp->sphere[0].rgb[0], 0x808080, 0xFF0000, 0};
+        control_data->green_slider = (t_slider){60, 280, 300, 10, 20, 30, 0.0, 1.0, cp->sphere[0].rgb[1], 0x808080, 0x00FF00, 0};
+        control_data->blue_slider = (t_slider){60, 310, 300, 10, 20, 30, 0.0, 1.0, cp->sphere[0].rgb[2], 0x808080, 0x0000FF, 0};
+    }
     
     draw_button(cp, my_button);
     draw_slider(cp, my_slider);
@@ -108,8 +118,12 @@ int create_control_window(t_control_panel *cp)
     
     mlx_string_put(control_data->mlx, control_data->win, 175, 130, 0xFF0000, "RENDER");
     draw_slider_values(cp, my_slider);
-    control_win_hooks(control_data,cp);
-
+    
+    // Mostrar informações e sliders RGB da primeira esfera
+    if (cp->sphere && cp->data.sphere_count > 0)
+        redraw_interface(cp);
+    
+    control_win_hooks(control_data, cp);
     
     return (0);
 }

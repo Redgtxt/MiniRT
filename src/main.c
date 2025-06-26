@@ -196,29 +196,30 @@ t_control_panel *inicialize(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-	t_mlx mlx_data;
-	t_control_panel *cp;
+    t_mlx mlx_data;
+    t_control_panel *cp;
 
-	cp = inicialize(argc, argv);
-	if (!cp)
-		return 1;
+    cp = inicialize(argc, argv);
+    if (!cp)
+        return 1;
 
-	print_elements(cp);
-	ft_printf("MiniRT Starting...\n");
-	srand(time(NULL));
-	
-	if(init_values_main_win(&mlx_data,cp))
-		return 1;
+    print_elements(cp);
+    ft_printf("MiniRT Starting...\n");
+    srand(time(NULL));
+    
+    if(init_values_main_win(&mlx_data,cp))
+        return 1;
 
-	if(create_control_window(cp))
-		return 1;
-	// Renderizar a cena inicial
-	render_scene(cp);
+    if(create_control_window(cp))
+        return 1;
+    
+    render_scene(cp);
 
-	// Configurar hooks
-	mlx_hook(mlx_data.win, 17, 0, close_window, cp);
-	mlx_key_hook(mlx_data.win, key_hook, cp);
+    mlx_hook(mlx_data.win, 17, 0, close_window, cp);
+    mlx_key_hook(mlx_data.win, key_hook, cp);
+    
+    mlx_hook(mlx_data.win, 4, 1L<<2, main_window_mouse_handler, cp);
 
-	mlx_loop(mlx_data.mlx);
-	return (0);
+    mlx_loop(mlx_data.mlx);
+    return (0);
 }

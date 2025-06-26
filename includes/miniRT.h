@@ -144,6 +144,9 @@ typedef struct s_win_config
 	int endian;
 	t_button button;
 	t_slider slider;
+	t_slider red_slider;    // Slider para vermelho
+    t_slider green_slider;  // Slider para verde  
+    t_slider blue_slider;   // Slider para azul
 	t_image  image;
 } t_win_config;
 
@@ -289,6 +292,7 @@ void change_object_brightness(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 int init_values_main_win(t_mlx *mlx_data,t_control_panel *control_panel);
 void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);
+int main_window_mouse_handler(int button, int x, int y, void *param);
 //Window control
 int	create_control_window(t_control_panel  *cp);
 //button
@@ -300,7 +304,7 @@ void draw_slider_values(t_control_panel *cp, t_slider slider);
 void clear_image_slider(t_control_panel *cp);
 int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);
-
+void create_rgb_sliders(t_control_panel *cp);
 //mouse
 int mouse_release_handler(int button, int x, int y, void *param);
 int mouse_move_handler(int x, int y, void *param);
@@ -337,6 +341,7 @@ bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_h
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 void random_on_hemisphere(double normal[3],double out[3]);
 void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record);
+bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record);
  bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 //Scene
 void render_scene(t_control_panel *control_panel);

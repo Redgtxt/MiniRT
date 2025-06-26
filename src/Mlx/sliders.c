@@ -45,6 +45,37 @@ void draw_slider_values(t_control_panel *cp, t_slider slider)
                    0x00FF00, current_str);
 }
 
+void create_rgb_sliders(t_control_panel *cp)
+{
+    if (!cp || !cp->config_win || !cp->sphere)
+        return;
+    
+    if (cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
+    {
+        t_sphere *current_sphere = &cp->sphere[cp->data.idx_obj];
+
+        // Configurar sliders RGB com valores da esfera atual
+        cp->config_win->red_slider = (t_slider){60, 250, 300, 10, 20, 30, 0.0, 1.0, current_sphere->rgb[0], 0x808080, 0xFF0000, 0};
+        cp->config_win->green_slider = (t_slider){60, 280, 300, 10, 20, 30, 0.0, 1.0, current_sphere->rgb[1], 0x808080, 0x00FF00, 0};
+        cp->config_win->blue_slider = (t_slider){60, 310, 300, 10, 20, 30, 0.0, 1.0, current_sphere->rgb[2], 0x808080, 0x0000FF, 0};
+
+        // Desenhar os sliders
+        draw_slider(cp, cp->config_win->red_slider);
+        draw_slider(cp, cp->config_win->green_slider);
+        draw_slider(cp, cp->config_win->blue_slider);
+
+        // Labels para os sliders
+        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 20, 255, 0xFF0000, "Red:");
+        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 20, 285, 0x00FF00, "Green:");
+        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 20, 315, 0x0000FF, "Blue:");
+
+        // Mostrar valores atuais
+        draw_slider_values(cp, cp->config_win->red_slider);
+        draw_slider_values(cp, cp->config_win->green_slider);
+        draw_slider_values(cp, cp->config_win->blue_slider);
+    }
+}
+
 void draw_slider(t_control_panel *cp,t_slider slider)
 {
     int i;

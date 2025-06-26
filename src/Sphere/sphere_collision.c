@@ -37,7 +37,7 @@ void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_recor
         vec3_negate(record->normal,outward_normal);
 }
 
-static bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record)
+bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record)
 {
 	double	oc[3];
 	double	discriminant;
