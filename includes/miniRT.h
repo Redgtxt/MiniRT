@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/25 15:21:47 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:26:49 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 #define D_INFINITY ((double)INFINITY)
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
-#define W_WIDTH 400 //window de controlo
-#define W_HEIGHT 400 //window de controlo
+#define W_WIDTH 800 //window de controlo
+#define W_HEIGHT 800 //window de controlo
 #define KEY_ESC 65307
 #define ARROW_UP_KEY 65362
 #define ARROW_DOWN_KEY 65364
@@ -305,11 +305,13 @@ void clear_image_slider(t_control_panel *cp);
 int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);
 void create_rgb_sliders(t_control_panel *cp);
+void set_slider_value_from_position(t_slider *slider, int mouse_x);
 //mouse
 int mouse_release_handler(int button, int x, int y, void *param);
 int mouse_move_handler(int x, int y, void *param);
 int mouse_press_handler(int button, int x, int y, void *param);
 void update_slider_value(t_slider *slider, int mouse_x);
+int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y);
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
 void diffuse_comp(t_control_panel *panel, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);

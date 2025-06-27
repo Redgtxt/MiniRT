@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/25 16:33:43 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:05:09 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,41 @@ static t_win_config    *init_control_window(t_control_panel *cp)
     return control_data;
 }
 
+static void update_sliders_from_selected_object(t_control_panel *cp)
+{
+    if (cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count && cp->sphere)
+    {
+        t_sphere *current_sphere = &cp->sphere[cp->data.idx_obj];
+        
+        cp->config_win->red_slider.current_value = current_sphere->rgb[0];
+        cp->config_win->green_slider.current_value = current_sphere->rgb[1];
+        cp->config_win->blue_slider.current_value = current_sphere->rgb[2];
+        
+        redraw_interface(cp);
+        
+        printf("🔄 Esfera %d selecionada - RGB: %.2f, %.2f, %.2f\n", 
+               cp->data.idx_obj, current_sphere->rgb[0], current_sphere->rgb[1], current_sphere->rgb[2]);
+    }
+}
+
 static void change_object(int keycode, t_control_panel *cp)
 {
+    if (cp->data.sphere_count == 0)
+        return;
+        
     if (keycode == ARROW_RIGHT_KEY)
     {
-        cp->data.idx_obj++;
-        if(cp->data.idx_obj > (int)cp->data.sphere_count)
-            cp->data.idx_obj = 0;
-        printf("IDX value: %d have increased\n",cp->data.idx_obj);
+        cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.sphere_count;
+        printf("IDX value: %d have increased\n", cp->data.idx_obj);
     }
     if (keycode == ARROW_LEFT_KEY)
     {
-        
-    cp->data.idx_obj--;
-    if(0 > cp->data.idx_obj)
-        cp->data.idx_obj = cp->data.sphere_count;
-      printf("IDX value: %d have decreased\n",cp->data.idx_obj);
+        cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.sphere_count) % cp->data.sphere_count;
+        printf("IDX value: %d have decreased\n", cp->data.idx_obj);
     }
+    
+
+    update_sliders_from_selected_object(cp);
 }
 
 
