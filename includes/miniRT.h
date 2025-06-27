@@ -166,6 +166,7 @@ typedef struct s_amb_light
 {
 	double light_force;
 	double rgb[3];
+	double object_brightness;
 } t_amb_light;
 
 typedef struct s_camera
@@ -201,8 +202,9 @@ typedef struct s_light
 {
 	vec3 cords[3];
 	double brightness;
-	double	object_brightness;
 	double rgb[3];
+	struct s_light *prev;
+	struct s_light *next;
 } t_light;
 
 typedef struct s_sphere
@@ -261,7 +263,7 @@ typedef struct s_control_panel
 {
 	t_amb_light amb_light;
 	t_camera camera;
-	t_light light;
+	t_light *light;
 	t_sphere *sphere;
 	t_plane *plane;
 	t_cylinder *cylinder;
@@ -301,7 +303,7 @@ int mouse_press_handler(int button, int x, int y, void *param);
 void update_slider_value(t_slider *slider, int mouse_x);
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
-void diffuse_comp(t_control_panel *panel, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
+void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
 
 
 /*Ray functions*/
@@ -322,6 +324,7 @@ int write_color(double r, double g, double b);
 /*	sphere	*/
 
 /*	Init	Sphere array	*/
+bool linked_list_to_light_array(t_light **light_list, int size_array);
 bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 bool linked_list_to_plane_array(t_plane **plane_list, int size_array);
 
@@ -366,11 +369,13 @@ bool get_d(double *d, char *info, t_error_log *error_log);
 bool get_height(double *height, char *info, t_error_log *error_log);
 
 //	List_handler.c
+void	lstadd_last_light(t_control_panel *control_panel, t_light *new_light);
 void lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere);
 void lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane);
 void lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylinder);
 
 //	Free.c
+void	free_light(t_light *light);
 void free_sphere(t_sphere *sphere);
 void free_plane(t_plane *plane);
 void free_cylinder(t_cylinder *cylinder);

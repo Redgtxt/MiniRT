@@ -19,7 +19,7 @@ static bool	parse_number_elements(t_data data, t_error_log *error_log)
 		error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_NBR_ELEMENTS);
 	else if (data.camera_count != 1)
 		error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_ELEMENTS);
-	else if (data.light_count != 1)
+	else if (data.light_count == 0)
 		error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_NBR_ELEMENTS);
 	// else if (data.sphere_count == 0)
 	// 	error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_NBR_ELEMENTS);
@@ -127,6 +127,8 @@ bool	parsing(t_control_panel *control_panel, char *file_name)
 	if (!parse_number_elements(control_panel->data, &control_panel->error_log))
 		return (close(fd), false);
 	close(fd);
+	if (control_panel->data.light_count)
+		linked_list_to_light_array(&control_panel->light, control_panel->data.light_count);
 	if (control_panel->data.sphere_count)
 		linked_list_to_sphere_array(&control_panel->sphere, control_panel->data.sphere_count); // create function to convert all objects
 	if (control_panel->data.plane_count)

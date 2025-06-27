@@ -12,6 +12,19 @@
 
 #include "../../includes/miniRT.h"
 
+void	free_light(t_light *light)
+{
+	t_light	*temp;
+
+	temp = light;
+	while (temp)
+	{
+		temp = temp->next;
+		free(light);
+		light = temp;
+	}
+}
+
 void	free_sphere(t_sphere *sphere)
 {
 	t_sphere	*temp;
@@ -53,6 +66,8 @@ void	free_cylinder(t_cylinder *cylinder)
 
 void	free_control_panel_lists(t_control_panel *control_panel)
 {
+	if (control_panel->light)
+		free_light(control_panel->light);
 	if (control_panel->sphere)
 		free_sphere(control_panel->sphere);
     if (control_panel->plane)

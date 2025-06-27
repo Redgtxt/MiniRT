@@ -5,6 +5,31 @@
     Vou passar a linked list que tenho para array
 */
 
+bool linked_list_to_light_array(t_light **light_list, int size_array)
+{
+    t_light *array;
+    t_light *current;
+    int i;
+
+    array = ft_calloc(sizeof(t_plane), size_array);
+    if (!array)
+        return (false);
+
+    current = *light_list;
+    i = 0;
+    while (current)
+    {
+        ft_memcpy(&array[i], current, sizeof(t_light));
+        array[i].next = NULL;
+        array[i].prev = NULL;
+        current = current->next;
+        i++;
+    }
+    free_light(*light_list);
+    *light_list = array;
+    return (true);
+}
+
 bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array)
 {
     t_sphere *array;
@@ -22,7 +47,7 @@ bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array)
         ft_memcpy(&array[i], current, sizeof(t_sphere));
         array[i].next = NULL;
         array[i].prev = NULL;
-        array[i].radius = array[i].d / 2;        
+        array[i].radius = array[i].d / 2;
         current = current->next;
         i++;
     }

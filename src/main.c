@@ -30,10 +30,27 @@ void print_elements(t_control_panel *control_panel)
     printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.vec3[0], control_panel->camera.vec3[1], control_panel->camera.vec3[2]);
     printf("\t fov = %d\n", control_panel->camera.fov);
 
-    printf("\nLight:\n");
-    printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.cords[0], control_panel->light.cords[1], control_panel->light.cords[2]);
-    printf("\t brightness = %.2f\n", control_panel->light.brightness);
-    printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb[0], control_panel->light.rgb[1], control_panel->light.rgb[2]);
+    if (control_panel->light && control_panel->data.light_count > 0)
+    {
+        printf("\nLIGHT AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.light_count; i++)
+        {
+            printf("\nLight %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
+                   control_panel->light[i].cords[0],
+                   control_panel->light[i].cords[1],
+                   control_panel->light[i].cords[2]);
+            printf("\t brightness = %.2f\n", control_panel->light[i].brightness);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n",
+                   control_panel->light[i].rgb[0],
+                   control_panel->light[i].rgb[1],
+                   control_panel->light[i].rgb[2]);
+        }
+    }
+    else
+    {
+        printf("\nNo light found or light array is NULL\n");
+    }
 
     // Verificar se há esferas e se data.sphere_count é válido
     if (control_panel->sphere && control_panel->data.sphere_count > 0)
@@ -205,7 +222,7 @@ int main(int argc, char *argv[])
 	print_elements(cp);
 	ft_printf("MiniRT Starting...\n");
 	srand(time(NULL));
-	
+
 	if(init_values_main_win(&mlx_data,cp))
 		return 1;
 
