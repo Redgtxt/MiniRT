@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/27 12:26:49 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:38:52 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,7 +337,7 @@ int write_color(double r, double g, double b);
 /*	Init	Sphere array	*/
 bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 bool linked_list_to_plane_array(t_plane **plane_list, int size_array);
-
+bool linked_list_to_cylinder(t_cylinder **cylinder_list, int size_array);
 /*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
