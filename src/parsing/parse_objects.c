@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 17:55:42 by randrade         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:17:57 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
 	if (!get_rgb(cylinder->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
-	if (!get_material(&cylinder->material, cylinder->rgb, element_info[4], error_log))
+	if (!get_material(&cylinder->material, cylinder->rgb, element_info[6], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, 0), false);
 	control_panel->data.cylinder_count++;
 	return (true);
