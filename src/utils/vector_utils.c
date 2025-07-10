@@ -236,6 +236,7 @@ void vec3_cross(double out[3], const double a[3], const double b[3])
     out[2] = a[0] * b[1] - a[1] * b[0];
 }
 
-double vec3_length(const double v[3]) {
+double vec3_length(const double v[3])
+{
     return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
 }

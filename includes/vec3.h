@@ -22,5 +22,5 @@ void vec3_random_utit_vector(double good_point[3]);
 bool vec3_near_zero(double out[3]);
 void vec3_cross(double out[3], const double a[3], const double b[3]);
 double vec3_length(const double v[3]);
-
+void vec3_add_scaled(const double base[3], const double direction[3], double scalar, double result[3]);
 #endif

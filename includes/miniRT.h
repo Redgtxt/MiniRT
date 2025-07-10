@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/08 16:38:52 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:59:58 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,20 @@ bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit
 void random_on_hemisphere(double normal[3],double out[3]);
 void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record);
 bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record);
+//Planes
  bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+ //Cylinder
+ bool intersect_cap(t_ray ray,const double cap_center[3],
+	const double cap_normal[3],
+    double cap_radius,
+    double *t_out);
+
+bool intersect_cylinder_caps(
+    t_ray ray,
+    const t_cylinder *cyl,
+    t_hit_record *rec);
+bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 //Scene
 void render_scene(t_control_panel *control_panel);
 //antialiasing

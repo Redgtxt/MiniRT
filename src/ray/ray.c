@@ -134,7 +134,7 @@ bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data
     return false;
 }
 
-void	set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_color[3])
+void set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_color[3])
 {
     double unit_direction[3];
     double white[3] = {1.0, 1.0, 1.0};
@@ -157,7 +157,8 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
 {
     t_hit_record rec;
 
-    if (depth <= 0) {
+    if (depth <= 0)
+    {
         vec3_zero(out_color);
         return;
     }
@@ -182,7 +183,8 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
             diffuse_comp(panel, &rec, color, light_dir, attenuation);
 
             // Specular component (Phong)
-            if (rec.material->shininess > 0) {
+            if (rec.material->shininess > 0)
+            {
                 vec3 view_dir[3];
                 vec3_negate(view_dir, ray->direction);
                 vec3_normalize(view_dir, view_dir);
@@ -191,7 +193,7 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
                 reflect(light_dir, rec.normal, reflect_dir); // Use existing reflect function
 
                 double spec = pow(fmax(vec3_dot(view_dir, reflect_dir), 0.0),
-                       rec.material->shininess);
+                                  rec.material->shininess);
                 vec3 specular[3];
                 vec3_scale(specular, rec.material->specular, spec * LIGHT_INT_SCL);
                 vec3_multiply(specular, specular, panel->light.rgb);
@@ -201,7 +203,8 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
         }
 
         // Recursive reflection
-        if (scatter(rec.material, ray, &rec, &data_scatter)) {
+        if (scatter(rec.material, ray, &rec, &data_scatter))
+        {
             vec3 scattered_color[3];
             ray_color(panel, depth - 1, &data_scatter.scattered, scattered_color);
             vec3_multiply(scattered_color, scattered_color, data_scatter.attenuation);
