@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 15:58:00 by randrade         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:04:04 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static bool	parse_element_type(t_control_panel *control_panel, char **element_in
 		parse_plane(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "cy", 2) == 0)
 		parse_cylinder(control_panel, element_info, &control_panel->error_log);
+	else if (ft_strncmp(element_info[0], "cn", 2) == 0)
+		parse_cone(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "#", 1) == 0) // REMOVE WHEN DELIVERING {?}
 		return (true);
 	else
@@ -133,6 +135,8 @@ bool	parsing(t_control_panel *control_panel, char *file_name)
 		linked_list_to_sphere_array(&control_panel->sphere, control_panel->data.sphere_count); // create function to convert all objects
 	if (control_panel->data.plane_count)
 		linked_list_to_plane_array(&control_panel->plane, control_panel->data.plane_count);
+	if (control_panel->data.cone_count)
+		linked_list_to_cone_array(&control_panel->cone, control_panel->data.cone_count);
 	return (true);
 }
 
@@ -189,6 +193,14 @@ Cylinder = cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
         the cylinder height: 21.42
         R, G, B colors in the range [0,255]: 10, 0, 255
 
+Cone = cn 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
+
+        identifier: cn
+        x, y, z coordinates of the center of the cone: 50.0,0.0,20.6
+        3D normalized vector of axis of cone, in the range [-1,1] for each x, y,z axis: 0.0,0.0,1.0
+        the cone diameter: 14.2
+        the cone height: 21.42
+        R, G, B colors in the range [0,255]: 10, 0, 255
 
  - If any misconfiguration of any kind is encountered in the file, the program must exit
  properly and return "Error\n" followed by an explicit error message of your choice.

@@ -119,3 +119,30 @@ void	lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylind
 	}
 	new_cylinder->next = NULL;
 }
+
+void	lstadd_last_cone(t_control_panel *control_panel, t_cone *new_cone)
+{
+	t_cone *temp;
+	t_cone *last;
+
+	last = NULL;
+	temp = control_panel->cone;
+	if (control_panel == NULL || new_cone== NULL)
+		return ;
+	if (control_panel->cone)
+	{
+		while (temp)
+		{
+			last = temp;
+			temp = temp->next;
+		}
+		last->next = new_cone;
+		new_cone->prev = last;
+	}
+	else
+	{
+		control_panel->cone = new_cone;
+		new_cone->prev = NULL;
+	}
+	new_cone->next = NULL;
+}

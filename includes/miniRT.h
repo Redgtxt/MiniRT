@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/25 13:52:22 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:07:09 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef struct s_data
 	size_t sphere_count;
 	size_t plane_count;
 	size_t cylinder_count;
+	size_t cone_count;
 } t_data;
 
 typedef struct s_amb_light
@@ -259,6 +260,19 @@ typedef struct s_cylinder
 	struct s_cylinder *next;
 } t_cylinder;
 
+typedef struct s_cone
+{
+	vec3 cords[3];
+	vec3 vec3[3];
+	double d;
+	double radius;
+	double height;
+	double rgb[3];
+	t_material	material;
+	struct s_cone	*prev;
+	struct s_cone	*next;
+} t_cone;
+
 typedef struct s_control_panel
 {
 	t_amb_light amb_light;
@@ -267,6 +281,7 @@ typedef struct s_control_panel
 	t_sphere *sphere;
 	t_plane *plane;
 	t_cylinder *cylinder;
+	t_cone *cone;
 	t_data data;
 	t_error_log error_log;
 	t_mlx	*mlx;
@@ -304,7 +319,9 @@ void update_slider_value(t_slider *slider, int mouse_x);
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
 void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
-
+/*Textures*/
+void reflect(const double v[3], const double n[3], double out[3]);
+bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);
@@ -327,6 +344,7 @@ int write_color(double r, double g, double b);
 bool linked_list_to_light_array(t_light **light_list, int size_array);
 bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array);
 bool linked_list_to_plane_array(t_plane **plane_list, int size_array);
+bool linked_list_to_cone_array(t_cone **cone_list, int size_array);
 
 /*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
@@ -354,6 +372,7 @@ bool parse_light(t_control_panel *control_panel, char **element_info, t_error_lo
 bool parse_sphere(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 bool parse_plane(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 bool parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool	parse_cone(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 
 //	Parse_values_1.c
 bool get_coord(vec3 *coord, char *info, t_error_log *error_log);
@@ -373,12 +392,14 @@ void	lstadd_last_light(t_control_panel *control_panel, t_light *new_light);
 void lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere);
 void lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane);
 void lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylinder);
+void	lstadd_last_cone(t_control_panel *control_panel, t_cone *new_cone);
 
 //	Free.c
 void	free_light(t_light *light);
 void free_sphere(t_sphere *sphere);
 void free_plane(t_plane *plane);
 void free_cylinder(t_cylinder *cylinder);
+void	free_cone(t_cone *cone);
 void	free_control_panel_lists(t_control_panel *control_panel);
 
 //	Utils.c

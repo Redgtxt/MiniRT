@@ -80,3 +80,28 @@ bool linked_list_to_plane_array(t_plane **plane_list, int size_array)
     *plane_list = array;
     return (true);
 }
+
+bool linked_list_to_cone_array(t_cone **cone_list, int size_array)
+{
+    t_cone *array;
+    t_cone *current;
+    int i;
+
+    array = ft_calloc(sizeof(t_cone), size_array);
+    if (!array)
+        return (false);
+
+    current = *cone_list;
+    i = 0;
+    while (current)
+    {
+        ft_memcpy(&array[i], current, sizeof(t_cone));
+        array[i].next = NULL;
+        array[i].prev = NULL;
+        current = current->next;
+        i++;
+    }
+    free_cone(*cone_list);
+    *cone_list = array;
+    return (true);
+}

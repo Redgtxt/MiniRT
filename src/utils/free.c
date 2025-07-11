@@ -64,6 +64,19 @@ void	free_cylinder(t_cylinder *cylinder)
 	}
 }
 
+void	free_cone(t_cone *cone)
+{
+	t_cone	*temp;
+
+	temp = cone;
+	while (temp)
+	{
+		temp = temp->next;
+		free(cone);
+		cone = temp;
+	}
+}
+
 void	free_control_panel_lists(t_control_panel *control_panel)
 {
 	if (control_panel->light)
