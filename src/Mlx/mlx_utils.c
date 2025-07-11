@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:52:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/23 14:13:35 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:04:24 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,26 @@ void my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color)
     }
 }
 
-
-
 int close_window(t_control_panel *control_panel)
 {
-    t_mlx *mlx_data;
-
-    if (control_panel->config_win)
+    if (control_panel && control_panel->config_win)
     {
+        if (control_panel->config_win->image.sphere)
+            mlx_destroy_image(control_panel->config_win->mlx, control_panel->config_win->image.sphere);
+        if (control_panel->config_win->image.plane)
+            mlx_destroy_image(control_panel->config_win->mlx, control_panel->config_win->image.plane);
+        if (control_panel->config_win->image.cylinder)
+            mlx_destroy_image(control_panel->config_win->mlx, control_panel->config_win->image.cylinder);
+
         if (control_panel->config_win->img)
             mlx_destroy_image(control_panel->config_win->mlx, control_panel->config_win->img);
         if (control_panel->config_win->win)
             mlx_destroy_window(control_panel->config_win->mlx, control_panel->config_win->win);
+
         free(control_panel->config_win);
+        control_panel->config_win = NULL;
     }
 
-    mlx_data = control_panel->mlx;
-    if (mlx_data->img)
-        mlx_destroy_image(mlx_data->mlx, mlx_data->img);
-    if (mlx_data->win)
-        mlx_destroy_window(mlx_data->mlx, mlx_data->win);
-    if (mlx_data->mlx)
-    {
-        mlx_destroy_display(mlx_data->mlx);
-        free(mlx_data->mlx);
-    }
-    free_control_panel_lists(control_panel);
     exit(0);
     return (0);
 }

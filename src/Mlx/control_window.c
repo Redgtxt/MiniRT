@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/08 15:45:00 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:03:42 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 static t_win_config *init_control_window(t_control_panel *cp)
 {
     t_win_config *control_data;
+    int img_width, img_height;
 
     control_data = malloc(sizeof(t_win_config));
     if (!control_data)
@@ -47,8 +48,11 @@ static t_win_config *init_control_window(t_control_panel *cp)
     control_data->addr = mlx_get_data_addr(control_data->img, &control_data->bits_per_pixel,
                                            &control_data->line_length, &control_data->endian);
 
-    int img_width, img_height;
+    // Load all three object images
     control_data->image.sphere = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/sphere_small.xpm", &img_width, &img_height);
+    control_data->image.plane = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/plane.xpm", &img_width, &img_height);
+    control_data->image.cylinder = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/cylinder.xpm", &img_width, &img_height);
+
     return control_data;
 }
 
@@ -71,18 +75,50 @@ static void update_sliders_from_selected_object(t_control_panel *cp)
 
 static void change_object(int keycode, t_control_panel *cp)
 {
-    if (cp->data.sphere_count == 0)
-        return;
-
     if (keycode == ARROW_RIGHT_KEY)
     {
-        cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.sphere_count;
-        printf("IDX value: %d have increased\n", cp->data.idx_obj);
+        // Move to next object of current type
+        if (cp->data.obj_type == 0)
+        { // Sphere
+            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.sphere_count;
+        }
+        else if (cp->data.obj_type == 1)
+        { // Plane
+            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.plane_count;
+        }
+        else if (cp->data.obj_type == 2)
+        { // Cylinder
+            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.cylinder_count;
+        }
     }
-    if (keycode == ARROW_LEFT_KEY)
+    else if (keycode == ARROW_LEFT_KEY)
     {
-        cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.sphere_count) % cp->data.sphere_count;
-        printf("IDX value: %d have decreased\n", cp->data.idx_obj);
+        // Move to previous object of current type
+        if (cp->data.obj_type == 0 && cp->data.sphere_count > 0)
+        {
+            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.sphere_count) % cp->data.sphere_count;
+        }
+        else if (cp->data.obj_type == 1 && cp->data.plane_count > 0)
+        {
+            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.plane_count) % cp->data.plane_count;
+        }
+        else if (cp->data.obj_type == 2 && cp->data.cylinder_count > 0)
+        {
+            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.cylinder_count) % cp->data.cylinder_count;
+        }
+    }
+    // Add up/down arrow keys to switch between object types
+    else if (keycode == ARROW_UP_KEY || keycode == ARROW_DOWN_KEY)
+    {
+        if (keycode == ARROW_UP_KEY)
+        {
+            cp->data.obj_type = (cp->data.obj_type + 1) % 3;
+        }
+        else
+        {
+            cp->data.obj_type = (cp->data.obj_type + 2) % 3; // +2 is equivalent to -1 with modulo 3
+        }
+        cp->data.idx_obj = 0; // Reset index when switching types
     }
 
     update_sliders_from_selected_object(cp);

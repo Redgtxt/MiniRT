@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/10 13:59:58 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:03:09 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ typedef struct s_slider
 typedef struct s_image
 {
 	void *sphere;
+	void *plane;
+	void *cylinder;
 }t_image;
 
 
@@ -169,7 +171,8 @@ typedef struct s_data
 	size_t sphere_count;
 	size_t plane_count;
 	size_t cylinder_count;
-	 int idx_obj;
+	int obj_type;  // Add this: 0 for sphere, 1 for plane, 2 for cylinder
+	int idx_obj;
 } t_data;
 
 typedef struct s_amb_light
@@ -345,18 +348,11 @@ void random_on_hemisphere(double normal[3],double out[3]);
 void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record);
 bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record);
 //Planes
+bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record);
  bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 
  //Cylinder
- bool intersect_cap(t_ray ray,const double cap_center[3],
-	const double cap_normal[3],
-    double cap_radius,
-    double *t_out);
-
-bool intersect_cylinder_caps(
-    t_ray ray,
-    const t_cylinder *cyl,
-    t_hit_record *rec);
+bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 //Scene
 void render_scene(t_control_panel *control_panel);

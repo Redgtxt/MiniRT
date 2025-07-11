@@ -9,7 +9,6 @@
 FUNCAO Generica que vai ver se estou a bater em uma cap de algum objeto
 */
 
-
 // This function checks if a ray hits the body of a cylinder
 static bool hit_cylinder_body(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record)
 {
@@ -152,6 +151,64 @@ void vec3_add_dir(vec3 original[3], vec3 dir[3], double dist)
     original[2] = original[2] + dir[2] * dist;
 }
 
+bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record)
+{
+    bool hit_anything = false;
+    double closest_so_far = t_ray.max;
+    t_hit_record temp_rec;
+
+    // Save original cylinder data
+    t_cylinder original_cylinder = *cylinder;
+    double original_rgb[3];
+    vec3_copy(original_rgb, cylinder->rgb); // Save original RGB values
+
+    // Normalize the axis
+    vec3 normalized_axis[3];
+    vec3_copy(normalized_axis, original_cylinder.vec3);
+    vec3_normalize(normalized_axis, normalized_axis);
+
+    // Check top cap
+    vec3_copy(cylinder->cords, original_cylinder.cords);
+    vec3_add_dir(cylinder->cords, normalized_axis, original_cylinder.height / 2);
+    vec3_copy(cylinder->vec3, normalized_axis);
+
+    if (have_hit_cylinder_cap(cylinder, ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
+    {
+        hit_anything = true;
+        closest_so_far = temp_rec.t;
+        *record = temp_rec;
+    }
+
+    // Check bottom cap
+    vec3_copy(cylinder->cords, original_cylinder.cords);
+    vec3_add_dir(cylinder->cords, normalized_axis, -original_cylinder.height / 2);
+    vec3_copy(cylinder->vec3, normalized_axis);
+
+    if (have_hit_cylinder_cap(cylinder, ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
+    {
+        hit_anything = true;
+        closest_so_far = temp_rec.t;
+        *record = temp_rec;
+    }
+
+    // Reset cylinder to original and check body
+    *cylinder = original_cylinder;
+
+    if (hit_cylinder_body(cylinder, ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
+    {
+        hit_anything = true;
+        closest_so_far = temp_rec.t;
+        *record = temp_rec;
+    }
+
+    // Make sure to restore original cylinder values before returning
+    *cylinder = original_cylinder;
+    vec3_copy(cylinder->rgb, original_rgb);             // Restore RGB values explicitly
+    vec3_copy(cylinder->material.albedo, original_rgb); // Restore material albedo
+
+    return hit_anything;
+}
+
 // Function to check all cylinders in the scene
 bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record)
 {
@@ -162,61 +219,14 @@ bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t
     size_t i = 0;
     while (i < scene->data.cylinder_count)
     {
-        // Save original cylinder data
-        t_cylinder original_cylinder = scene->cylinder[i];
-
-        // Normalize the axis
-        vec3 normalized_axis[3];
-        vec3_copy(normalized_axis, original_cylinder.vec3);
-        vec3_normalize(normalized_axis, normalized_axis);
-
-        temp_rec.t = closest_so_far;
-
-        // Check top cap
-        vec3_copy(scene->cylinder[i].cords, original_cylinder.cords);
-        vec3_add_dir(scene->cylinder[i].cords, normalized_axis, original_cylinder.height / 2);
-        vec3_copy(scene->cylinder[i].vec3, normalized_axis);
-
-        if (have_hit_cylinder_cap(&scene->cylinder[i], ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
+        if (have_hit_cylinder(&scene->cylinder[i], ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
         {
-            if (temp_rec.t < closest_so_far)
-            {
-                hit_anything = true;
-                closest_so_far = temp_rec.t;
-                *record = temp_rec;
-            }
+            hit_anything = true;
+            closest_so_far = temp_rec.t;
+            *record = temp_rec; // Copy the closest hit record
         }
-
-        // Check bottom cap
-        vec3_copy(scene->cylinder[i].cords, original_cylinder.cords);
-        vec3_add_dir(scene->cylinder[i].cords, normalized_axis, -original_cylinder.height / 2);
-        vec3_copy(scene->cylinder[i].vec3, normalized_axis);
-
-        if (have_hit_cylinder_cap(&scene->cylinder[i], ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
-        {
-            if (temp_rec.t < closest_so_far)
-            {
-                hit_anything = true;
-                closest_so_far = temp_rec.t;
-                *record = temp_rec;
-            }
-        }
-
-        // Reset cylinder to original and check body
-        scene->cylinder[i] = original_cylinder;
-        temp_rec.t = closest_so_far;
-
-        if (hit_cylinder_body(&scene->cylinder[i], ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
-        {
-            if (temp_rec.t < closest_so_far)
-            {
-                hit_anything = true;
-                closest_so_far = temp_rec.t;
-                *record = temp_rec;
-            }
-        }
-
         i++;
     }
+
     return hit_anything;
 }

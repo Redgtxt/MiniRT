@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse_hooks.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/11 12:30:05 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/07/11 14:23:40 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 
 int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y)
@@ -7,31 +19,30 @@ int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y)
     int handle_y;
     t_interval x_interval;
     t_interval y_interval;
-    
+
     // Calcular posição do handle
     value_ratio = (slider.current_value - slider.min_value) / (slider.max_value - slider.min_value);
     handle_x = slider.x + (int)((slider.width - slider.handle_width) * value_ratio);
     handle_y = slider.y - (slider.handle_height - slider.height) / 2;
-    
 
     x_interval = interval_create(handle_x, handle_x + slider.handle_width);
     y_interval = interval_create(handle_y, handle_y + slider.handle_height);
-    
-    return (interval_contains(mouse_x, x_interval) && 
+
+    return (interval_contains(mouse_x, x_interval) &&
             interval_contains(mouse_y, y_interval));
 }
 
-int mouse_move_handler(int x, int y, void *param)  
+int mouse_move_handler(int x, int y, void *param)
 {
     (void)y;
     t_control_panel *cp = (t_control_panel *)param;
     t_slider *slider;
-    
+
     if (!cp || !cp->config_win)
         return (0);
-        
+
     slider = &cp->config_win->slider;
-    
+
     // Slider principal
     if (slider->is_dragging)
     {
@@ -39,56 +50,100 @@ int mouse_move_handler(int x, int y, void *param)
         redraw_interface(cp);
         printf("Valor do slider principal: %.2f\n", slider->current_value);
     }
-    
-    // Sliders RGB
-    if (cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
+
+    // Red slider handler
+    if (cp->config_win->red_slider.is_dragging)
     {
-        if (cp->config_win->red_slider.is_dragging)
+        update_slider_value(&cp->config_win->red_slider, x);
+
+        // Update RGB based on object type
+        if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
         {
-            update_slider_value(&cp->config_win->red_slider, x);
-            // Atualizar valor na esfera
             cp->sphere[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
-                cp->sphere[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
-            redraw_interface(cp);
-            printf("RED em movimento: %.2f\n", cp->config_win->red_slider.current_value);
+            cp->sphere[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
         }
-        
-        if (cp->config_win->green_slider.is_dragging)
+        else if (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count)
         {
-            update_slider_value(&cp->config_win->green_slider, x);
-            // Atualizar valor na esfera
-            cp->sphere[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
-                cp->sphere[cp->data.idx_obj].material.albedo[1] = cp->config_win->red_slider.current_value;
-            redraw_interface(cp);
-            printf("GREEN em movimento: %.2f\n", cp->config_win->green_slider.current_value);
+            cp->plane[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
+            cp->plane[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
         }
-        
-        if (cp->config_win->blue_slider.is_dragging)
+        else if (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count)
         {
-            update_slider_value(&cp->config_win->blue_slider, x);
-            // Atualizar valor na esfera
-            cp->sphere[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
-                cp->sphere[cp->data.idx_obj].material.albedo[2] = cp->config_win->red_slider.current_value;
-            redraw_interface(cp);
-            printf("BLUE em movimento: %.2f\n", cp->config_win->blue_slider.current_value);
+            cp->cylinder[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
+            cp->cylinder[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
         }
+
+        redraw_interface(cp);
+        printf("RED em movimento: %.2f\n", cp->config_win->red_slider.current_value);
     }
-    
+
+    // Green slider
+    if (cp->config_win->green_slider.is_dragging)
+    {
+        update_slider_value(&cp->config_win->green_slider, x);
+
+        // Update RGB based on object type
+        if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
+        {
+            cp->sphere[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
+            cp->sphere[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
+        }
+        else if (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count)
+        {
+            cp->plane[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
+            cp->plane[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
+        }
+        else if (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count)
+        {
+            cp->cylinder[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
+            cp->cylinder[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
+        }
+
+        redraw_interface(cp);
+        printf("GREEN em movimento: %.2f\n", cp->config_win->green_slider.current_value);
+    }
+
+    // Blue slider
+    if (cp->config_win->blue_slider.is_dragging)
+    {
+        update_slider_value(&cp->config_win->blue_slider, x);
+
+        // Update RGB based on object type
+        if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
+        {
+            cp->sphere[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
+            cp->sphere[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
+        }
+        else if (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count)
+        {
+            cp->plane[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
+            cp->plane[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
+        }
+        else if (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count)
+        {
+            cp->cylinder[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
+            cp->cylinder[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
+        }
+
+        redraw_interface(cp);
+        printf("BLUE em movimento: %.2f\n", cp->config_win->blue_slider.current_value);
+    }
+
     return (0);
 }
-
-
 
 void set_slider_value_from_position(t_slider *slider, int mouse_x)
 {
     float ratio;
-    
+
     ratio = (float)(mouse_x - slider->x) / slider->width;
-    
+
     // Limitar entre 0 e 1
-    if (ratio < 0.0) ratio = 0.0;
-    if (ratio > 1.0) ratio = 1.0;
-    
+    if (ratio < 0.0)
+        ratio = 0.0;
+    if (ratio > 1.0)
+        ratio = 1.0;
+
     // Calcular o novo valor
     slider->current_value = slider->min_value + ratio * (slider->max_value - slider->min_value);
 }

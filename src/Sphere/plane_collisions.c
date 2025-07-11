@@ -1,6 +1,6 @@
 #include "../../includes/miniRT.h"
 
-static bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record)
+bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record)
 {
     double denom;
     double p0l0[3];
