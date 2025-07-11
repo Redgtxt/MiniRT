@@ -116,15 +116,25 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
         while (i < panel->data.light_count)
         {
         	// Process each light source
+        	vec3 light_dir[3];
+        	vec3_sub(light_dir, panel->light[i].cords, rec.position);
+        	double distance = vec3_length(light_dir);
+        	
+        	// Optional: Skip lights that are too far away (if range is set)
+        	// if (panel->light[i].range > 0 && distance > panel->light[i].range) {
+        	//     i++;
+        	//     continue;
+        	// }
+        	
         	if (!is_shadowed(panel, rec.position, &panel->light[i]))
         	{
-            	vec3 light_dir[3];
-            	vec3_sub(light_dir, panel->light[i].cords, rec.position);
-            	double distance = vec3_length(light_dir);
             	vec3_normalize(light_dir, light_dir);
 
-            	// Apply inverse square falloff with minimum distance
-            	double attenuation = 1.0 / fmax(distance * distance, 1.0);
+            	// Apply realistic light attenuation
+            	double attenuation = 1.0 / (LIGHT_CONSTANT + LIGHT_LINEAR * distance + LIGHT_QUADRATIC * distance * distance);
+            	
+            	// Alternative: Simple inverse square with minimum distance
+            	// double attenuation = 1.0 / fmax(distance * distance, 1.0);
 
             	// Diffuse component
             	diffuse_comp(&panel->light[i], &rec, color, light_dir, attenuation);
@@ -136,14 +146,14 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
                 	vec3_normalize(view_dir, view_dir);
 
                 	vec3 reflect_dir[3];
-                	reflect(light_dir, rec.normal, reflect_dir); // Use existing reflect function
+                	reflect(light_dir, rec.normal, reflect_dir);
 
                 	double spec = pow(fmax(vec3_dot(view_dir, reflect_dir), 0.0),
                        	rec.material->shininess);
                 	vec3 specular[3];
-                	vec3_scale(specular, rec.material->specular, spec * LIGHT_INT_SCL);
+                	vec3_scale(specular, rec.material->specular, spec * SPECULAR_INTENSITY);
                 	vec3_multiply(specular, specular, panel->light[i].rgb);
-                	vec3_scale(specular, specular, panel->light[i].brightness * LIGHT_INT_SCL);
+                	vec3_scale(specular, specular, panel->light[i].brightness * attenuation);
                 	vec3_add(color, color, specular);
             	}
         	}

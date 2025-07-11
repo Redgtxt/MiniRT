@@ -43,7 +43,20 @@
 #define COLOR_BLUE      0x0080FF
 #define COLOR_RED       0xFF0000
 
-#define LIGHT_INT_SCL 2.5
+// Light intensity control constants
+#define DIFFUSE_INTENSITY   1.5     // Diffuse lighting multiplier (increased for brighter diffuse)
+#define SPECULAR_INTENSITY  1.2     // Specular lighting multiplier (slightly increased for shinier highlights)
+// Overall brightness control
+
+// Light attenuation constants (realistic lighting)
+#define LIGHT_CONSTANT   1.0    // Base intensity
+#define LIGHT_LINEAR     0.045  // Linear falloff (reduced from 0.09 for brighter lights)
+#define LIGHT_QUADRATIC  0.016  // Quadratic falloff (reduced from 0.032 for less distance falloff)
+
+// Alternative attenuation presets for different scenarios:
+// Indoor lighting: constant=1.0, linear=0.09, quadratic=0.032
+// Outdoor/Large spaces: constant=1.0, linear=0.014, quadratic=0.0007
+// Close-range lighting: constant=1.0, linear=0.35, quadratic=0.44
 
 #define PI 3.1415926535897932385
 #define D_INFINITY ((double)INFINITY)
@@ -212,11 +225,20 @@ typedef struct s_camera
 	bool antialiasing;
 } t_camera;
 
+// Light types for realistic lighting
+#define LIGHT_POINT      0  // Point light (current implementation)
+#define LIGHT_DIRECTIONAL 1  // Sun-like directional light
+#define LIGHT_SPOT       2  // Spotlight with cone
+#define LIGHT_AREA       3  // Area light (soft shadows)
+
 typedef struct s_light
 {
 	vec3 cords[3];
 	double brightness;
 	double rgb[3];
+	double range;        // Maximum effective range of the light (optional enhancement)
+	int type;           // Light type (LIGHT_POINT, LIGHT_DIRECTIONAL, etc.)
+	double intensity;   // Light intensity in lumens (real-world units)
 	struct s_light *prev;
 	struct s_light *next;
 } t_light;

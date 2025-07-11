@@ -23,9 +23,8 @@ void	diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_d
 {
 	double diff = fmax(vec3_dot(rec->normal, light_dir), 0.0);
     vec3 diffuse[3];
-    vec3_scale(diffuse, rec->material->albedo, diff * LIGHT_INT_SCL);
+    vec3_scale(diffuse, rec->material->albedo, diff * DIFFUSE_INTENSITY);
     vec3_multiply(diffuse, diffuse, light->rgb);
-    vec3_scale(diffuse, diffuse, light->brightness * LIGHT_INT_SCL);
-    vec3_scale(diffuse, diffuse, attenuation);
+    vec3_scale(diffuse, diffuse, light->brightness * attenuation);
     vec3_add(color, color, diffuse);
 }
