@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/08 16:44:42 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:17:47 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,89 +29,119 @@ void print_elements(t_control_panel *control_panel)
 	printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->camera.vec3[0], control_panel->camera.vec3[1], control_panel->camera.vec3[2]);
 	printf("\t fov = %d\n", control_panel->camera.fov);
 
-	printf("\nLight:\n");
-	printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->light.cords[0], control_panel->light.cords[1], control_panel->light.cords[2]);
-	printf("\t brightness = %.2f\n", control_panel->light.brightness);
-	printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->light.rgb[0], control_panel->light.rgb[1], control_panel->light.rgb[2]);
+    if (control_panel->light && control_panel->data.light_count > 0)
+    {
+        printf("\nLIGHT AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.light_count; i++)
+        {
+            printf("\nLight %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
+                   control_panel->light[i].cords[0],
+                   control_panel->light[i].cords[1],
+                   control_panel->light[i].cords[2]);
+            printf("\t brightness = %.2f\n", control_panel->light[i].brightness);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n",
+                   control_panel->light[i].rgb[0],
+                   control_panel->light[i].rgb[1],
+                   control_panel->light[i].rgb[2]);
+        }
+    }
+    else
+    {
+        printf("\nNo light found or light array is NULL\n");
+    }
 
-	// Esferas
-	if (control_panel->sphere && control_panel->data.sphere_count > 0)
-	{
-		printf("\nSPHERES AFTER ARRAY CONVERSION:\n");
-		for (size_t i = 0; i < control_panel->data.sphere_count; i++)
-		{
-			printf("\nSphere %zu:\n", i + 1);
-			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
-				   control_panel->sphere[i].cords[0],
-				   control_panel->sphere[i].cords[1],
-				   control_panel->sphere[i].cords[2]);
-			printf("\t d = %.2f (diameter)\n", control_panel->sphere[i].d);
-			printf("\t radius = %.2f\n", control_panel->sphere[i].radius);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n",
-				   control_panel->sphere[i].rgb[0],
-				   control_panel->sphere[i].rgb[1],
-				   control_panel->sphere[i].rgb[2]);
-		}
-	}
-	else
-	{
-		printf("\nNo spheres found or sphere array is NULL\n");
-	}
+    if (control_panel->sphere && control_panel->data.sphere_count > 0)
+    {
+        printf("\nSPHERES AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.sphere_count; i++)
+        {
+            printf("\nSphere %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
+                   control_panel->sphere[i].cords[0],
+                   control_panel->sphere[i].cords[1],
+                   control_panel->sphere[i].cords[2]);
+            printf("\t d = %.2f (diameter)\n", control_panel->sphere[i].d);
+            printf("\t radius = %.2f\n", control_panel->sphere[i].radius);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n",
+                   control_panel->sphere[i].rgb[0],
+                   control_panel->sphere[i].rgb[1],
+                   control_panel->sphere[i].rgb[2]);
+        }
+    }
+    else
+    {
+        printf("\nNo spheres found or sphere array is NULL\n");
+    }
 
-	// Planos
-	if (control_panel->plane && control_panel->data.plane_count > 0)
-	{
-		printf("\nPLANES AFTER ARRAY CONVERSION:\n");
-		for (size_t i = 0; i < control_panel->data.plane_count; i++)
-		{
-			printf("\nPlane %zu:\n", i + 1);
-			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
-				   control_panel->plane[i].cords[0],
-				   control_panel->plane[i].cords[1],
-				   control_panel->plane[i].cords[2]);
-			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n",
-				   control_panel->plane[i].vec3[0],
-				   control_panel->plane[i].vec3[1],
-				   control_panel->plane[i].vec3[2]);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n",
-				   control_panel->plane[i].rgb[0],
-				   control_panel->plane[i].rgb[1],
-				   control_panel->plane[i].rgb[2]);
-		}
-	}
-	else
-	{
-		printf("\nNo planes found or plane array is NULL\n");
-	}
+    if (control_panel->plane && control_panel->data.plane_count > 0)
+    {
+        printf("\nPLANES AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.plane_count; i++)
+        {
+            printf("\nPlane %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
+                   control_panel->plane[i].cords[0],
+                   control_panel->plane[i].cords[1],
+                   control_panel->plane[i].cords[2]);
+            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n",
+                   control_panel->plane[i].vec3[0],
+                   control_panel->plane[i].vec3[1],
+                   control_panel->plane[i].vec3[2]);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n",
+                   control_panel->plane[i].rgb[0],
+                   control_panel->plane[i].rgb[1],
+                   control_panel->plane[i].rgb[2]);
+        }
+    }
+    else
+    {
+        printf("\nNo planes found or plane list is NULL\n");
+    }
 
-	// Cilindros
-	if (control_panel->cylinder && control_panel->data.cylinder_count > 0)
-	{
-		printf("\nCYLINDERS AFTER ARRAY CONVERSION:\n");
-		for (size_t i = 0; i < control_panel->data.cylinder_count; i++)
-		{
-			printf("\nCylinder %zu:\n", i + 1);
-			printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n",
-				   control_panel->cylinder[i].cords[0],
-				   control_panel->cylinder[i].cords[1],
-				   control_panel->cylinder[i].cords[2]);
-			printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n",
-				   control_panel->cylinder[i].vec3[0],
-				   control_panel->cylinder[i].vec3[1],
-				   control_panel->cylinder[i].vec3[2]);
-			printf("\t d = %.2f\n", control_panel->cylinder[i].d);
-			printf("\t radius = %.2f\n", control_panel->cylinder[i].radius);
-			printf("\t height = %.2f\n", control_panel->cylinder[i].height);
-			printf("\t rgb = r-> %f g-> %f b-> %f\n",
-				   control_panel->cylinder[i].rgb[0],
-				   control_panel->cylinder[i].rgb[1],
-				   control_panel->cylinder[i].rgb[2]);
-		}
-	}
-	else
-	{
-		printf("\nNo cylinders found or cylinder array is NULL\n");
-	}
+    if (control_panel->cylinder && control_panel->data.cylinder_count > 0)
+    {
+        t_cylinder *temp = control_panel->cylinder;
+        int count = 0;
+        while (temp && count < (int)control_panel->data.cylinder_count)
+        {
+            printf("\nCylinder %d:\n", count + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
+            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
+            printf("\t d = %.2f\n", temp->d);
+            printf("\t radius = %.2f\n", temp->radius);
+            printf("\t height = %.2f\n", temp->height);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
+            temp = temp->next;
+            count++;
+        }
+    }
+    else
+    {
+        printf("\nNo cylinders found or cylinder list is NULL\n");
+    }
+
+    if (control_panel->cone && control_panel->data.cone_count > 0)
+    {
+        t_cone *temp = control_panel->cone;
+        int count = 0;
+        while (temp && count < (int)control_panel->data.cone_count)
+        {
+            printf("\nCone %d:\n", count + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
+            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
+            printf("\t d = %.2f\n", temp->d);
+            printf("\t radius = %.2f\n", temp->radius);
+            printf("\t height = %.2f\n", temp->height);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
+            temp = temp->next;
+            count++;
+        }
+    }
+    else
+    {
+        printf("\nNo cones found or cone list is NULL\n");
+    }
 }
 
 void render_scene(t_control_panel *control_panel)

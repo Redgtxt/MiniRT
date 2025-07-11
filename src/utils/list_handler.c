@@ -12,6 +12,33 @@
 
 #include "../../includes/miniRT.h"
 
+void	lstadd_last_light(t_control_panel *control_panel, t_light *new_light)
+{
+	t_light	*temp;
+	t_light	*last;
+
+	last = NULL;
+	temp = control_panel->light;
+	if (control_panel == NULL || new_light == NULL)
+		return ;
+	if (control_panel->light)
+	{
+		while (temp)
+		{
+			last = temp;
+			temp = temp->next;
+		}
+		last->next = new_light;
+		new_light->prev = last;
+	}
+	else
+	{
+		control_panel->light = new_light;
+		new_light->prev = NULL;
+	}
+	new_light->next = NULL;
+}
+
 void	lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere)
 {
 	t_sphere	*temp;
@@ -91,4 +118,31 @@ void	lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylind
 		new_cylinder->prev = NULL;
 	}
 	new_cylinder->next = NULL;
+}
+
+void	lstadd_last_cone(t_control_panel *control_panel, t_cone *new_cone)
+{
+	t_cone *temp;
+	t_cone *last;
+
+	last = NULL;
+	temp = control_panel->cone;
+	if (control_panel == NULL || new_cone== NULL)
+		return ;
+	if (control_panel->cone)
+	{
+		while (temp)
+		{
+			last = temp;
+			temp = temp->next;
+		}
+		last->next = new_cone;
+		new_cone->prev = last;
+	}
+	else
+	{
+		control_panel->cone = new_cone;
+		new_cone->prev = NULL;
+	}
+	new_cone->next = NULL;
 }

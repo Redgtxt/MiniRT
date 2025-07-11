@@ -44,18 +44,23 @@ bool	parse_camera(t_control_panel *control_panel, char **element_info, t_error_l
 //	Parses the light values
 bool	parse_light(t_control_panel *control_panel, char **element_info, t_error_log *error_log)
 {
+	t_light *light;
 	size_t	len;
 
 	len = double_array_len(element_info);
 	if (len != 3 && len != 4)
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_NBR_VALUES), false);
-	if (!get_coord(control_panel->light.cords, element_info[1], error_log))
+	light = ft_calloc(1, sizeof(t_light));
+	if (!light)
+		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_MALLOC), false);
+	lstadd_last_light(control_panel, light);
+	if (!get_coord(light->cords, element_info[1], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_COORD), false);
-	if (!get_brightness(&control_panel->light.brightness, element_info[2], error_log))
+	if (!get_brightness(&light->brightness, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_BRIGHTNESS), false);
 	if (len == 4)
 	{
-		if (!get_rgb(control_panel->light.rgb, element_info[3], error_log))
+		if (!get_rgb(light->rgb, element_info[3], error_log))
 			return (error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_RGB), false);
 	}
 	control_panel->data.light_count++;

@@ -26,11 +26,11 @@ static void setup_camera_viewport(t_control_panel *control_panel)
     double lookfrom_minus_lookat[3];
 
 
-    vec3_copy(control_panel->camera.cords, control_panel->camera.cords); 
+    vec3_copy(control_panel->camera.cords, control_panel->camera.cords);
 
     // Calculate lookfrom - lookat
     vec3_sub(lookfrom_minus_lookat, control_panel->camera.cords, control_panel->camera.lookat);
-    
+
     // auto focal_length = (lookfrom - lookat).length();
     focal_length = vec3_lenght(lookfrom_minus_lookat);
 
@@ -43,19 +43,19 @@ static void setup_camera_viewport(t_control_panel *control_panel)
     // Calculate the u,v,w unit basis vectors for the camera coordinate frame
     // w = unit_vector(lookfrom - lookat);
     vec3_unit_vector(control_panel->camera.W, lookfrom_minus_lookat);
-    
+
     // u = unit_vector(cross(vup, w));
     double cross_vup_w[3];
     vec3_cross(cross_vup_w, control_panel->camera.vup, control_panel->camera.W);
     vec3_unit_vector(control_panel->camera.u, cross_vup_w);
-    
+
     // v = cross(w, u);
     vec3_cross(control_panel->camera.v, control_panel->camera.W, control_panel->camera.u);
 
     // Calculate the vectors across the horizontal and down the vertical viewport edges
     // vec3 viewport_u = viewport_width * u;
     vec3_scale(viewport_u, control_panel->camera.u, viewport_width);
-    
+
     // vec3 viewport_v = viewport_height * -v;
     double neg_v[3];
     vec3_negate(neg_v, control_panel->camera.v);
@@ -71,7 +71,7 @@ static void setup_camera_viewport(t_control_panel *control_panel)
     vec3_scale(focal_length_w, control_panel->camera.W, focal_length);
     vec3_divide(viewport_u_half, viewport_u, 2.0);
     vec3_divide(viewport_v_half, viewport_v, 2.0);
-    
+
     // center - (focal_length * w) - viewport_u/2 - viewport_v/2
     vec3_sub(temp, control_panel->camera.cords, focal_length_w);
     vec3_sub(temp, temp, viewport_u_half);
@@ -85,13 +85,13 @@ static void setup_camera_viewport(t_control_panel *control_panel)
 
 void get_values_camera(t_control_panel *control_panel)
 {
-    setup_camera_dimensions(control_panel); 
+    setup_camera_dimensions(control_panel);
     // Setup lookat and vup before calling setup_camera_viewport
     vec3_add(control_panel->camera.lookat, control_panel->camera.cords, control_panel->camera.vec3);
     vec3_set(control_panel->camera.vup, 0, 1, 0);
-    setup_camera_viewport(control_panel);   
+    setup_camera_viewport(control_panel);
     control_panel->camera.max_bounces = 50;
-    control_panel->light.object_brightness = 1;
+    control_panel->amb_light.object_brightness = 1;
 }
 
 /*
@@ -101,19 +101,19 @@ void get_values_camera(t_control_panel *control_panel)
 
 	lookfrom: posicao inical da camera
 	lookat: ponto da cena onde a camera vai olhar
-	vup:	
+	vup:
 	Orientaçao da camera
 
 	Mesmo ambos os valores sendo estaticos ainda podes olhar a volta
 	Tipo rodar a cabeça para ver ao redor
 
-	vup(view up vector) indica o que e para cima 
+	vup(view up vector) indica o que e para cima
 
 	w: vetor que vai de lookfrom para lookat,mas ao contrario do ponto de vista da camera (-w)
-	u: vetor para a direita da camera 
+	u: vetor para a direita da camera
 	v: vetor para cima da camera
 
 	Lookfrom = posicao da camera
 	lookat = posicao da camera + direcao da camera
-	direcao da camera = -w(tenho de normalizar o valor) 
+	direcao da camera = -w(tenho de normalizar o valor)
 */

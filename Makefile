@@ -41,6 +41,7 @@ SRC_FILES = main.c \
 	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \
 	    $(addprefix interval/, interval.c)\
 	    $(addprefix light/, light.c)\
+	    $(addprefix textures/, textures.c)\
 	    $(addprefix ray/, ray.c ray_utils.c)\
 	    $(addprefix effects/, antialiasing.c)\
 	    $(addprefix camera/, camera.c)
@@ -61,6 +62,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/parsing
 	@mkdir -p $(OBJ_DIR)/interval
 	@mkdir -p $(OBJ_DIR)/ray
+	@mkdir -p $(OBJ_DIR)/textures
 	@mkdir -p $(OBJ_DIR)/light
 	@mkdir -p $(OBJ_DIR)/effects
 	@mkdir -p $(OBJ_DIR)/camera

@@ -5,6 +5,31 @@
     Vou passar a linked list que tenho para array
 */
 
+bool linked_list_to_light_array(t_light **light_list, int size_array)
+{
+    t_light *array;
+    t_light *current;
+    int i;
+
+    array = ft_calloc(sizeof(t_plane), size_array);
+    if (!array)
+        return (false);
+
+    current = *light_list;
+    i = 0;
+    while (current)
+    {
+        ft_memcpy(&array[i], current, sizeof(t_light));
+        array[i].next = NULL;
+        array[i].prev = NULL;
+        current = current->next;
+        i++;
+    }
+    free_light(*light_list);
+    *light_list = array;
+    return (true);
+}
+
 bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array)
 {
     t_sphere *array;
@@ -56,7 +81,7 @@ bool linked_list_to_plane_array(t_plane **plane_list, int size_array)
     return (true);
 }
 
-bool linked_list_to_cylinder(t_cylinder **cylinder_list, int size_array)
+bool linked_list_to_cylinder_array(t_cylinder **cylinder_list, int size_array)
 {
     t_cylinder *array;
     t_cylinder *current;
@@ -80,4 +105,29 @@ bool linked_list_to_cylinder(t_cylinder **cylinder_list, int size_array)
     free_cylinder(*cylinder_list);
     *cylinder_list = array;
     return true;
+}
+
+bool linked_list_to_cone_array(t_cone **cone_list, int size_array)
+{
+    t_cone *array;
+    t_cone *current;
+    int i;
+
+    array = ft_calloc(sizeof(t_cone), size_array);
+    if (!array)
+        return (false);
+
+    current = *cone_list;
+    i = 0;
+    while (current)
+    {
+        ft_memcpy(&array[i], current, sizeof(t_cone));
+        array[i].next = NULL;
+        array[i].prev = NULL;
+        current = current->next;
+        i++;
+    }
+    free_cone(*cone_list);
+    *cone_list = array;
+    return (true);
 }
