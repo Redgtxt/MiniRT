@@ -376,6 +376,11 @@ bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_re
  //Cylinder
 bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+double pont_dist(vec3 a[3], vec3 b[3]);
+//Cone
+bool hit_cones(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool have_hit_cone(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 //Scene
 void render_scene(t_control_panel *control_panel);
 //antialiasing

@@ -225,6 +225,13 @@ bool vec3_near_zero(double out[3])
     double s = 1e-8;
     return fabs(out[0]) < s && fabs(out[1]) < s && fabs(out[2]) < s;
 }
+
+void vec3_add_dir(vec3 original[3], vec3 dir[3], double dist)
+{
+    original[0] = original[0] + dir[0] * dist;
+    original[1] = original[1] + dir[1] * dist;
+    original[2] = original[2] + dir[2] * dist;
+}
 /// @brief Calcular o produto vetorial (cross product) de dois vetores
 /// @param out vetor de saída para armazenar o resultado
 /// @param a primeiro vetor

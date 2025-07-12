@@ -121,7 +121,12 @@ bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit
         closest_so_far = temp_rec.t;
         *record = temp_rec;
     }
-
+    if (hit_cones(scene, ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
+    {
+        hit_anything = true;
+        closest_so_far = temp_rec.t;
+        *record = temp_rec;
+    }
     // EM BREVE VAMOS TER OUTRAS FUNCOES DE HIT YUPIII
     return hit_anything;
 }
