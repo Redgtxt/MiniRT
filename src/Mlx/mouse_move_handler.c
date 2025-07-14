@@ -59,6 +59,7 @@ int mouse_move_handler(int x, int y, void *param)
         
     slider = &cp->config_win->slider;
     
+
     // Slider principal (intensidade de ambient light)
     if (slider->is_dragging)
     {
@@ -66,6 +67,8 @@ int mouse_move_handler(int x, int y, void *param)
         redraw_interface(cp);
     }
     
+    //dropdown
+    handle_material_selector_hover(cp, x, y);
     // Sliders RGB da esfera
     slider_sphere_rgb(cp, x);
     

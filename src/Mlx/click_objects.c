@@ -84,6 +84,10 @@ static void update_control_interface_with_object(t_control_panel *cp, int obj_in
             cp->config_win->red_slider.current_value = selected->rgb[0];
             cp->config_win->green_slider.current_value = selected->rgb[1];
             cp->config_win->blue_slider.current_value = selected->rgb[2];
+
+            // Add this line to update the material selector
+            cp->config_win->material_selector.selected_material = selected->material.type;
+
             printf("Esfera %d selecionada! RGB: %.2f, %.2f, %.2f\n",
                    obj_index, selected->rgb[0], selected->rgb[1], selected->rgb[2]);
         }
@@ -96,6 +100,10 @@ static void update_control_interface_with_object(t_control_panel *cp, int obj_in
             cp->config_win->red_slider.current_value = selected->rgb[0];
             cp->config_win->green_slider.current_value = selected->rgb[1];
             cp->config_win->blue_slider.current_value = selected->rgb[2];
+
+            // Add this line to update the material selector
+            cp->config_win->material_selector.selected_material = selected->material.type;
+
             printf("Plano %d selecionado! RGB: %.2f, %.2f, %.2f\n",
                    obj_index, selected->rgb[0], selected->rgb[1], selected->rgb[2]);
         }
@@ -108,6 +116,10 @@ static void update_control_interface_with_object(t_control_panel *cp, int obj_in
             cp->config_win->red_slider.current_value = selected->rgb[0];
             cp->config_win->green_slider.current_value = selected->rgb[1];
             cp->config_win->blue_slider.current_value = selected->rgb[2];
+
+            // Add this line to update the material selector
+            cp->config_win->material_selector.selected_material = selected->material.type;
+
             printf("Cilindro %d selecionado! RGB: %.2f, %.2f, %.2f\n",
                    obj_index, selected->rgb[0], selected->rgb[1], selected->rgb[2]);
         }

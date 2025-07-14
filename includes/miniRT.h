@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/11 17:14:30 by randrade         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:33:50 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,22 @@ typedef struct s_slider
     int is_dragging;    // flag para saber se está sendo arrastado
 } t_slider;
 
+typedef struct s_material_selector
+{
+    int x, y;                    // Posição do dropdown
+    int width, height;           // Tamanho do botão principal
+    int dropdown_height;         // Altura do dropdown quando aberto
+    int is_open;                 // Flag se está aberto
+    int selected_material;       // Material atualmente selecionado
+    int hover_index;             // Índice do item em hover
+    char *material_names[3];     // Nomes dos materiais
+    int item_height;             // Altura de cada item no dropdown
+    int color_button;            // Cor do botão principal
+    int color_dropdown;          // Cor do dropdown
+    int color_hover;             // Cor do item em hover
+    int color_text;              // Cor do texto
+} t_material_selector;
+
 typedef struct s_image
 {
 	void *sphere;
@@ -144,8 +160,10 @@ typedef struct s_win_config
 	int bits_per_pixel;
 	int line_length;
 	int endian;
-	t_button button;
-	t_slider slider;
+	t_material_selector material_selector;
+    t_button material_apply_btn;  // Botão para aplicar material
+	t_button button;		//render button
+	t_slider slider;		//amb_light
 	t_slider red_slider;    // Slider para vermelho
     t_slider green_slider;  // Slider para verde  
     t_slider blue_slider;   // Slider para azul
@@ -326,6 +344,22 @@ int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);
 void create_rgb_sliders(t_control_panel *cp);
 void set_slider_value_from_position(t_slider *slider, int mouse_x);
+
+//Dropdown
+void init_material_selector(t_material_selector *selector);
+void draw_material_selector(t_control_panel *cp);
+void handle_material_selector_click(t_control_panel *cp, int mouse_x, int mouse_y);
+void handle_material_selector_hover(t_control_panel *cp, int mouse_x, int mouse_y);
+void apply_material_to_selected_object(t_control_panel *cp, t_material_type material_type);
+void configure_material_properties(t_material *material, t_material_type type);
+int is_mouse_on_material_selector(t_material_selector *selector, int mouse_x, int mouse_y);
+int get_dropdown_item_index(t_material_selector *selector, int mouse_x, int mouse_y);
+
+// Funções auxiliares de desenho
+void draw_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color);
+void draw_text(t_control_panel *cp, int x, int y, char *text, int color);
+void draw_arrow_down(t_control_panel *cp, int x, int y);
+
 //mouse
 int mouse_release_handler(int button, int x, int y, void *param);
 int mouse_move_handler(int x, int y, void *param);

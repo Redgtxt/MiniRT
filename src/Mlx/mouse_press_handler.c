@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:22:42 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/11 14:35:04 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:43:45 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int render_button(t_control_panel *cp, t_slider *slider, int x, int y)
 	t_interval x_interval;
 	t_interval y_interval;
 	t_button btn;
+	t_material_type selected_material;
 
 	btn = cp->config_win->button;
 	x_interval = interval_create(btn.x, btn.x + btn.width);
@@ -24,6 +25,8 @@ static int render_button(t_control_panel *cp, t_slider *slider, int x, int y)
 	if (interval_contains(x, x_interval) && interval_contains(y, y_interval))
 	{
 		cp->amb_light.light_force = slider->current_value;
+		// Get the currently selected material from the dropdown
+		selected_material = cp->config_win->material_selector.selected_material;
 
 		if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
 		{
@@ -35,11 +38,16 @@ static int render_button(t_control_panel *cp, t_slider *slider, int x, int y)
 			cp->sphere[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
 			cp->sphere[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
 
-			printf("✅ RENDER aplicado à esfera %d: R=%.2f, G=%.2f, B=%.2f\n",
+			// Update material type and properties
+			cp->sphere[cp->data.idx_obj].material.type = selected_material;
+			configure_material_properties(&cp->sphere[cp->data.idx_obj].material, selected_material);
+
+			printf("✅ RENDER aplicado à esfera %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
 				   cp->data.idx_obj,
 				   cp->sphere[cp->data.idx_obj].rgb[0],
 				   cp->sphere[cp->data.idx_obj].rgb[1],
-				   cp->sphere[cp->data.idx_obj].rgb[2]);
+				   cp->sphere[cp->data.idx_obj].rgb[2],
+				   cp->config_win->material_selector.material_names[selected_material]);
 		}
 		else if (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count)
 		{
@@ -51,11 +59,16 @@ static int render_button(t_control_panel *cp, t_slider *slider, int x, int y)
 			cp->plane[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
 			cp->plane[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
 
-			printf("✅ RENDER aplicado ao plano %d: R=%.2f, G=%.2f, B=%.2f\n",
+			// Update material type and properties
+			cp->plane[cp->data.idx_obj].material.type = selected_material;
+			configure_material_properties(&cp->plane[cp->data.idx_obj].material, selected_material);
+
+			printf("✅ RENDER aplicado ao plano %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
 				   cp->data.idx_obj,
 				   cp->plane[cp->data.idx_obj].rgb[0],
 				   cp->plane[cp->data.idx_obj].rgb[1],
-				   cp->plane[cp->data.idx_obj].rgb[2]);
+				   cp->plane[cp->data.idx_obj].rgb[2],
+				   cp->config_win->material_selector.material_names[selected_material]);
 		}
 		else if (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count)
 		{
@@ -67,11 +80,16 @@ static int render_button(t_control_panel *cp, t_slider *slider, int x, int y)
 			cp->cylinder[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
 			cp->cylinder[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
 
-			printf("✅ RENDER aplicado ao cilindro %d: R=%.2f, G=%.2f, B=%.2f\n",
+			// Update material type and properties
+			cp->cylinder[cp->data.idx_obj].material.type = selected_material;
+			configure_material_properties(&cp->cylinder[cp->data.idx_obj].material, selected_material);
+
+			printf("✅ RENDER aplicado ao cilindro %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
 				   cp->data.idx_obj,
 				   cp->cylinder[cp->data.idx_obj].rgb[0],
 				   cp->cylinder[cp->data.idx_obj].rgb[1],
-				   cp->cylinder[cp->data.idx_obj].rgb[2]);
+				   cp->cylinder[cp->data.idx_obj].rgb[2],
+				   cp->config_win->material_selector.material_names[selected_material]);
 		}
 		clear_image(cp);
 		render_scene(cp);
@@ -159,6 +177,14 @@ int mouse_press_handler(int button, int x, int y, void *param)
 	{
 		if (render_button(cp, slider, x, y))
 			return (0);
+
+		if (is_mouse_on_material_selector(&cp->config_win->material_selector, x, y))
+		{
+			handle_material_selector_click(cp, x, y);
+			redraw_interface(cp);
+			return 0;
+		}
+
 		// Verificar clique no slider principal (ambient light) usando a função base
 		ambient_result = handle_slider_base(slider, x, y);
 		if (ambient_result > 0)
