@@ -22,23 +22,24 @@ static bool hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hi
     // Base is at cone->cords, apex is at the top
     vec3_copy(base_center, cone->cords);
     vec3_copy(apex, cone->cords);
-    vec3_add_dir(apex, axis, cone->height);  // This is correct
+    vec3_add_dir(apex, axis, cone->height);
     
     // Vector from apex to ray origin
     vec3 oc[3];
     vec3_sub(oc, ray->origin, apex);
 
-    // Calculate cone angle
-    double tan_theta = cone->radius / cone->height;
-    double cos_theta_sq = 1.0 / (1.0 + tan_theta * tan_theta);
+    // Calculate cone angle - ENSURE radius is diameter/2
+    double radius = cone->d / 2.0;  // Use diameter/2 for radius
+    double tan_theta_sq = (radius * radius) / (cone->height * cone->height);
 
     // Calculate quadratic equation coefficients for cone intersection
     double dot_dir_axis = vec3_dot(ray->direction, axis);
     double dot_oc_axis = vec3_dot(oc, axis);
     
-    double a = vec3_dot(ray->direction, ray->direction) - (1.0 + cos_theta_sq) * dot_dir_axis * dot_dir_axis;
-    double b = 2.0 * (vec3_dot(ray->direction, oc) - (1.0 + cos_theta_sq) * dot_dir_axis * dot_oc_axis);
-    double c = vec3_dot(oc, oc) - (1.0 + cos_theta_sq) * dot_oc_axis * dot_oc_axis;
+    // Corrected quadratic coefficients
+    double a = vec3_dot(ray->direction, ray->direction) - (1.0 + tan_theta_sq) * dot_dir_axis * dot_dir_axis;
+    double b = 2.0 * (vec3_dot(ray->direction, oc) - (1.0 + tan_theta_sq) * dot_dir_axis * dot_oc_axis);
+    double c = vec3_dot(oc, oc) - (1.0 + tan_theta_sq) * dot_oc_axis * dot_oc_axis;
 
     // Solve quadratic equation
     double discriminant = b * b - 4 * a * c;
@@ -68,38 +69,39 @@ static bool hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hi
     vec3_sub(hit_to_apex, hit_point, apex);
     double height_from_apex = vec3_dot(hit_to_apex, axis);
     
-    // Height should be between 0 (at apex) and cone->height (at base)
-    // BUT: height_from_apex will be NEGATIVE when measured from apex towards base
-    if (height_from_apex < -cone->height || height_from_apex > 0)  // Fix this line
+    // Height should be between 0 (at apex) and -cone->height (at base)
+    if (height_from_apex > 0 || height_from_apex < -cone->height)
         return false;
 
     // Valid hit - record details
     record->t = t;
     vec3_copy(record->position, hit_point);
 
-    // Calculate normal at hit point (corrected for cone)
-    // Calculate radius at this height (use absolute value)
-    double height_from_base = -height_from_apex;  // Convert to positive distance from base
-    
+    // Calculate normal at hit point
+    double height_from_base = -height_from_apex;
+
     // Find point on axis at same height as hit point
     vec3 axis_point[3];
-    vec3_copy(axis_point, cone->cords);  // Start from base, not apex
+    vec3_copy(axis_point, cone->cords);
     vec3_add_dir(axis_point, axis, height_from_base);
 
-    // Vector from axis point to hit point
+    // Vector from axis point to hit point (radial direction)
     vec3 radial[3];
     vec3_sub(radial, hit_point, axis_point);
     vec3_normalize(radial, radial);
 
     // Calculate cone surface normal
     vec3 outward_normal[3];
-    double slope_factor = cone->radius / cone->height;
-    
-    // Normal is combination of radial component and axial component
-    vec3_copy(outward_normal, radial);
-    vec3_add_dir(outward_normal, axis, -slope_factor);
+    double slope_factor = radius / cone->height;
+
+    // Combine radial and axial components
+    vec3_scale(outward_normal, radial, 1.0); // Radial component
+    vec3 axial_component[3];
+    vec3_scale(axial_component, axis, slope_factor); // Axial component
+    vec3_add(outward_normal, outward_normal, axial_component);
     vec3_normalize(outward_normal, outward_normal);
 
+    // Ensure the normal points outward
     set_face_normal(ray, outward_normal, record);
     record->material = &cone->material;
 
@@ -141,7 +143,8 @@ static bool have_hit_cone_cap(t_cone *cone, const t_ray *ray, t_interval t_ray, 
     ray_at(t, *ray, hit_point);
 
     // Check if hit point is within the cap's radius
-    if (pont_dist(hit_point, cone->cords) > cone->radius)
+    double radius = cone->d / 2.0;  // Use diameter/2 for radius
+    if (pont_dist(hit_point, cone->cords) > radius)
         return false;
 
     // Record the intersection
