@@ -22,7 +22,7 @@ static bool hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hi
     // Base is at cone->cords, apex is at the top
     vec3_copy(base_center, cone->cords);
     vec3_copy(apex, cone->cords);
-    vec3_add_dir(apex, axis, cone->height);
+    vec3_add_dir(apex, axis, cone->height);  // This is correct
     
     // Vector from apex to ray origin
     vec3 oc[3];
@@ -69,7 +69,8 @@ static bool hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hi
     double height_from_apex = vec3_dot(hit_to_apex, axis);
     
     // Height should be between 0 (at apex) and cone->height (at base)
-    if (height_from_apex < 0 || height_from_apex > cone->height)
+    // BUT: height_from_apex will be NEGATIVE when measured from apex towards base
+    if (height_from_apex < -cone->height || height_from_apex > 0)  // Fix this line
         return false;
 
     // Valid hit - record details
@@ -77,14 +78,14 @@ static bool hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hi
     vec3_copy(record->position, hit_point);
 
     // Calculate normal at hit point (corrected for cone)
+    // Calculate radius at this height (use absolute value)
+    double height_from_base = -height_from_apex;  // Convert to positive distance from base
+    
     // Find point on axis at same height as hit point
     vec3 axis_point[3];
-    vec3_copy(axis_point, apex);
-    vec3_add_dir(axis_point, axis, height_from_apex);
+    vec3_copy(axis_point, cone->cords);  // Start from base, not apex
+    vec3_add_dir(axis_point, axis, height_from_base);
 
-    // Calculate radius at this height
-    //double radius_at_height = (height_from_apex / cone->height) * cone->radius;
-    
     // Vector from axis point to hit point
     vec3 radial[3];
     vec3_sub(radial, hit_point, axis_point);

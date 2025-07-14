@@ -124,6 +124,7 @@ bool linked_list_to_cone_array(t_cone **cone_list, int size_array)
         ft_memcpy(&array[i], current, sizeof(t_cone));
         array[i].next = NULL;
         array[i].prev = NULL;
+        array[i].radius = array[i].d / 2;
         current = current->next;
         i++;
     }
