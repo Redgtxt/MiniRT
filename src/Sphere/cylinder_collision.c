@@ -144,12 +144,6 @@ static bool have_hit_cylinder_cap(t_cylinder *cylinder, const t_ray *ray, t_inte
     return (false);
 }
 
-void vec3_add_dir(vec3 original[3], vec3 dir[3], double dist)
-{
-    original[0] = original[0] + dir[0] * dist;
-    original[1] = original[1] + dir[1] * dist;
-    original[2] = original[2] + dir[2] * dist;
-}
 
 bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record)
 {

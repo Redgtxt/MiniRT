@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/11 15:03:42 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:37:07 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int create_control_window(t_control_panel *cp)
     cp->config_win = control_data;
     control_data->button = my_button;
     control_data->slider = my_slider;
-
+    init_material_selector(&cp->config_win->material_selector);
     // Inicializar sliders RGB com valores padrão da primeira esfera
     if (cp->sphere && cp->data.sphere_count > 0)
     {

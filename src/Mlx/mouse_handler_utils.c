@@ -131,4 +131,5 @@ void redraw_interface(t_control_panel *cp)
 
     // Desenhar sliders RGB se um objeto estiver selecionado
     create_rgb_sliders(cp);
+    draw_material_selector(cp);
 }
