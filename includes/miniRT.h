@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/14 11:33:50 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:47:13 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,13 @@
 #define ARROW_DOWN_KEY 65364
 #define ARROW_LEFT_KEY 65361
 #define ARROW_RIGHT_KEY 65363
-
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_Q 113  // Move up
+#define KEY_E 101  // Move down
+#define KEY_R 114  // Reset camera position
 typedef unsigned char mini_int;
 typedef double vec3;
 
@@ -344,7 +350,7 @@ typedef struct s_control_panel
 // MLX
 void    my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
 int close_window(t_control_panel *control_panel);
-int	key_hook(int keycode, t_control_panel *control_panel);
+int	key_hook(int keycode, t_control_panel *cp);
 void game_hooks(t_control_panel *control_panel);
 void clear_image(t_control_panel *control_panel);
 void config_antialising_render(int keycode, t_control_panel *control_panel);
@@ -438,13 +444,13 @@ double pont_dist(vec3 a[3], vec3 b[3]);
 bool hit_cones(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool have_hit_cone(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 //Scene
-void render_scene(t_control_panel *control_panel);
+void render_scene(t_control_panel *cp);
 //antialiasing
 void setup_antialiasing(t_control_panel *control_panel,int num_of_samples);
 void sample_square(double out[3]);
 //Camera
 void get_values_camera(t_control_panel *control_panel);
-
+void move_camera_with_keys(int keycode, t_control_panel *cp);
 //	Parsing.c
 bool parsing(t_control_panel *control_panel, char *file_name);
 
