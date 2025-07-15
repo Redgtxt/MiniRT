@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/14 14:47:13 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:31:13 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ typedef double vec3;
 typedef enum e_material_type
 {
 	LAMBERTIAN,
-	METAL
+	METAL,
+	CHECKERPATTERN
 }			t_material_type;
 
 typedef struct s_ray
@@ -104,6 +105,7 @@ typedef struct s_material
 	double			albedo[3];
  	double specular[3];       // Specular color
     double shininess;         // Specular exponent
+	double  checker_scale;
 }			t_material;
 
 typedef struct s_data_scatter
@@ -154,7 +156,7 @@ typedef struct s_material_selector
     int is_open;                 // Flag se está aberto
     int selected_material;       // Material atualmente selecionado
     int hover_index;             // Índice do item em hover
-    char *material_names[3];     // Nomes dos materiais
+    char *material_names[4];     // Nomes dos materiais
     int item_height;             // Altura de cada item no dropdown
     int color_button;            // Cor do botão principal
     int color_dropdown;          // Cor do dropdown
@@ -400,6 +402,9 @@ void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_d
 /*Textures*/
 void reflect(const double v[3], const double n[3], double out[3]);
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
+
+bool noise_scatter(t_hit_record *rec, t_data_scatter *data_scatter);
+void free_noise_material(t_material *material);
 
 /*Ray functions*/
 void init_ray(t_ray *ray);

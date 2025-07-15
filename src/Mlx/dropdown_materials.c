@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/14 11:56:28 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:31:01 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void init_material_selector(t_material_selector *selector)
     selector->y = 350;
     selector->width = 150;
     selector->height = 30;
-    selector->dropdown_height = 90; // 3 materiais * 30px cada
+    selector->dropdown_height = 120; // 4 materiais * 30px cada
     selector->is_open = 0;
     selector->selected_material = LAMBERTIAN;
     selector->hover_index = -1;
@@ -31,7 +31,9 @@ void init_material_selector(t_material_selector *selector)
     // Inicializar nomes dos materiais
     selector->material_names[0] = "LAMBERTIAN";
     selector->material_names[1] = "METAL";
-    selector->material_names[2] = "GLASS"; // Para expansão futura
+    selector->material_names[2] = "CHECKER";
+    selector->material_names[3] = "GLASS";
+
 }
 
 // Desenhar o material selector
@@ -55,7 +57,7 @@ void draw_material_selector(t_control_panel *cp)
         draw_rectangle(cp, selector->x, dropdown_y, selector->width, selector->dropdown_height, selector->color_dropdown);
 
         // Desenhar cada item do material
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++) // Atualizado para 4 materiais
         {
             int item_y = dropdown_y + (i * selector->item_height);
             int item_color = selector->color_dropdown;
@@ -108,7 +110,7 @@ int get_dropdown_item_index(t_material_selector *selector, int mouse_x, int mous
         int relative_y = mouse_y - dropdown_y;
         int index = relative_y / selector->item_height;
 
-        if (index >= 0 && index < 3)
+        if (index >= 0 && index < 4) // Atualizado para 4 materiais
             return index;
     }
 
@@ -221,7 +223,12 @@ void configure_material_properties(t_material *material, t_material_type type)
         material->specular[1] = 0.8;
         material->specular[2] = 0.8;
         break;
-
+    case CHECKERPATTERN:
+        material->shininess = 0.0;
+        // Definir escala do padrão xadrez
+        material->checker_scale = .5;
+        // Manter albedo para a cor principal do xadrez
+        break;
         // Adicionar outros materiais conforme necessário
     }
 }

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:52:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/11 15:04:24 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:11:37 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ int close_window(t_control_panel *control_panel)
 
         free(control_panel->config_win);
         control_panel->config_win = NULL;
+
+        
+        
     }
 
     exit(0);
