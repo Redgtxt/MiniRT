@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_values_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/09 17:22:26 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:07:36 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,31 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 
 	(void)error_log;
 	info_len = ft_strlen(info);
-	vec3_copy(object_material->albedo, rgb);
+	
 	if (!info)
 	{
 		object_material->type = LAMBERTIAN;
+		vec3_copy(object_material->albedo, rgb);
 		vec3_set(object_material->specular, 0.5, 0.5, 0.5);
 		object_material->shininess = 32.0;
+		object_material->refraction_index = 1.0; // Air/vacuum
 	}
 	else if (info_len == ft_strlen("METAL") && !ft_strncmp(info, "METAL", info_len))
 	{
 		object_material->type = METAL;
+		vec3_copy(object_material->albedo, rgb);
 		vec3_set(object_material->specular, 1.0, 1.0, 1.0);
 		object_material->shininess = 200.0;
-
+		object_material->refraction_index = 1.0; // Not used for metal
+	}
+	else if (info_len == ft_strlen("GLASS") && !ft_strncmp(info, "GLASS", info_len))
+	{
+		object_material->type = GLASS;
+		// For glass, use white/clear albedo for transparency
+		vec3_set(object_material->albedo, 1.0, 1.0, 1.0);
+		vec3_set(object_material->specular, 1.0, 1.0, 1.0);
+		object_material->shininess = 200.0;
+		object_material->refraction_index = 1.5; // Glass refractive index
 	}
 	else
 		return (false);

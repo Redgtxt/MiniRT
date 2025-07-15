@@ -256,3 +256,69 @@ void	vec3_add_scaled(double out[3], const double a[3], const double b[3],
 	vec3_scale(scaled_b, b, s);
 	vec3_add(out, a, scaled_b);
 }
+/// @brief Reflect a vector v around a normal n
+/// @param v vector to be reflected
+/// @param n normal vector to reflect around
+/// @param out output vector to store the reflected result
+/// @details The reflection formula is: reflected = v - 2 * dot(v, n) * n
+/// where dot(v, n) is the dot product of v and n.
+/// This function assumes that n is a unit normal vector.
+/// If n is not unit length, the result will not be correct.
+/// @note This function modifies the out vector directly.
+void reflect(const double v[3], const double n[3], double out[3])
+{
+    double dot_product = vec3_dot(v, n);
+    double scaled_normal[3];
+    
+    vec3_scale(scaled_normal, n, 2.0 * dot_product);
+    vec3_sub(out, v, scaled_normal);
+}
+
+/// @brief Refract a vector through a surface with given refractive indices ratio
+/// @param uv incident vector (should be normalized)
+/// @param n surface normal (should be normalized)
+/// @param etai_over_etat ratio of refractive indices (eta_incident / eta_transmitted)
+/// @param out output vector to store the refracted ray
+void refract(const double uv[3], const double n[3], double etai_over_etat, double out[3])
+{
+    double uv_negated[3];
+    double cos_theta;
+    double r_out_perp[3];
+    double r_out_parallel[3];
+    double cos_theta_n[3];
+    double temp[3];
+    double perp_length_sq;
+    double parallel_magnitude;
+
+    // Calculate -uv
+    vec3_negate(uv_negated, uv);
+    
+    // cos_theta = fmin(dot(-uv, n), 1.0)
+    cos_theta = vec3_dot(uv_negated, n);
+    if (cos_theta > 1.0)
+        cos_theta = 1.0;
+    
+    // r_out_perp = etai_over_etat * (uv + cos_theta*n)
+    vec3_scale(cos_theta_n, n, cos_theta);
+    vec3_add(temp, uv, cos_theta_n);
+    vec3_scale(r_out_perp, temp, etai_over_etat);
+    
+    // r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n
+    perp_length_sq = lenght_squared(r_out_perp);
+    parallel_magnitude = sqrt(fabs(1.0 - perp_length_sq));
+    vec3_scale(r_out_parallel, n, -parallel_magnitude);
+    
+    // return r_out_perp + r_out_parallel
+    vec3_add(out, r_out_perp, r_out_parallel);
+}
+
+/// @brief Schlick's approximation for reflectance (Fresnel effect)
+/// @param cosine cosine of the incident angle
+/// @param refraction_index refractive index of the material
+/// @return reflectance probability (0.0 to 1.0)
+double schlick_reflectance(double cosine, double refraction_index)
+{
+    double r0 = (1.0 - refraction_index) / (1.0 + refraction_index);
+    r0 = r0 * r0;
+    return r0 + (1.0 - r0) * pow((1.0 - cosine), 5);
+}

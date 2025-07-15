@@ -25,15 +25,6 @@ bool lambertian_scatter(t_hit_record *rec, t_data_scatter *data_scatter)
 //	-------------------	//
 
 //	METAL MATERIAL
-void reflect(const double v[3], const double n[3], double out[3])
-{
-    double dot_vn = vec3_dot(v, n); // dot(v, n)
-    double scaled_normal[3];
-
-    vec3_scale(scaled_normal, n, 2.0 * dot_vn); // 2 * dot(v, n) * n
-    vec3_sub(out, v, scaled_normal);            // out = v - 2 * dot(v,n) * n
-}
-
 bool metal_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)
 {
     double reflected[3];
@@ -47,13 +38,64 @@ bool metal_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_sc
 }
 //	------------------	//
 
+//	GLASS MATERIAL
+bool glass_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)
+{
+    double unit_direction[3];
+    double cos_theta;
+    double sin_theta;
+    double ri;
+    bool cannot_refract;
+    double direction[3];
+
+    // White attenuation (glass doesn't absorb light)
+    vec3_set(data_scatter->attenuation, 1.0, 1.0, 1.0);
+
+    // Calculate refractive index ratio
+    ri = rec->front_face ? (1.0 / rec->material->refraction_index) : rec->material->refraction_index;
+
+    // Normalize the incident ray direction
+    vec3_unit_vector(unit_direction, r_in->direction);
+
+    // Calculate cos_theta = fmin(dot(-unit_direction, rec.normal), 1.0)
+    double neg_unit_direction[3];
+    vec3_negate(neg_unit_direction, unit_direction);
+    cos_theta = vec3_dot(neg_unit_direction, rec->normal);
+    if (cos_theta > 1.0)
+        cos_theta = 1.0;
+
+    // Calculate sin_theta = sqrt(1.0 - cos_theta*cos_theta)
+    sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+
+    // Check for total internal reflection
+    cannot_refract = ri * sin_theta > 1.0;
+
+    // Decide whether to reflect or refract based on physics and Schlick's approximation
+    if (cannot_refract || schlick_reflectance(cos_theta, ri) > random_double_0_to_1())
+    {
+        // Reflect the ray
+        reflect(unit_direction, rec->normal, direction);
+    }
+    else
+    {
+        // Refract the ray
+        refract(unit_direction, rec->normal, ri, direction);
+    }
+
+    // Create the scattered ray
+    create_ray(&data_scatter->scattered, rec->position, direction);
+
+    return true;
+}
+//	------------------	//
+
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)
 {
     if (mat->type == LAMBERTIAN)
         return lambertian_scatter(rec, data_scatter);
     else if (mat->type == METAL)
         return metal_scatter(r_in, rec, data_scatter);
-    // else if (mat->type == DIELECTRIC)
-    //     return dielectric_scatter(mat, r_in, rec, attenuation, scattered);
+    else if (mat->type == GLASS)
+        return glass_scatter(r_in, rec, data_scatter);
     return false;
 }

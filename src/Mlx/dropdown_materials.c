@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dropdown_materials.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/14 11:56:28 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:59:53 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,15 @@ void configure_material_properties(t_material *material, t_material_type type)
         material->specular[0] = 0.8;
         material->specular[1] = 0.8;
         material->specular[2] = 0.8;
+        break;
+
+    case GLASS:
+        material->shininess = 200.0;
+        material->refraction_index = 1.5; // Glass refractive index
+        // Configurar propriedades do vidro
+        material->specular[0] = 1.0;
+        material->specular[1] = 1.0;
+        material->specular[2] = 1.0;
         break;
 
         // Adicionar outros materiais conforme necessário

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/14 14:47:13 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:37:21 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@
 #define LIGHT_LINEAR     0.045  // Linear falloff (reduced from 0.09 for brighter lights)
 #define LIGHT_QUADRATIC  0.016  // Quadratic falloff (reduced from 0.032 for less distance falloff)
 
+// // Light types for realistic lighting
+// #define LIGHT_POINT      0  // Point light (current implementation)
+// #define LIGHT_DIRECTIONAL 1  // Sun-like directional light
+// #define LIGHT_SPOT       2  // Spotlight with cone
+// #define LIGHT_AREA       3  // Area light (soft shadows)
+
 // Alternative attenuation presets for different scenarios:
 // Indoor lighting: constant=1.0, linear=0.09, quadratic=0.032
 // Outdoor/Large spaces: constant=1.0, linear=0.014, quadratic=0.0007
@@ -87,7 +93,8 @@ typedef double vec3;
 typedef enum e_material_type
 {
 	LAMBERTIAN,
-	METAL
+	METAL,
+	GLASS
 }			t_material_type;
 
 typedef struct s_ray
@@ -104,6 +111,7 @@ typedef struct s_material
 	double			albedo[3];
  	double specular[3];       // Specular color
     double shininess;         // Specular exponent
+    double refraction_index;  // Refractive index for glass materials
 }			t_material;
 
 typedef struct s_data_scatter
@@ -249,12 +257,6 @@ typedef struct s_camera
 	bool antialiasing;
 } t_camera;
 
-// Light types for realistic lighting
-#define LIGHT_POINT      0  // Point light (current implementation)
-#define LIGHT_DIRECTIONAL 1  // Sun-like directional light
-#define LIGHT_SPOT       2  // Spotlight with cone
-#define LIGHT_AREA       3  // Area light (soft shadows)
-
 typedef struct s_light
 {
 	vec3 cords[3];
@@ -396,9 +398,9 @@ void update_slider_value(t_slider *slider, int mouse_x);
 int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y);
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
+double get_shadow_intensity(t_control_panel *panel, vec3 point[3], t_light *light);
 void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
 /*Textures*/
-void reflect(const double v[3], const double n[3], double out[3]);
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
 
 /*Ray functions*/
