@@ -25,5 +25,8 @@ double vec3_length(const double v[3]);
 void vec3_add_dir(double original[3], double dir[3], double dist);
 void	vec3_add_scaled(double out[3], const double a[3], const double b[3],
 		double s);
-double	vec3_length_squared(const double v[3]);
+void reflect(const double v[3], const double n[3], double out[3]);
+void refract(const double uv[3], const double n[3], double etai_over_etat, double out[3]);
+double schlick_reflectance(double cosine, double refraction_index);
+
 #endif

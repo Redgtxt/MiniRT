@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/16 17:13:57 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:49:40 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void init_material_selector(t_material_selector *selector)
     selector->color_text = COLOR_WHITE;
 
     // Inicializar nomes dos materiais
-    selector->material_names[0] = "LAMBERTIAN";
-    selector->material_names[1] = "METAL";
-    selector->material_names[2] = "CHECKER";
-    selector->material_names[3] = "SOLID";
+    selector->material_names[0] = "SOLID";
+    selector->material_names[1] = "LAMBERTIAN";
+    selector->material_names[2] = "METAL";
+    selector->material_names[3] = "CHECKER";
     selector->material_names[4] = "GLASS";
 }
 
@@ -196,6 +196,8 @@ void configure_material_properties(t_material *material, t_material_type type)
 {
     switch (type)
     {
+        case SOLID:
+        break;
     case LAMBERTIAN:
         material->shininess = 0.0;
         // Manter albedo atual
@@ -214,6 +216,16 @@ void configure_material_properties(t_material *material, t_material_type type)
         material->checker_scale = .5;
         // Manter albedo para a cor principal do xadrez
         break;
+
+    case GLASS:
+        material->shininess = 200.0;
+        material->refraction_index = 1.5; // Glass refractive index
+        // Configurar propriedades do vidro
+        material->specular[0] = 1.0;
+        material->specular[1] = 1.0;
+        material->specular[2] = 1.0;
+        break;
+
         // Adicionar outros materiais conforme necessário
     }
 }

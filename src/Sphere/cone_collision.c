@@ -28,7 +28,7 @@ static bool have_hit_cone_cap(t_cone *cone, const t_ray *ray, t_interval t_ray, 
 		return (false);
 	ray_at(t, *ray, intersection_point);
 	vec3_sub(dist_vec, intersection_point, cap_center);
-	if (vec3_length_squared(dist_vec) > cone->radius * cone->radius)
+	if (vec3_length(dist_vec) > cone->radius * cone->radius)
 		return (false);
 	record->t = t;
 	ray_at(t, *ray, record->position);

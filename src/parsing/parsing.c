@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/11 17:18:04 by randrade         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:31:56 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ static bool	parse_number_elements(t_data data, t_error_log *error_log)
 		error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_ELEMENTS);
 	else if (data.light_count == 0)
 		error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_NBR_ELEMENTS);
-	// else if (data.sphere_count == 0)
-	// 	error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_NBR_ELEMENTS);
-	// else if (data.plane_count == 0)
-	// 	error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_NBR_ELEMENTS);
-	// else if (data.cylinder_count == 0)
-	// 	error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_NBR_ELEMENTS);
 	if (error_log->code_error != 0)
 	{
 		error_log->line_nbr = 0;

@@ -112,55 +112,59 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
         vec3 color[3] = {0, 0, 0};
         size_t	i;
 
-        i = 0;
-        while (i < panel->data.light_count)
+        // For glass materials, skip direct lighting and go straight to scattering
+        if (rec.material->type != GLASS)
         {
-        	// Process each light source
-        	vec3 light_dir[3];
-        	vec3_sub(light_dir, panel->light[i].cords, rec.position);
-        	double distance = vec3_length(light_dir);
-        	
-        	// Optional: Skip lights that are too far away (if range is set)
-        	// if (panel->light[i].range > 0 && distance > panel->light[i].range) {
-        	//     i++;
-        	//     continue;
-        	// }
-        	
-        	if (!is_shadowed(panel, rec.position, &panel->light[i]))
-        	{
-            	vec3_normalize(light_dir, light_dir);
-
-            	// Apply realistic light attenuation
-            	double attenuation = 1.0 / (LIGHT_CONSTANT + LIGHT_LINEAR * distance + LIGHT_QUADRATIC * distance * distance);
+            i = 0;
+            while (i < panel->data.light_count)
+            {
+            	// Process each light source
+            	vec3 light_dir[3];
+            	vec3_sub(light_dir, panel->light[i].cords, rec.position);
+            	double distance = vec3_length(light_dir);
             	
-            	// Alternative: Simple inverse square with minimum distance
-            	// double attenuation = 1.0 / fmax(distance * distance, 1.0);
+            	// Get shadow intensity (1.0 = no shadow, 0.0 = full shadow)
+            	double shadow_intensity = get_shadow_intensity(panel, rec.position, &panel->light[i]);
+            	
+            	if (shadow_intensity > 0.0)
+            	{
+                	vec3_normalize(light_dir, light_dir);
 
-            	// Diffuse component
-            	diffuse_comp(&panel->light[i], &rec, color, light_dir, attenuation);
+                	// Apply realistic light attenuation
+                	double attenuation = 1.0 / (LIGHT_CONSTANT + LIGHT_LINEAR * distance + LIGHT_QUADRATIC * distance * distance);
+                	
+                	// Apply shadow intensity to attenuation
+                	attenuation *= shadow_intensity;
+                	
+                	// Alternative: Simple inverse square with minimum distance
+                	// double attenuation = 1.0 / fmax(distance * distance, 1.0);
 
-            	// Specular component (Phong)
-            	if (rec.material->shininess > 0) {
-                	vec3 view_dir[3];
-                	vec3_negate(view_dir, ray->direction);
-                	vec3_normalize(view_dir, view_dir);
+                	// Diffuse component
+                	diffuse_comp(&panel->light[i], &rec, color, light_dir, attenuation);
 
-                	vec3 reflect_dir[3];
-                	reflect(light_dir, rec.normal, reflect_dir);
+                	// Specular component (Phong)
+                	if (rec.material->shininess > 0) {
+                    	vec3 view_dir[3];
+                    	vec3_negate(view_dir, ray->direction);
+                    	vec3_normalize(view_dir, view_dir);
 
-                	double spec = pow(fmax(vec3_dot(view_dir, reflect_dir), 0.0),
-                       	rec.material->shininess);
-                	vec3 specular[3];
-                	vec3_scale(specular, rec.material->specular, spec * SPECULAR_INTENSITY);
-                	vec3_multiply(specular, specular, panel->light[i].rgb);
-                	vec3_scale(specular, specular, panel->light[i].brightness * attenuation);
-                	vec3_add(color, color, specular);
+                    	vec3 reflect_dir[3];
+                    	reflect(light_dir, rec.normal, reflect_dir);
+
+                    	double spec = pow(fmax(vec3_dot(view_dir, reflect_dir), 0.0),
+                           	rec.material->shininess);
+                    	vec3 specular[3];
+                    	vec3_scale(specular, rec.material->specular, spec * SPECULAR_INTENSITY);
+                    	vec3_multiply(specular, specular, panel->light[i].rgb);
+                    	vec3_scale(specular, specular, panel->light[i].brightness * attenuation);
+                    	vec3_add(color, color, specular);
+                	}
             	}
-        	}
-         	i++;
+             	i++;
+            }
         }
 
-        	// Recursive reflection
+        	// Recursive reflection/refraction
         	if (scatter(rec.material, ray, &rec, &data_scatter)) {
             	vec3 scattered_color[3];
             	ray_color(panel, depth - 1, &data_scatter.scattered, scattered_color);
@@ -173,30 +177,3 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
     else
         set_amb_light(panel, ray, out_color);
 }
-
-// void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3])
-// {
-//     t_hit_record record;
-
-//     if (0 >= depth)
-//     {
-//         vec3_zero(out_color);
-//         return;
-//     }
-//     if (hit_world(control_panel, ray, interval_create(0.001, D_INFINITY), &record))
-//     {
-//    		t_data_scatter	data_scatter;
-
-//         if (scatter(record.material, ray, &record, &data_scatter)) {
-//             double color[3];
-//             ray_color(control_panel, depth - 1, &data_scatter.scattered, color);
-//             vec3_multiply(color, color, data_scatter.attenuation); // final_color *= attenuation
-//             vec3_scale(color, color, control_panel->light.object_brightness);
-//             vec3_copy(out_color, color);
-//             return;
-//         }
-//         vec3_zero(out_color);
-//         return;
-//     }
-//     set_amb_light(control_panel,ray, out_color);
-// }
