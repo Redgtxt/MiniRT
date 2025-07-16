@@ -71,6 +71,12 @@ void create_rgb_sliders(t_control_panel *cp)
         g = cp->cylinder[cp->data.idx_obj].rgb[1];
         b = cp->cylinder[cp->data.idx_obj].rgb[2];
     }
+    else if (cp->data.obj_type == 3 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cone_count && cp->cone)
+    {
+        r = cp->cone[cp->data.idx_obj].rgb[0];
+        g = cp->cone[cp->data.idx_obj].rgb[1];
+        b = cp->cone[cp->data.idx_obj].rgb[2];
+    }
     else
     {
         return; // No valid object selected

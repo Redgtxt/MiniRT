@@ -63,6 +63,21 @@ static int find_clicked_object(t_control_panel *cp, int mouse_x, int mouse_y, in
                 }
             }
         }
+
+        for (size_t i = 0; i < cp->data.cone_count; i++)
+        {
+            t_hit_record cone_record;
+            // Verificar se este cilindro foi atingido
+            if (have_hit_cone(&cp->cone[i], &ray, t_ray, &cone_record))
+            {
+                // Verificar se é o cilindro mais próximo (comparar distâncias)
+                if (fabs(cone_record.t - record.t) < 0.001)
+                {
+                    *obj_type = 3; // Tipo cilindro
+                    return (int)i; // Retornar índice do cilindro
+                }
+            }
+        }
     }
 
     return -1; // Nenhum objeto encontrado
@@ -121,6 +136,20 @@ static void update_control_interface_with_object(t_control_panel *cp, int obj_in
             cp->config_win->material_selector.selected_material = selected->material.type;
 
             printf("Cilindro %d selecionado! RGB: %.2f, %.2f, %.2f\n",
+                   obj_index, selected->rgb[0], selected->rgb[1], selected->rgb[2]);
+        }
+        case 3: // Cone
+        if (obj_index >= 0 && obj_index < (int)cp->data.cone_count)
+        {
+            t_cylinder *selected = &cp->cylinder[obj_index];
+            cp->config_win->red_slider.current_value = selected->rgb[0];
+            cp->config_win->green_slider.current_value = selected->rgb[1];
+            cp->config_win->blue_slider.current_value = selected->rgb[2];
+
+            // Add this line to update the material selector
+            cp->config_win->material_selector.selected_material = selected->material.type;
+
+            printf("Cone %d selecionado! RGB: %.2f, %.2f, %.2f\n",
                    obj_index, selected->rgb[0], selected->rgb[1], selected->rgb[2]);
         }
         break;

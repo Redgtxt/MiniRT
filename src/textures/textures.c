@@ -88,8 +88,6 @@ bool checker_scatter(t_hit_record *rec, t_data_scatter *data_scatter)
     return true;
 }
 
-// Declaração da função noise_scatter do arquivo noise.c
-extern bool noise_scatter(t_hit_record *rec, t_data_scatter *data_scatter);
 
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)
 {

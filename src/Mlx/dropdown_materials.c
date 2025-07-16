@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/15 18:31:01 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:13:57 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void init_material_selector(t_material_selector *selector)
     selector->y = 350;
     selector->width = 150;
     selector->height = 30;
-    selector->dropdown_height = 120; // 4 materiais * 30px cada
+    selector->dropdown_height = 150; // 5 materiais * 30px cada
     selector->is_open = 0;
     selector->selected_material = LAMBERTIAN;
     selector->hover_index = -1;
@@ -32,8 +32,8 @@ void init_material_selector(t_material_selector *selector)
     selector->material_names[0] = "LAMBERTIAN";
     selector->material_names[1] = "METAL";
     selector->material_names[2] = "CHECKER";
-    selector->material_names[3] = "GLASS";
-
+    selector->material_names[3] = "SOLID";
+    selector->material_names[4] = "GLASS";
 }
 
 // Desenhar o material selector
@@ -57,7 +57,7 @@ void draw_material_selector(t_control_panel *cp)
         draw_rectangle(cp, selector->x, dropdown_y, selector->width, selector->dropdown_height, selector->color_dropdown);
 
         // Desenhar cada item do material
-        for (int i = 0; i < 4; i++) // Atualizado para 4 materiais
+        for (int i = 0; i < 5; i++) // Atualizado para 5 materiais
         {
             int item_y = dropdown_y + (i * selector->item_height);
             int item_color = selector->color_dropdown;
@@ -110,7 +110,7 @@ int get_dropdown_item_index(t_material_selector *selector, int mouse_x, int mous
         int relative_y = mouse_y - dropdown_y;
         int index = relative_y / selector->item_height;
 
-        if (index >= 0 && index < 4) // Atualizado para 4 materiais
+        if (index >= 0 && index < 5) // Atualizado para 4 materiais
             return index;
     }
 
@@ -140,9 +140,6 @@ void handle_material_selector_click(t_control_panel *cp, int mouse_x, int mouse_
             selector->selected_material = item_index;
             selector->is_open = 0;
             selector->hover_index = -1;
-
-            // Aplicar material ao objeto selecionado
-            apply_material_to_selected_object(cp, (t_material_type)item_index);
         }
         else
         {
@@ -170,40 +167,28 @@ void apply_material_to_selected_object(t_control_panel *cp, t_material_type mate
 {
     t_data *data = &cp->data;
 
-    // Verificar qual tipo de objeto está selecionado
-    switch (data->obj_type)
+    // Só altera o objeto atualmente selecionado!
+    if (data->obj_type == 0 && data->idx_obj >= 0 && data->idx_obj < (int)data->sphere_count)
     {
-    case 0: // Sphere
-        if (data->idx_obj >= 0 && data->idx_obj < (int)data->sphere_count)
-        {
-            // Replace linked list traversal with direct array access
-            cp->sphere[data->idx_obj].material.type = material_type;
-            configure_material_properties(&cp->sphere[data->idx_obj].material, material_type);
-        }
-        break;
-
-    case 1: // Plane
-        if (data->idx_obj >= 0 && data->idx_obj < (int)data->plane_count)
-        {
-            // Replace linked list traversal with direct array access
-            cp->plane[data->idx_obj].material.type = material_type;
-            configure_material_properties(&cp->plane[data->idx_obj].material, material_type);
-        }
-        break;
-
-    case 2: // Cylinder
-        if (data->idx_obj >= 0 && data->idx_obj < (int)data->cylinder_count)
-        {
-            // Replace linked list traversal with direct array access
-            cp->cylinder[data->idx_obj].material.type = material_type;
-            configure_material_properties(&cp->cylinder[data->idx_obj].material, material_type);
-        }
-        break;
+        cp->sphere[data->idx_obj].material.type = material_type;
+        configure_material_properties(&cp->sphere[data->idx_obj].material, material_type);
+    }
+    else if (data->obj_type == 1 && data->idx_obj >= 0 && data->idx_obj < (int)data->plane_count)
+    {
+        cp->plane[data->idx_obj].material.type = material_type;
+        configure_material_properties(&cp->plane[data->idx_obj].material, material_type);
+    }
+    else if (data->obj_type == 2 && data->idx_obj >= 0 && data->idx_obj < (int)data->cylinder_count)
+    {
+        cp->cylinder[data->idx_obj].material.type = material_type;
+        configure_material_properties(&cp->cylinder[data->idx_obj].material, material_type);
+    }
+    else if (data->obj_type == 3 && data->idx_obj >= 0 && data->idx_obj < (int)data->cone_count)
+    {
+        cp->cone[data->idx_obj].material.type = material_type;
+        configure_material_properties(&cp->cone[data->idx_obj].material, material_type);
     }
 
-    // Re-render da cena
-    clear_image(cp);
-    render_scene(cp);
 }
 
 // Configurar propriedades específicas do material

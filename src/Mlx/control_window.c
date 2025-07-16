@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/14 11:37:07 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:56:34 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ static t_win_config *init_control_window(t_control_panel *cp)
 
     // Load all three object images
     control_data->image.sphere = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/sphere_small.xpm", &img_width, &img_height);
-    control_data->image.plane = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/plane.xpm", &img_width, &img_height);
+    control_data->image.plane = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/plane_resized.xpm", &img_width, &img_height);
     control_data->image.cylinder = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/cylinder.xpm", &img_width, &img_height);
+    control_data->image.cone = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/cone_resized.xpm", &img_width, &img_height);
 
     return control_data;
 }
@@ -90,6 +91,10 @@ static void change_object(int keycode, t_control_panel *cp)
         { // Cylinder
             cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.cylinder_count;
         }
+        else if (cp->data.obj_type == 3)
+        { // cone
+            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.cone_count;
+        }
     }
     else if (keycode == ARROW_LEFT_KEY)
     {
@@ -106,17 +111,21 @@ static void change_object(int keycode, t_control_panel *cp)
         {
             cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.cylinder_count) % cp->data.cylinder_count;
         }
+        else if (cp->data.obj_type == 3 && cp->data.cone_count > 0)
+        {
+            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.cone_count) % cp->data.cone_count;
+        }
     }
     // Add up/down arrow keys to switch between object types
     else if (keycode == ARROW_UP_KEY || keycode == ARROW_DOWN_KEY)
     {
         if (keycode == ARROW_UP_KEY)
         {
-            cp->data.obj_type = (cp->data.obj_type + 1) % 3;
+            cp->data.obj_type = (cp->data.obj_type + 1) % 4;
         }
         else
         {
-            cp->data.obj_type = (cp->data.obj_type + 2) % 3; // +2 is equivalent to -1 with modulo 3
+            cp->data.obj_type = (cp->data.obj_type + 2) % 4; // +2 is equivalent to -1 with modulo 3
         }
         cp->data.idx_obj = 0; // Reset index when switching types
     }

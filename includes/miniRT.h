@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/15 18:31:13 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:10:30 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef struct s_material_selector
     int is_open;                 // Flag se está aberto
     int selected_material;       // Material atualmente selecionado
     int hover_index;             // Índice do item em hover
-    char *material_names[4];     // Nomes dos materiais
+    char *material_names[5];     // Nomes dos materiais
     int item_height;             // Altura de cada item no dropdown
     int color_button;            // Cor do botão principal
     int color_dropdown;          // Cor do dropdown
@@ -169,6 +169,7 @@ typedef struct s_image
 	void *sphere;
 	void *plane;
 	void *cylinder;
+	void *cone;
 }t_image;
 
 
@@ -211,7 +212,7 @@ typedef struct s_data
 	size_t plane_count;
 	size_t cylinder_count;
 	size_t cone_count;
-	int obj_type;  // Add this: 0 for sphere, 1 for plane, 2 for cylinder
+	int obj_type;  // Add this: 0 for sphere, 1 for plane, 2 for cylinder, 3 for cone
 	int idx_obj;
 } t_data;
 

@@ -62,6 +62,14 @@ static void draw_stats(t_control_panel *cp, int obj_index)
         rgb = cp->cylinder[obj_index].rgb;
         vec3_copy(pos, cp->cylinder[obj_index].cords);
     }
+    else if (cp->data.obj_type == 3)
+    {
+        if (obj_index < 0 || obj_index >= (int)cp->data.cone_count || !cp->cone)
+            return;
+        sprintf(obj_type_str, "Cone");
+        rgb = cp->cone[obj_index].rgb;
+        vec3_copy(pos, cp->cone[obj_index].cords);
+    }
     else
     {
         return;
@@ -96,7 +104,13 @@ static void draw_stats(t_control_panel *cp, int obj_index)
                 cp->cylinder[obj_index].height);
         mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 70, COLOR_WHITE, info_text);
     }
-
+    else if (cp->data.obj_type == 3)
+    {
+        sprintf(info_text, "Radius: %.2f, Height: %.2f",
+                cp->cone[obj_index].radius,
+                cp->cone[obj_index].height);
+        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 70, COLOR_WHITE, info_text);
+    }
     // Display RGB values
     sprintf(info_text, "RGB: %.2f,%.2f,%.2f", rgb[0], rgb[1], rgb[2]);
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 90, COLOR_WHITE, info_text);
@@ -122,6 +136,9 @@ void redraw_interface(t_control_panel *cp)
     else if (cp->data.obj_type == 2 && cp->config_win->image.cylinder)
         mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
                                 cp->config_win->image.cylinder, 10, 10);
+    else if (cp->data.obj_type == 3 && cp->config_win->image.cone)
+        mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
+                                cp->config_win->image.cone, 10, 10);
 
     // Redesenhar textos
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, 0xFF0000, "RENDER");
