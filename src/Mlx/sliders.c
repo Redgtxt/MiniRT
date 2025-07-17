@@ -1,45 +1,25 @@
 #include "../../includes/miniRT.h"
 
-static void draw_slider_bar(t_control_panel *cp, t_slider slider)
-{
-    int i;
-    int j;
-
-    i = 0;
-    // desenha a barra do slider
-    while (i < slider.height)
-    {
-        j = 0;
-        while (j < slider.width)
-        {
-            pixel_put_win_control(cp, slider.x + j, slider.y + i, slider.color_bar);
-            j++;
-        }
-        i++;
-    }
-}
-
-// Função para desenhar os valores do slider
+// Função para desenhar os valores do slider (apenas para ambient light)
 void draw_slider_values(t_control_panel *cp, t_slider slider)
 {
-    char min_str[20], max_str[20], current_str[20];
+    char current_str[20];
 
-    sprintf(min_str, "%.1f", slider.min_value);
-    sprintf(max_str, "%.1f", slider.max_value);
-    sprintf(current_str, "%.1f", slider.current_value);
+    sprintf(current_str, "%.2f", slider.current_value);
+
+    // Valor atual do ambient light alinhado à direita como os RGB
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win,
+                   380, 202,
+                   COLOR_WHITE, current_str);
+
+    // Labels min/max para ambient light
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win,
+                   slider.x - 10, slider.y + 5,
+                   COLOR_TEXT_SOFT, "0.0");
 
     mlx_string_put(cp->config_win->mlx, cp->config_win->win,
-                   slider.x - 20, slider.y + slider.height + 15,
-                   0xFFFFFF, min_str);
-
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win,
-                   slider.x + slider.width + 5, slider.y + slider.height + 15,
-                   0xFFFFFF, max_str);
-
-    // Desenhar valor atual no centro
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win,
-                   slider.x + slider.width / 2 - 10, slider.y - 20,
-                   0x00FF00, current_str);
+                   slider.x + slider.width + 5, slider.y + 5,
+                   COLOR_TEXT_SOFT, "1.0");
 }
 
 void create_rgb_sliders(t_control_panel *cp)
@@ -92,40 +72,38 @@ void create_rgb_sliders(t_control_panel *cp)
     draw_slider(cp, cp->config_win->green_slider);
     draw_slider(cp, cp->config_win->blue_slider);
 
-    // Labels for the sliders
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 30, 265, 0xFF0000, "Red:");
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 20, 285, 0x00FF00, "Green:");
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 20, 315, 0x0000FF, "Blue:");
+    // Labels for the sliders melhorados
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 25, 265, 0xFF4040, "Red:");
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 15, 295, 0x40FF40, "Green:");
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 20, 325, 0x4040FF, "Blue:");
 
-    // Show current values
-    draw_slider_values(cp, cp->config_win->red_slider);
-    draw_slider_values(cp, cp->config_win->green_slider);
-    draw_slider_values(cp, cp->config_win->blue_slider);
+    // Show current values apenas para o valor atual, sem os min/max repetitivos
+    char r_str[20], g_str[20], b_str[20];
+    sprintf(r_str, "%.2f", r);
+    sprintf(g_str, "%.2f", g);
+    sprintf(b_str, "%.2f", b);
+
+    // Valores atuais alinhados à direita dos sliders
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 380, 262, COLOR_WHITE, r_str);
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 380, 292, COLOR_WHITE, g_str);
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 380, 322, COLOR_WHITE, b_str);
 }
 
 void draw_slider(t_control_panel *cp, t_slider slider)
 {
-    int i;
-    int j;
     int handle_x;
     float value_ratio;
 
-    draw_slider_bar(cp, slider);
+    // Usar a nova função melhorada para desenhar a barra
+    draw_slider_bar_improved(cp, slider);
+
     // Calcular posição do handle baseado no valor atual
     value_ratio = (slider.current_value - slider.min_value) / (slider.max_value - slider.min_value);
     handle_x = slider.x + (int)((slider.width - slider.handle_width) * value_ratio);
-    i = 0;
-    // desenha o handler
-    while (i < slider.handle_height)
-    {
-        j = 0;
-        while (j < slider.handle_width)
-        {
-            pixel_put_win_control(cp, handle_x + j, slider.y - (slider.handle_height - slider.height) / 2 + i, slider.color_handle);
-            j++;
-        }
-        i++;
-    }
+
+    // Desenhar handle melhorado
+    draw_slider_handle_improved(cp, handle_x, slider.y - (slider.handle_height - slider.height) / 2,
+                                slider.handle_width, slider.handle_height, slider.color_handle);
 }
 void update_slider_value(t_slider *slider, int mouse_x)
 {

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:01:56 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/14 14:32:48 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:35:30 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
     0 - desliga o antialising mas mantem configuracoes
     Arrow keys para aumentar ou diminuir o brilho
 */
-
-
 
 
 int key_hook(int keycode, t_control_panel *cp)

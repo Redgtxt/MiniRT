@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/16 17:49:40 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:27:43 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void init_material_selector(t_material_selector *selector)
     selector->selected_material = LAMBERTIAN;
     selector->hover_index = -1;
     selector->item_height = 30;
-    selector->color_button = COLOR_GRAY;
-    selector->color_dropdown = COLOR_DARK_GRAY;
-    selector->color_hover = COLOR_BLUE;
-    selector->color_text = COLOR_WHITE;
+    // Cores melhoradas
+    selector->color_button = COLOR_BUTTON_BG;
+    selector->color_dropdown = COLOR_DROPDOWN_BG;
+    selector->color_hover = COLOR_HOVER;
+    selector->color_text = COLOR_TEXT_SOFT;
 
     // Inicializar nomes dos materiais
     selector->material_names[0] = "SOLID";
@@ -41,20 +42,23 @@ void draw_material_selector(t_control_panel *cp)
 {
     t_material_selector *selector = &cp->config_win->material_selector;
 
-    // Desenhar botão principal
+    // Desenhar botão principal com borda
     draw_rectangle(cp, selector->x, selector->y, selector->width, selector->height, selector->color_button);
+    draw_border(cp, selector->x, selector->y, selector->width, selector->height, COLOR_WHITE);
+
     draw_text(cp, selector->x + 10, selector->y + 10, selector->material_names[selector->selected_material], selector->color_text);
 
-    // Desenhar seta para baixo
-    draw_arrow_down(cp, selector->x + selector->width - 20, selector->y + 10);
+    // Desenhar seta melhorada
+    draw_arrow_down_improved(cp, selector->x + selector->width - 20, selector->y + 10);
 
     // Se estiver aberto, desenhar dropdown
     if (selector->is_open)
     {
         int dropdown_y = selector->y + selector->height;
 
-        // Desenhar fundo do dropdown
+        // Desenhar fundo do dropdown com borda
         draw_rectangle(cp, selector->x, dropdown_y, selector->width, selector->dropdown_height, selector->color_dropdown);
+        draw_border(cp, selector->x, dropdown_y, selector->width, selector->dropdown_height, COLOR_WHITE);
 
         // Desenhar cada item do material
         for (int i = 0; i < 5; i++) // Atualizado para 5 materiais
@@ -64,14 +68,14 @@ void draw_material_selector(t_control_panel *cp)
 
             // Destacar item em hover
             if (i == selector->hover_index)
-                item_color = selector->color_hover;
+                item_color = COLOR_HOVER;
 
             // Destacar item selecionado
             if (i == selector->selected_material)
-                item_color = selector->color_hover;
+                item_color = COLOR_SELECTED;
 
-            draw_rectangle(cp, selector->x, item_y, selector->width, selector->item_height, item_color);
-            draw_text(cp, selector->x + 10, item_y + 10, selector->material_names[i], selector->color_text);
+            draw_rectangle(cp, selector->x + 2, item_y + 1, selector->width - 4, selector->item_height - 2, item_color);
+            draw_text(cp, selector->x + 10, item_y + 8, selector->material_names[i], selector->color_text);
         }
     }
 }
@@ -188,7 +192,6 @@ void apply_material_to_selected_object(t_control_panel *cp, t_material_type mate
         cp->cone[data->idx_obj].material.type = material_type;
         configure_material_properties(&cp->cone[data->idx_obj].material, material_type);
     }
-
 }
 
 // Configurar propriedades específicas do material
@@ -196,7 +199,7 @@ void configure_material_properties(t_material *material, t_material_type type)
 {
     switch (type)
     {
-        case SOLID:
+    case SOLID:
         break;
     case LAMBERTIAN:
         material->shininess = 0.0;
@@ -260,4 +263,91 @@ void draw_arrow_down(t_control_panel *cp, int x, int y)
             pixel_put_win_control(cp, x + 2 - j, y + i, COLOR_WHITE);
         }
     }
+}
+
+// Adicionar função para desenhar bordas
+void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color)
+{
+    // Borda superior
+    for (int i = 0; i < width; i++)
+        pixel_put_win_control(cp, x + i, y, color);
+
+    // Borda inferior
+    for (int i = 0; i < width; i++)
+        pixel_put_win_control(cp, x + i, y + height - 1, color);
+
+    // Borda esquerda
+    for (int i = 0; i < height; i++)
+        pixel_put_win_control(cp, x, y + i, color);
+
+    // Borda direita
+    for (int i = 0; i < height; i++)
+        pixel_put_win_control(cp, x + width - 1, y + i, color);
+}
+
+// Seta melhorada
+void draw_arrow_down_improved(t_control_panel *cp, int x, int y)
+{
+    // Desenhar triângulo mais definido
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j <= i; j++)
+        {
+            pixel_put_win_control(cp, x + 3 + j, y + i, COLOR_WHITE);
+            pixel_put_win_control(cp, x + 3 - j, y + i, COLOR_WHITE);
+        }
+    }
+}
+
+// Botão melhorado
+void draw_button_improved(t_control_panel *cp, t_button button)
+{
+    // Fundo do botão com gradiente simples
+    draw_rectangle(cp, button.x, button.y, button.width, button.height, 0x20A020);
+
+    // Highlight no topo
+    for (int i = 0; i < button.width; i++)
+        pixel_put_win_control(cp, button.x + i, button.y, COLOR_HIGHLIGHT);
+
+    // Sombra na base
+    for (int i = 0; i < button.width; i++)
+        pixel_put_win_control(cp, button.x + i, button.y + button.height - 1, COLOR_SHADOW);
+
+    // Bordas laterais
+    for (int i = 0; i < button.height; i++)
+    {
+        pixel_put_win_control(cp, button.x, button.y + i, COLOR_HIGHLIGHT);
+        pixel_put_win_control(cp, button.x + button.width - 1, button.y + i, COLOR_SHADOW);
+    }
+}
+
+// Barra do slider melhorada
+void draw_slider_bar_improved(t_control_panel *cp, t_slider slider)
+{
+    // Fundo da barra (cor mais escura)
+    draw_rectangle(cp, slider.x, slider.y, slider.width, slider.height, 0x202020);
+
+    // Borda da barra
+    draw_border(cp, slider.x, slider.y, slider.width, slider.height, COLOR_BORDER);
+
+    // Parte preenchida (gradiente simples)
+    float value_ratio = (slider.current_value - slider.min_value) / (slider.max_value - slider.min_value);
+    int filled_width = (int)(slider.width * value_ratio);
+
+    if (filled_width > 2)
+        draw_rectangle(cp, slider.x + 1, slider.y + 1, filled_width - 2, slider.height - 2, slider.color_handle);
+}
+
+// Handle do slider melhorado
+void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, int height, int color)
+{
+    // Handle principal
+    draw_rectangle(cp, x, y, width, height, color);
+
+    // Borda do handle
+    draw_border(cp, x, y, width, height, COLOR_WHITE);
+
+    // Highlight no topo para efeito 3D
+    for (int i = 1; i < width - 1; i++)
+        pixel_put_win_control(cp, x + i, y + 1, COLOR_WHITE);
 }

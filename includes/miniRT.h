@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/16 17:46:20 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:37:28 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include "../Library/get_next_line/get_next_line.h"
 #include "../Library/libft/libft.h"
 #include "../Library/minilibx-linux/mlx.h"
+#include "ui.h"
+#include "vec3.h"
+#include "interval.h"
 #include "miniRT_error_p.h"
 #include <limits.h>
 #include <math.h>
@@ -24,8 +27,6 @@
 #include <float.h>
 #include <unistd.h>
 #include <time.h> //BONUS
-#include "vec3.h"
-#include "interval.h"
 
 //	Printf colors
 #define REDHB "\e[0;101m"
@@ -35,23 +36,16 @@
 #define BHGRN "\e[1;92m"
 #define BHYEL "\e[1;93m"
 #define HMAG "\e[1;95m"
-// Cores para a interface
-#define COLOR_WHITE     0xFFFFFF
-#define COLOR_BLACK     0x000000
-#define COLOR_GRAY      0x808080
-#define COLOR_DARK_GRAY 0x404040
-#define COLOR_BLUE      0x0080FF
-#define COLOR_RED       0xFF0000
 
 // Light intensity control constants
-#define DIFFUSE_INTENSITY   1.5     // Diffuse lighting multiplier (increased for brighter diffuse)
-#define SPECULAR_INTENSITY  1.2     // Specular lighting multiplier (slightly increased for shinier highlights)
+#define DIFFUSE_INTENSITY 1.5  // Diffuse lighting multiplier (increased for brighter diffuse)
+#define SPECULAR_INTENSITY 1.2 // Specular lighting multiplier (slightly increased for shinier highlights)
 // Overall brightness control
 
 // Light attenuation constants (realistic lighting)
-#define LIGHT_CONSTANT   1.0    // Base intensity
-#define LIGHT_LINEAR     0.045  // Linear falloff (reduced from 0.09 for brighter lights)
-#define LIGHT_QUADRATIC  0.016  // Quadratic falloff (reduced from 0.032 for less distance falloff)
+#define LIGHT_CONSTANT 1.0	  // Base intensity
+#define LIGHT_LINEAR 0.045	  // Linear falloff (reduced from 0.09 for brighter lights)
+#define LIGHT_QUADRATIC 0.016 // Quadratic falloff (reduced from 0.032 for less distance falloff)
 
 // // Light types for realistic lighting
 // #define LIGHT_POINT      0  // Point light (current implementation)
@@ -66,29 +60,9 @@
 
 #define PI 3.1415926535897932385
 #define D_INFINITY ((double)INFINITY)
-#define WINDOW_HEIGHT 360
-#define WINDOW_WIDTH 1280
-#define W_WIDTH 800 //window de controlo
-#define W_HEIGHT 800 //window de controlo
-#define KEY_ESC 65307
-#define ARROW_UP_KEY 65362
-#define ARROW_DOWN_KEY 65364
-#define ARROW_LEFT_KEY 65361
-#define ARROW_RIGHT_KEY 65363
-#define KEY_W 119
-#define KEY_A 97
-#define KEY_S 115
-#define KEY_D 100
-#define KEY_Q 113  // Move up
-#define KEY_E 101  // Move down
-#define KEY_R 114  // Reset camera position
+
 typedef unsigned char mini_int;
 typedef double vec3;
-
-#define TRANS 0
-#define RED 1
-#define GREEN 2
-#define BLUE 3
 
 typedef enum e_material_type
 {
@@ -97,7 +71,7 @@ typedef enum e_material_type
 	METAL,
 	CHECKERPATTERN,
 	GLASS
-}			t_material_type;
+} t_material_type;
 
 typedef struct s_ray
 {
@@ -110,18 +84,18 @@ typedef struct s_ray
 typedef struct s_material
 {
 	t_material_type type;
-	double			albedo[3];
- 	double specular[3];       // Specular color
-    double shininess;         // Specular exponent
-	double  checker_scale;
-    double refraction_index;  // Refractive index for glass materials
-}			t_material;
+	double albedo[3];
+	double specular[3]; // Specular color
+	double shininess;	// Specular exponent
+	double checker_scale;
+	double refraction_index; // Refractive index for glass materials
+} t_material;
 
 typedef struct s_data_scatter
 {
-	t_ray	scattered;
-    double	attenuation[3];
-}				t_data_scatter;
+	t_ray scattered;
+	double attenuation[3];
+} t_data_scatter;
 
 typedef struct s_hit_record
 {
@@ -132,86 +106,6 @@ typedef struct s_hit_record
 	t_material *material;
 } t_hit_record;
 
-typedef struct s_button
-{
-	int x;
-	int y;
-	int width;
-	int height;
-	int color;
-}t_button;
-
-typedef struct s_slider
-{
-	int x;              // posição x do slider
-    int y;              // posição y do slider
-    int width;          // largura total do slider
-    int height;         // altura da barra do slider
-    int handle_width;   // largura do "handle" (botão deslizante)
-    int handle_height;  // altura do handle
-    float min_value;    // valor mínimo
-    float max_value;    // valor máximo
-    float current_value; // valor atual
-    int color_bar;      // cor da barra
-    int color_handle;   // cor do handle
-    int is_dragging;    // flag para saber se está sendo arrastado
-} t_slider;
-
-typedef struct s_material_selector
-{
-    int x, y;                    // Posição do dropdown
-    int width, height;           // Tamanho do botão principal
-    int dropdown_height;         // Altura do dropdown quando aberto
-    int is_open;                 // Flag se está aberto
-    int selected_material;       // Material atualmente selecionado
-    int hover_index;             // Índice do item em hover
-    char *material_names[5];     // Nomes dos materiais
-    int item_height;             // Altura de cada item no dropdown
-    int color_button;            // Cor do botão principal
-    int color_dropdown;          // Cor do dropdown
-    int color_hover;             // Cor do item em hover
-    int color_text;              // Cor do texto
-} t_material_selector;
-
-typedef struct s_image
-{
-	void *sphere;
-	void *plane;
-	void *cylinder;
-	void *cone;
-}t_image;
-
-
-typedef struct s_win_config
-{
-	void *mlx;
-	void *win;
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
-	t_material_selector material_selector;
-    t_button material_apply_btn;  // Botão para aplicar material
-	t_button button;		//render button
-	t_slider slider;		//amb_light
-	t_slider red_slider;    // Slider para vermelho
-    t_slider green_slider;  // Slider para verde  
-    t_slider blue_slider;   // Slider para azul
-	t_image  image;
-} t_win_config;
-
-typedef struct s_mlx
-{
-	void *mlx;
-	void *win;
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
-} t_mlx;
-
 typedef struct s_data
 {
 	size_t amb_light_count;
@@ -221,7 +115,7 @@ typedef struct s_data
 	size_t plane_count;
 	size_t cylinder_count;
 	size_t cone_count;
-	int obj_type;  // Add this: 0 for sphere, 1 for plane, 2 for cylinder, 3 for cone
+	int obj_type; // Add this: 0 for sphere, 1 for plane, 2 for cylinder, 3 for cone
 	int idx_obj;
 } t_data;
 
@@ -249,14 +143,14 @@ typedef struct s_camera
 	int samples_per_pixel;	 // Count of random samples for each pixel
 	double pixel_samples_scale;
 
-	double	lookat[3];
-	double	vup[3];
+	double lookat[3];
+	double vup[3];
 
-	double	u[3];
-	double	v[3];
-	double	W[3];
+	double u[3];
+	double v[3];
+	double W[3];
 
-	double	max_bounces;// Maximum number of ray bounces into scene
+	double max_bounces; // Maximum number of ray bounces into scene
 
 	bool antialiasing;
 } t_camera;
@@ -266,9 +160,9 @@ typedef struct s_light
 	vec3 cords[3];
 	double brightness;
 	double rgb[3];
-	double range;        // Maximum effective range of the light (optional enhancement)
-	int type;           // Light type (LIGHT_POINT, LIGHT_DIRECTIONAL, etc.)
-	double intensity;   // Light intensity in lumens (real-world units)
+	double range;	  // Maximum effective range of the light (optional enhancement)
+	int type;		  // Light type (LIGHT_POINT, LIGHT_DIRECTIONAL, etc.)
+	double intensity; // Light intensity in lumens (real-world units)
 	struct s_light *prev;
 	struct s_light *next;
 } t_light;
@@ -286,7 +180,7 @@ typedef struct s_sphere
 	// Acho que e fixe ter para calculos (vamos ter de o calcular)
 	double radius;
 	double rgb[3];
-	t_material	material;
+	t_material material;
 	struct s_sphere *prev;
 	struct s_sphere *next;
 } t_sphere;
@@ -300,7 +194,7 @@ typedef struct s_plane
 	vec3 vec3[3];
 
 	double rgb[3];
-	t_material	material;
+	t_material material;
 	struct s_plane *prev;
 	struct s_plane *next;
 } t_plane;
@@ -320,7 +214,7 @@ typedef struct s_cylinder
 	double radius;
 	double height;
 	double rgb[3];
-	t_material	material;
+	t_material material;
 	struct s_cylinder *prev;
 	struct s_cylinder *next;
 } t_cylinder;
@@ -333,9 +227,9 @@ typedef struct s_cone
 	double radius;
 	double height;
 	double rgb[3];
-	t_material	material;
-	struct s_cone	*prev;
-	struct s_cone	*next;
+	t_material material;
+	struct s_cone *prev;
+	struct s_cone *next;
 } t_cone;
 
 typedef struct s_control_panel
@@ -349,57 +243,11 @@ typedef struct s_control_panel
 	t_cone *cone;
 	t_data data;
 	t_error_log error_log;
-	t_mlx	*mlx;
-	t_win_config	*config_win;
+	t_mlx *mlx;
+	t_win_config *config_win;
 } t_control_panel;
 
-// MLX
-void    my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
-int close_window(t_control_panel *control_panel);
-int	key_hook(int keycode, t_control_panel *cp);
-void game_hooks(t_control_panel *control_panel);
-void clear_image(t_control_panel *control_panel);
-void config_antialising_render(int keycode, t_control_panel *control_panel);
-void change_object_brightness(int keycode, t_control_panel *control_panel);
-void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
-int init_values_main_win(t_mlx *mlx_data,t_control_panel *control_panel);
-void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);
-int main_window_mouse_handler(int button, int x, int y, void *param);
-//Window control
-int	create_control_window(t_control_panel  *cp);
-//button
-void draw_button(t_control_panel *cp,t_button button);
 
-//slider
-void draw_slider(t_control_panel *cp,t_slider slider);
-void draw_slider_values(t_control_panel *cp, t_slider slider);
-void clear_image_slider(t_control_panel *cp);
-int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
-void redraw_interface(t_control_panel *cp);
-void create_rgb_sliders(t_control_panel *cp);
-void set_slider_value_from_position(t_slider *slider, int mouse_x);
-
-//Dropdown
-void init_material_selector(t_material_selector *selector);
-void draw_material_selector(t_control_panel *cp);
-void handle_material_selector_click(t_control_panel *cp, int mouse_x, int mouse_y);
-void handle_material_selector_hover(t_control_panel *cp, int mouse_x, int mouse_y);
-void apply_material_to_selected_object(t_control_panel *cp, t_material_type material_type);
-void configure_material_properties(t_material *material, t_material_type type);
-int is_mouse_on_material_selector(t_material_selector *selector, int mouse_x, int mouse_y);
-int get_dropdown_item_index(t_material_selector *selector, int mouse_x, int mouse_y);
-
-// Funções auxiliares de desenho
-void draw_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color);
-void draw_text(t_control_panel *cp, int x, int y, char *text, int color);
-void draw_arrow_down(t_control_panel *cp, int x, int y);
-
-//mouse
-int mouse_release_handler(int button, int x, int y, void *param);
-int mouse_move_handler(int x, int y, void *param);
-int mouse_press_handler(int button, int x, int y, void *param);
-void update_slider_value(t_slider *slider, int mouse_x);
-int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y);
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
 double get_shadow_intensity(t_control_panel *panel, vec3 point[3], t_light *light);
@@ -407,16 +255,13 @@ void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_d
 /*Textures*/
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
 
-bool noise_scatter(t_hit_record *rec, t_data_scatter *data_scatter);
-void free_noise_material(t_material *material);
-
 /*Ray functions*/
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
 void ray_origin(const t_ray *ray, double out[3]);
 void ray_direction(const t_ray *ray, double out[3]);
 void ray_at(double t, t_ray ray, double result[3]);
-void ray_color(t_control_panel *control_panel,int depth, const t_ray *ray, double out_color[3]);
+void ray_color(t_control_panel *control_panel, int depth, const t_ray *ray, double out_color[3]);
 void vec3_normalize(double out[3], const double v[3]);
 t_ray get_ray(int i, int j, t_control_panel *control_panel);
 
@@ -437,27 +282,27 @@ bool linked_list_to_cone_array(t_cone **cone_list, int size_array);
 /*Sphere Collision*/
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
-void random_on_hemisphere(double normal[3],double out[3]);
-void set_face_normal(const t_ray *ray,const double outward_normal[3],t_hit_record *record);
-bool    have_hit_sphere(t_sphere *sphere,const t_ray *ray,t_interval t_ray,t_hit_record *record);
-//Planes
+void random_on_hemisphere(double normal[3], double out[3]);
+void set_face_normal(const t_ray *ray, const double outward_normal[3], t_hit_record *record);
+bool have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+// Planes
 bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record);
- bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 
- //Cylinder
+// Cylinder
 bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 
 double pont_dist(vec3 a[3], vec3 b[3]);
-//Cone
+// Cone
 bool hit_cones(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool have_hit_cone(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
-//Scene
+// Scene
 void render_scene(t_control_panel *cp);
-//antialiasing
-void setup_antialiasing(t_control_panel *control_panel,int num_of_samples);
+// antialiasing
+void setup_antialiasing(t_control_panel *control_panel, int num_of_samples);
 void sample_square(double out[3]);
-//Camera
+// Camera
 void get_values_camera(t_control_panel *control_panel);
 void move_camera_with_keys(int keycode, t_control_panel *cp);
 //	Parsing.c
@@ -472,13 +317,13 @@ bool parse_light(t_control_panel *control_panel, char **element_info, t_error_lo
 bool parse_sphere(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 bool parse_plane(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 bool parse_cylinder(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
-bool	parse_cone(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
+bool parse_cone(t_control_panel *control_panel, char **element_info, t_error_log *error_log);
 
 //	Parse_values_1.c
 bool get_coord(vec3 *coord, char *info, t_error_log *error_log);
 bool get_vector(vec3 *vector, char *info, t_error_log *error_log);
 bool get_rgb(double rgb[3], char *info, t_error_log *error_log);
-bool	get_material(t_material *object_material, double rgb[3], char *info, t_error_log *error_log);
+bool get_material(t_material *object_material, double rgb[3], char *info, t_error_log *error_log);
 
 //	Parse_values_2.c
 bool get_fov(mini_int *fov, char *info, t_error_log *error_log);
@@ -488,19 +333,19 @@ bool get_d(double *d, char *info, t_error_log *error_log);
 bool get_height(double *height, char *info, t_error_log *error_log);
 
 //	List_handler.c
-void	lstadd_last_light(t_control_panel *control_panel, t_light *new_light);
+void lstadd_last_light(t_control_panel *control_panel, t_light *new_light);
 void lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere);
 void lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane);
 void lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylinder);
-void	lstadd_last_cone(t_control_panel *control_panel, t_cone *new_cone);
+void lstadd_last_cone(t_control_panel *control_panel, t_cone *new_cone);
 
 //	Free.c
-void	free_light(t_light *light);
+void free_light(t_light *light);
 void free_sphere(t_sphere *sphere);
 void free_plane(t_plane *plane);
 void free_cylinder(t_cylinder *cylinder);
-void	free_cone(t_cone *cone);
-void	free_control_panel_lists(t_control_panel *control_panel);
+void free_cone(t_cone *cone);
+void free_control_panel_lists(t_control_panel *control_panel);
 
 //	Utils.c
 size_t double_array_len(char **array);

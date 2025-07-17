@@ -120,8 +120,17 @@ void redraw_interface(t_control_panel *cp)
 {
     clear_image_slider(cp);
 
+    // Título principal
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 15, COLOR_WHITE, "=== MiniRT Control Panel ===");
+
     draw_button(cp, cp->config_win->button);
     draw_slider(cp, cp->config_win->slider);
+
+    // Label para ambient light
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 185, COLOR_WHITE, "Ambient Light:");
+
+    // Label para material
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 335, COLOR_WHITE, "Material:");
 
     mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
                             cp->config_win->img, 0, 0);
@@ -140,11 +149,14 @@ void redraw_interface(t_control_panel *cp)
         mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
                                 cp->config_win->image.cone, 10, 10);
 
-    // Redesenhar textos
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, 0xFF0000, "RENDER");
+    // Redesenhar textos melhorados
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, COLOR_HIGHLIGHT, "RENDER");
     draw_slider_values(cp, cp->config_win->slider);
 
     draw_stats(cp, cp->data.idx_obj);
+
+    // Labels para sliders RGB melhorados
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 235, COLOR_WHITE, "== Object Colors ==");
 
     // Desenhar sliders RGB se um objeto estiver selecionado
     create_rgb_sliders(cp);

@@ -138,6 +138,7 @@ static void update_control_interface_with_object(t_control_panel *cp, int obj_in
             printf("Cilindro %d selecionado! RGB: %.2f, %.2f, %.2f\n",
                    obj_index, selected->rgb[0], selected->rgb[1], selected->rgb[2]);
         }
+        break;
     case 3: // Cone
         if (obj_index >= 0 && obj_index < (int)cp->data.cone_count)
         {

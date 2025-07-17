@@ -23,18 +23,7 @@ void pixel_put_win_control(t_control_panel *cp, int x, int y, int color)
 
 void draw_button(t_control_panel *cp, t_button button)
 {
-    int i;
-    int j;
-
-    i = 0;
-    while (i < button.height)
-    {
-        j = 0;
-        while (j < button.width)
-        {
-            pixel_put_win_control(cp, button.x + j, button.y + i, button.color);
-            j++;
-        }
-        i++;
-    }
+    // Usar a nova função melhorada
+    draw_button_improved(cp, button);
 }
+ 
