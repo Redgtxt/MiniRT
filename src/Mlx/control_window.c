@@ -112,6 +112,7 @@ static void update_sliders_from_selected_object(t_control_panel *cp)
 
 static void change_object(int keycode, t_control_panel *cp)
 {
+    // Código existente para mudança de objeto com setas
     if (keycode == ARROW_RIGHT_KEY)
     {
         // Move to next object of current type
@@ -161,10 +162,14 @@ static void change_object(int keycode, t_control_panel *cp)
         }
         else
         {
-            cp->data.obj_type = (cp->data.obj_type + 2) % 4; // +2 is equivalent to -1 with modulo 3
+            cp->data.obj_type = (cp->data.obj_type + 3) % 4; // +3 é equivalente a -1 com módulo 4
         }
         cp->data.idx_obj = 0; // Reset index when switching types
     }
+
+    cp->config_win->red_slider.is_dragging = 0;
+    cp->config_win->green_slider.is_dragging = 0;
+    cp->config_win->blue_slider.is_dragging = 0;
 
     update_sliders_from_selected_object(cp);
 }
@@ -182,6 +187,7 @@ static void control_win_hooks(t_win_config *control_data, t_control_panel *cp)
     mlx_hook(control_data->win, 4, 1L << 2, mouse_press_handler, cp);   // ButtonPress
     mlx_hook(control_data->win, 5, 1L << 3, mouse_release_handler, cp); // ButtonRelease
     mlx_hook(control_data->win, 6, 1L << 6, mouse_move_handler, cp);    // Motion notify
+
 }
 
 int create_control_window(t_control_panel *cp)

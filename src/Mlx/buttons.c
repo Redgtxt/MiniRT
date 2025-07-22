@@ -21,9 +21,5 @@ void pixel_put_win_control(t_control_panel *cp, int x, int y, int color)
     }
 }
 
-void draw_button(t_control_panel *cp, t_button button)
-{
-    // Usar a nova função melhorada
-    draw_button_improved(cp, button);
-}
+
  

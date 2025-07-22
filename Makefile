@@ -37,7 +37,7 @@ MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
 	    $(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c errors.c draw_color.c)  \
-	    $(addprefix Mlx/, hooks.c mlx_utils.c dropdown_materials.c mlx_antialising.c mlx_brightness.c control_window.c mlx_init_values.c mouse_hooks.c buttons.c sliders.c mouse_handler_utils.c mouse_release_handler.c click_objects.c mouse_press_handler.c)  \
+	    $(addprefix Mlx/, hooks.c mlx_utils.c dropdown_materials.c mlx_antialising.c mlx_brightness.c control_window.c mlx_init_values.c mouse_hooks.c update_interface_objects.c buttons.c sliders.c mouse_handler_utils.c mouse_release_handler.c find_click_objects.c mouse_press_handler.c)  \
 	    $(addprefix Sphere/,init_sphere.c sphere_collision.c plane_collisions.c cylinder_collision.c cone_collision.c)  \
 	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c) \
 	    $(addprefix interval/, interval.c)\

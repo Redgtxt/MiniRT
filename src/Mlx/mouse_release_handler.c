@@ -3,9 +3,10 @@
 static void handle_dragging_rgb_slider(t_control_panel *cp)
 {
     // Check if any valid object type is selected
-    bool valid_object = (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count) ||
+  bool valid_object = (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count) ||
                         (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count) ||
-                        (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count);
+                        (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count) ||
+                        (cp->data.obj_type == 3 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cone_count);
 
     if (valid_object)
     {
@@ -45,6 +46,7 @@ int mouse_release_handler(int button, int x, int y, void *param)
 
     if (button == 1) // Botão esquerdo solto
     {
+
         // Slider amb light
         if (slider->is_dragging)
         {
@@ -52,7 +54,7 @@ int mouse_release_handler(int button, int x, int y, void *param)
             printf("Slider principal solto!\n");
         }
         // Sliders RGB
-        handle_dragging_rgb_slider(cp);
+       handle_dragging_rgb_slider(cp);
     }
 
     return (0);

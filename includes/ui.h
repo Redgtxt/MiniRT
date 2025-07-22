@@ -166,7 +166,6 @@ void draw_text(t_control_panel *cp, int x, int y, char *text, int color);
 // Novas funções para UI melhorada
 void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color);
 void draw_arrow_down(t_control_panel *cp, int x, int y);
-void draw_button_improved(t_control_panel *cp, t_button button);
 void draw_slider_bar_improved(t_control_panel *cp, t_slider slider);
 void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, int height, int color);
 
@@ -183,5 +182,8 @@ void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);
 int main_window_mouse_handler(int button, int x, int y, void *param);
 // Window control
 int create_control_window(t_control_panel *cp);
-
+int	find_clicked_object(t_control_panel *cp, int mouse_x,
+					int mouse_y, int *obj_type);
+void	update_control_interface_with_object(t_control_panel *cp,
+	int obj_index, int obj_type);
 #endif

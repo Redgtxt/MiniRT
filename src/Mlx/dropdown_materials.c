@@ -287,7 +287,7 @@ void draw_arrow_down(t_control_panel *cp, int x, int y)
 }
 
 // Botão melhorado
-void draw_button_improved(t_control_panel *cp, t_button button)
+void draw_button(t_control_panel *cp, t_button button)
 {
     // Fundo do botão com gradiente simples
     draw_rectangle(cp, button.x, button.y, button.width, button.height, 0x20A020);
