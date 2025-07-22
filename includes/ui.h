@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/17 17:36:50 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:59:15 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y);
 
 // slider
 void draw_slider(t_control_panel *cp, t_slider slider);
-void draw_slider_values(t_control_panel *cp, t_slider slider);
+void draw_slider_amb_light(t_control_panel *cp, t_slider slider);
 void clear_image_slider(t_control_panel *cp);
 int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/16 14:56:34 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:37:56 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,54 @@ static t_win_config *init_control_window(t_control_panel *cp)
 
 static void update_sliders_from_selected_object(t_control_panel *cp)
 {
-    if (cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count && cp->sphere)
-    {
-        t_sphere *current_sphere = &cp->sphere[cp->data.idx_obj];
+    double r = 0, g = 0, b = 0;
+    char *obj_name = "Object";
+    int valid_object = 0;
 
-        cp->config_win->red_slider.current_value = current_sphere->rgb[0];
-        cp->config_win->green_slider.current_value = current_sphere->rgb[1];
-        cp->config_win->blue_slider.current_value = current_sphere->rgb[2];
+    // Get RGB values based on object type
+    if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count && cp->sphere)
+    {
+        r = cp->sphere[cp->data.idx_obj].rgb[0];
+        g = cp->sphere[cp->data.idx_obj].rgb[1];
+        b = cp->sphere[cp->data.idx_obj].rgb[2];
+        obj_name = "Sphere";
+        valid_object = 1;
+    }
+    else if (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count && cp->plane)
+    {
+        r = cp->plane[cp->data.idx_obj].rgb[0];
+        g = cp->plane[cp->data.idx_obj].rgb[1];
+        b = cp->plane[cp->data.idx_obj].rgb[2];
+        obj_name = "Plane";
+        valid_object = 1;
+    }
+    else if (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count && cp->cylinder)
+    {
+        r = cp->cylinder[cp->data.idx_obj].rgb[0];
+        g = cp->cylinder[cp->data.idx_obj].rgb[1];
+        b = cp->cylinder[cp->data.idx_obj].rgb[2];
+        obj_name = "Cylinder";
+        valid_object = 1;
+    }
+    else if (cp->data.obj_type == 3 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cone_count && cp->cone)
+    {
+        r = cp->cone[cp->data.idx_obj].rgb[0];
+        g = cp->cone[cp->data.idx_obj].rgb[1];
+        b = cp->cone[cp->data.idx_obj].rgb[2];
+        obj_name = "Cone";
+        valid_object = 1;
+    }
+
+    if (valid_object)
+    {
+        cp->config_win->red_slider.current_value = r;
+        cp->config_win->green_slider.current_value = g;
+        cp->config_win->blue_slider.current_value = b;
 
         redraw_interface(cp);
 
-        printf("🔄 Esfera %d selecionada - RGB: %.2f, %.2f, %.2f\n",
-               cp->data.idx_obj, current_sphere->rgb[0], current_sphere->rgb[1], current_sphere->rgb[2]);
+        printf("🔄 %s %d selecionado - RGB: %.2f, %.2f, %.2f\n",
+               obj_name, cp->data.idx_obj, r, g, b);
     }
 }
 
@@ -160,29 +196,47 @@ int create_control_window(t_control_panel *cp)
     control_data->slider = my_slider;
     init_material_selector(&cp->config_win->material_selector);
     // Inicializar sliders RGB com valores padrão da primeira esfera
-    if (cp->sphere && cp->data.sphere_count > 0)
+    if ((cp->data.obj_type == 0 && cp->sphere && cp->data.sphere_count > 0) ||
+        (cp->data.obj_type == 1 && cp->plane && cp->data.plane_count > 0) ||
+        (cp->data.obj_type == 2 && cp->cylinder && cp->data.cylinder_count > 0) ||
+        (cp->data.obj_type == 3 && cp->cone && cp->data.cone_count > 0))
     {
-        control_data->red_slider = (t_slider){60, 250, 300, 10, 20, 30, 0.0, 1.0, cp->sphere[0].rgb[0], 0x808080, 0xFF0000, 0};
-        control_data->green_slider = (t_slider){60, 280, 300, 10, 20, 30, 0.0, 1.0, cp->sphere[0].rgb[1], 0x808080, 0x00FF00, 0};
-        control_data->blue_slider = (t_slider){60, 310, 300, 10, 20, 30, 0.0, 1.0, cp->sphere[0].rgb[2], 0x808080, 0x0000FF, 0};
+        update_sliders_from_selected_object(cp);
     }
 
     draw_button(cp, my_button);
     draw_slider(cp, my_slider);
     mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->img, 0, 0);
 
-    // Draw sphere image in upper left corner
-    if (control_data->image.sphere)
+    // Display the appropriate object image based on selected type
+    if (cp->data.obj_type == 0 && control_data->image.sphere)
         mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->image.sphere, 10, 10);
+    else if (cp->data.obj_type == 1 && control_data->image.plane)
+        mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->image.plane, 10, 10);
+    else if (cp->data.obj_type == 2 && control_data->image.cylinder)
+        mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->image.cylinder, 10, 10);
+    else if (cp->data.obj_type == 3 && control_data->image.cone)
+        mlx_put_image_to_window(control_data->mlx, control_data->win, control_data->image.cone, 10, 10);
 
     mlx_string_put(control_data->mlx, control_data->win, 175, 130, 0xFF0000, "RENDER");
-    draw_slider_values(cp, my_slider);
+    draw_slider_amb_light(cp, my_slider);
 
     // Mostrar informações e sliders RGB da primeira esfera
     if (cp->sphere && cp->data.sphere_count > 0)
         redraw_interface(cp);
 
     control_win_hooks(control_data, cp);
+
+    // Force refresh for cylinder maps
+    if (cp->data.obj_type == 2 && cp->data.cylinder_count > 0)
+    {
+        printf("🔄 Cylinder %d selected - RGB: %.2f, %.2f, %.2f\n",
+               cp->data.idx_obj,
+               cp->cylinder[cp->data.idx_obj].rgb[0],
+               cp->cylinder[cp->data.idx_obj].rgb[1],
+               cp->cylinder[cp->data.idx_obj].rgb[2]);
+        redraw_interface(cp);
+    }
 
     return (0);
 }

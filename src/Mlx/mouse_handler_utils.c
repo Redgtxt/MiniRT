@@ -127,7 +127,7 @@ void redraw_interface(t_control_panel *cp)
     draw_slider(cp, cp->config_win->slider);
 
     // Label para ambient light
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 185, COLOR_WHITE, "Ambient Light:");
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 185, COLOR_WHITE, "=== Ambient Light: ===");
 
     // Label para material
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 335, COLOR_WHITE, "Material:");
@@ -151,7 +151,7 @@ void redraw_interface(t_control_panel *cp)
 
     // Redesenhar textos melhorados
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, COLOR_HIGHLIGHT, "RENDER");
-    draw_slider_values(cp, cp->config_win->slider);
+    draw_slider_amb_light(cp, cp->config_win->slider);
 
     draw_stats(cp, cp->data.idx_obj);
 
