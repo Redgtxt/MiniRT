@@ -91,7 +91,6 @@ void get_values_camera(t_control_panel *control_panel)
     vec3_set(control_panel->camera.vup, 0, 1, 0);
     setup_camera_viewport(control_panel);
     control_panel->camera.max_bounces = 50;
-    control_panel->amb_light.object_brightness = 1;
 }
 
 /*

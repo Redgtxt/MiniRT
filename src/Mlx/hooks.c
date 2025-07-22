@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:01:56 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/17 15:35:30 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:53:59 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int key_hook(int keycode, t_control_panel *cp)
     
     move_camera_with_keys(keycode,cp);
     config_antialising_render(keycode, cp);
-    change_object_brightness(keycode, cp);
     change_amb_light_brightness(keycode, cp);
     return (0);
 }

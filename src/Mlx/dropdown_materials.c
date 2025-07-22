@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/17 15:27:43 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:50:30 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void init_material_selector(t_material_selector *selector)
 {
     selector->x = 50;
-    selector->y = 350;
+    selector->y = 375;
     selector->width = 150;
     selector->height = 30;
     selector->dropdown_height = 150; // 5 materiais * 30px cada
@@ -46,10 +46,10 @@ void draw_material_selector(t_control_panel *cp)
     draw_rectangle(cp, selector->x, selector->y, selector->width, selector->height, selector->color_button);
     draw_border(cp, selector->x, selector->y, selector->width, selector->height, COLOR_WHITE);
 
-    draw_text(cp, selector->x + 10, selector->y + 10, selector->material_names[selector->selected_material], selector->color_text);
+    draw_text(cp, selector->x + 10, selector->y + 20, selector->material_names[selector->selected_material], selector->color_text);
 
     // Desenhar seta melhorada
-    draw_arrow_down_improved(cp, selector->x + selector->width - 20, selector->y + 10);
+    draw_arrow_down(cp, selector->x + selector->width - 20, selector->y + 10);
 
     // Se estiver aberto, desenhar dropdown
     if (selector->is_open)
@@ -75,7 +75,7 @@ void draw_material_selector(t_control_panel *cp)
                 item_color = COLOR_SELECTED;
 
             draw_rectangle(cp, selector->x + 2, item_y + 1, selector->width - 4, selector->item_height - 2, item_color);
-            draw_text(cp, selector->x + 10, item_y + 8, selector->material_names[i], selector->color_text);
+            draw_text(cp, selector->x + 10, item_y + 20, selector->material_names[i], selector->color_text);
         }
     }
 }
@@ -252,19 +252,6 @@ void draw_text(t_control_panel *cp, int x, int y, char *text, int color)
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, x, y, color, text);
 }
 
-void draw_arrow_down(t_control_panel *cp, int x, int y)
-{
-    // Desenhar uma seta simples para baixo
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j <= i; j++)
-        {
-            pixel_put_win_control(cp, x + 2 + j, y + i, COLOR_WHITE);
-            pixel_put_win_control(cp, x + 2 - j, y + i, COLOR_WHITE);
-        }
-    }
-}
-
 // Adicionar função para desenhar bordas
 void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color)
 {
@@ -286,12 +273,12 @@ void draw_border(t_control_panel *cp, int x, int y, int width, int height, int c
 }
 
 // Seta melhorada
-void draw_arrow_down_improved(t_control_panel *cp, int x, int y)
+void draw_arrow_down(t_control_panel *cp, int x, int y)
 {
     // Desenhar triângulo mais definido
     for (int i = 0; i < 6; i++)
     {
-        for (int j = 0; j <= i; j++)
+        for (int j = 0; j <= 6 - i; j++)
         {
             pixel_put_win_control(cp, x + 3 + j, y + i, COLOR_WHITE);
             pixel_put_win_control(cp, x + 3 - j, y + i, COLOR_WHITE);

@@ -120,18 +120,10 @@ void redraw_interface(t_control_panel *cp)
 {
     clear_image_slider(cp);
 
-    // Título principal
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 15, COLOR_WHITE, "=== MiniRT Control Panel ===");
-
     draw_button(cp, cp->config_win->button);
     draw_slider(cp, cp->config_win->slider);
 
-    // Label para ambient light
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 185, COLOR_WHITE, "=== Ambient Light: ===");
-
-    // Label para material
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 335, COLOR_WHITE, "Material:");
-
+   
     mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
                             cp->config_win->img, 0, 0);
 
@@ -149,6 +141,17 @@ void redraw_interface(t_control_panel *cp)
         mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
                                 cp->config_win->image.cone, 10, 10);
 
+    
+    // Título principal
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 235, 15, COLOR_WHITE, "=== MiniRT Control Panel ===");
+
+     // Label para ambient light
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 185, COLOR_WHITE, "=== Ambient Light: ===");
+
+    // Label para material
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 360, COLOR_WHITE, "=== Material: ===");
+
+    
     // Redesenhar textos melhorados
     mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, COLOR_HIGHLIGHT, "RENDER");
     draw_slider_amb_light(cp, cp->config_win->slider);

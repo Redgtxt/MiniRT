@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/17 17:37:28 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:53:25 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ typedef struct s_amb_light
 {
 	double light_force;
 	double rgb[3];
-	double object_brightness;
 } t_amb_light;
 
 typedef struct s_camera

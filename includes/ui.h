@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/22 12:59:15 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:54:06 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,11 +162,10 @@ int get_dropdown_item_index(t_material_selector *selector, int mouse_x, int mous
 // Funções auxiliares de desenho
 void draw_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color);
 void draw_text(t_control_panel *cp, int x, int y, char *text, int color);
-void draw_arrow_down(t_control_panel *cp, int x, int y);
 
 // Novas funções para UI melhorada
 void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color);
-void draw_arrow_down_improved(t_control_panel *cp, int x, int y);
+void draw_arrow_down(t_control_panel *cp, int x, int y);
 void draw_button_improved(t_control_panel *cp, t_button button);
 void draw_slider_bar_improved(t_control_panel *cp, t_slider slider);
 void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, int height, int color);
@@ -178,7 +177,6 @@ int key_hook(int keycode, t_control_panel *cp);
 void game_hooks(t_control_panel *control_panel);
 void clear_image(t_control_panel *control_panel);
 void config_antialising_render(int keycode, t_control_panel *control_panel);
-void change_object_brightness(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 int init_values_main_win(t_mlx *mlx_data, t_control_panel *control_panel);
 void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);

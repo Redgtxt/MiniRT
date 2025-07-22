@@ -169,7 +169,6 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
             	vec3 scattered_color[3];
             	ray_color(panel, depth - 1, &data_scatter.scattered, scattered_color);
             	vec3_multiply(scattered_color, scattered_color, data_scatter.attenuation);
-            	// vec3_scale(color, color, panel->amb_light.object_brightness);
             	vec3_add(color, color, scattered_color);
         	}
         	vec3_copy(out_color, color);
