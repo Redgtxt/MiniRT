@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/23 14:40:06 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:04:53 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,19 @@ typedef struct s_mlx
 	int endian;
 } t_mlx;
 
+//utils
+int	is_valid_sphere(t_control_panel *cp);
+int	is_valid_plane(t_control_panel *cp);
+int	is_valid_cylinder(t_control_panel *cp);
+int	is_valid_cone(t_control_panel *cp);
+
+
+//rgb
+void create_rgb_sliders(t_control_panel *cp);
 // button
 void draw_button(t_control_panel *cp, t_button button);
+void update_objects_properties(t_control_panel *cp, t_slider *slider);
+int	render_button(t_control_panel *cp, t_slider *slider, int x, int y);
 
 // mouse
 int mouse_release_handler(int button, int x, int y, void *param);
@@ -166,7 +177,7 @@ void draw_text(t_control_panel *cp, int x, int y, char *text, int color);
 // Novas funções para UI melhorada
 void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color);
 void draw_arrow_down(t_control_panel *cp, int x, int y);
-void draw_slider_bar_improved(t_control_panel *cp, t_slider slider);
+void draw_slider_bar(t_control_panel *cp, t_slider slider);
 void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, int height, int color);
 
 // MLX

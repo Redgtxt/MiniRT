@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:27:03 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/22 18:50:30 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:00:29 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ void draw_button(t_control_panel *cp, t_button button)
 }
 
 // Barra do slider melhorada
-void draw_slider_bar_improved(t_control_panel *cp, t_slider slider)
+void draw_slider_bar(t_control_panel *cp, t_slider slider)
 {
     // Fundo da barra (cor mais escura)
     draw_rectangle(cp, slider.x, slider.y, slider.width, slider.height, 0x202020);

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   update_interface_objects.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/23 14:45:05 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/07/23 15:24:11 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 
 static void	update_sphere_interface(t_control_panel *cp, int obj_index)
 {
 	t_sphere	*selected;
 
-	if (obj_index < 0 || obj_index >= (int)cp->data.sphere_count)
+	if (!is_valid_sphere(cp))
 		return ;
 	selected = &cp->sphere[obj_index];
 	cp->config_win->red_slider.current_value = selected->rgb[0];
@@ -19,7 +31,7 @@ static void	update_plane_interface(t_control_panel *cp, int obj_index)
 {
 	t_plane	*selected;
 
-	if (obj_index < 0 || obj_index >= (int)cp->data.plane_count)
+	if (!is_valid_plane(cp))
 		return ;
 	selected = &cp->plane[obj_index];
 	cp->config_win->red_slider.current_value = selected->rgb[0];
@@ -34,7 +46,7 @@ static void	update_cylinder_interface(t_control_panel *cp, int obj_index)
 {
 	t_cylinder	*selected;
 
-	if (obj_index < 0 || obj_index >= (int)cp->data.cylinder_count)
+	if (!is_valid_cylinder(cp))
 		return ;
 	selected = &cp->cylinder[obj_index];
 	cp->config_win->red_slider.current_value = selected->rgb[0];
@@ -49,7 +61,7 @@ static void	update_cone_interface(t_control_panel *cp, int obj_index)
 {
 	t_cone	*selected;
 
-	if (obj_index < 0 || obj_index >= (int)cp->data.cone_count)
+	if (!is_valid_cone(cp))
 		return ;
 	selected = &cp->cone[obj_index];
 	cp->config_win->red_slider.current_value = selected->rgb[0];

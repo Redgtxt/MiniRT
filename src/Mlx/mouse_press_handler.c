@@ -6,120 +6,11 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:22:42 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/16 15:42:48 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:14:04 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
-
-static int render_button(t_control_panel *cp, t_slider *slider, int x, int y)
-{
-	t_interval x_interval;
-	t_interval y_interval;
-	t_button btn;
-	t_material_type selected_material;
-
-	btn = cp->config_win->button;
-	x_interval = interval_create(btn.x, btn.x + btn.width);
-	y_interval = interval_create(btn.y, btn.y + btn.height);
-	if (interval_contains(x, x_interval) && interval_contains(y, y_interval))
-	{
-		cp->amb_light.light_force = slider->current_value;
-		selected_material = cp->config_win->material_selector.selected_material;
-
-		if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
-		{
-			// Update sphere RGB values
-			cp->sphere[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
-			cp->sphere[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
-			cp->sphere[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
-			cp->sphere[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
-			cp->sphere[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
-			cp->sphere[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
-
-			// Update material type and properties
-			cp->sphere[cp->data.idx_obj].material.type = selected_material;
-			configure_material_properties(&cp->sphere[cp->data.idx_obj].material, selected_material);
-
-			printf("✅ RENDER aplicado à esfera %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
-				   cp->data.idx_obj,
-				   cp->sphere[cp->data.idx_obj].rgb[0],
-				   cp->sphere[cp->data.idx_obj].rgb[1],
-				   cp->sphere[cp->data.idx_obj].rgb[2],
-				   cp->config_win->material_selector.material_names[selected_material]);
-		}
-		else if (cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count)
-		{
-			// Update plane RGB values
-			cp->plane[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
-			cp->plane[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
-			cp->plane[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
-			cp->plane[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
-			cp->plane[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
-			cp->plane[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
-
-			// Update material type and properties
-			cp->plane[cp->data.idx_obj].material.type = selected_material;
-			configure_material_properties(&cp->plane[cp->data.idx_obj].material, selected_material);
-
-			printf("✅ RENDER aplicado ao plano %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
-				   cp->data.idx_obj,
-				   cp->plane[cp->data.idx_obj].rgb[0],
-				   cp->plane[cp->data.idx_obj].rgb[1],
-				   cp->plane[cp->data.idx_obj].rgb[2],
-				   cp->config_win->material_selector.material_names[selected_material]);
-		}
-		else if (cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count)
-		{
-			// Update cylinder RGB values
-			cp->cylinder[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
-			cp->cylinder[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
-			cp->cylinder[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
-			cp->cylinder[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
-			cp->cylinder[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
-			cp->cylinder[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
-
-			// Update material type and properties
-			cp->cylinder[cp->data.idx_obj].material.type = selected_material;
-			configure_material_properties(&cp->cylinder[cp->data.idx_obj].material, selected_material);
-
-			printf("✅ RENDER aplicado ao cilindro %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
-				   cp->data.idx_obj,
-				   cp->cylinder[cp->data.idx_obj].rgb[0],
-				   cp->cylinder[cp->data.idx_obj].rgb[1],
-				   cp->cylinder[cp->data.idx_obj].rgb[2],
-				   cp->config_win->material_selector.material_names[selected_material]);
-		}
-		else if (cp->data.obj_type == 3 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cone_count)
-		{
-			// Update cylinder RGB values
-			cp->cone[cp->data.idx_obj].rgb[0] = cp->config_win->red_slider.current_value;
-			cp->cone[cp->data.idx_obj].rgb[1] = cp->config_win->green_slider.current_value;
-			cp->cone[cp->data.idx_obj].rgb[2] = cp->config_win->blue_slider.current_value;
-			cp->cone[cp->data.idx_obj].material.albedo[0] = cp->config_win->red_slider.current_value;
-			cp->cone[cp->data.idx_obj].material.albedo[1] = cp->config_win->green_slider.current_value;
-			cp->cone[cp->data.idx_obj].material.albedo[2] = cp->config_win->blue_slider.current_value;
-
-			// Update material type and properties
-			cp->cone[cp->data.idx_obj].material.type = selected_material;
-			configure_material_properties(&cp->cone[cp->data.idx_obj].material, selected_material);
-
-			printf("✅ RENDER aplicado ao cilindro %d: R=%.2f, G=%.2f, B=%.2f, Material=%s\n",
-				   cp->data.idx_obj,
-				   cp->cone[cp->data.idx_obj].rgb[0],
-				   cp->cone[cp->data.idx_obj].rgb[1],
-				   cp->cone[cp->data.idx_obj].rgb[2],
-				   cp->config_win->material_selector.material_names[selected_material]);
-		}
-		// Só aplica o material aqui!
-		apply_material_to_selected_object(cp, selected_material);
-
-		clear_image(cp);
-		render_scene(cp);
-		return (1);
-	}
-	return (0);
-}
 
 static int handle_slider_base(t_slider *slider, int x, int y)
 {
@@ -159,7 +50,6 @@ static void handle_rgb_slider(t_control_panel *cp, t_slider *slider, int x,
 	if (result > 0)
 	{
 
-		// WITH THIS - Updates the correct object based on type
 		if (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count)
 		{
 			cp->sphere[cp->data.idx_obj].rgb[rgb_num] = slider->current_value;
@@ -212,7 +102,6 @@ int mouse_press_handler(int button, int x, int y, void *param)
 			return 0;
 		}
 
-		// Verificar clique no slider principal (ambient light) usando a função base
 		ambient_result = handle_slider_base(slider, x, y);
 		if (ambient_result > 0)
 		{
@@ -224,7 +113,6 @@ int mouse_press_handler(int button, int x, int y, void *param)
 					   slider->current_value);
 		}
 
-		// WITH THIS - Now checks for all object types
 		bool valid_object = (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count) ||
 							(cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count) ||
 							(cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count) ||
