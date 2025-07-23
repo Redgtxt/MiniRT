@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/22 18:54:06 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:40:06 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ typedef enum e_material_type t_material_type;
 
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
-#define W_WIDTH 800  // window de controlo
-#define W_HEIGHT 800 // window de controlo
+#define W_WIDTH 450  // window de controlo
+#define W_HEIGHT 600 // window de controlo
 #define KEY_ESC 65307
 #define ARROW_UP_KEY 65362
 #define ARROW_DOWN_KEY 65364
