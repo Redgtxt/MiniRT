@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:02:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/23 17:11:18 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:51:32 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void init_rgb_sliders(t_control_panel *cp, double *r, double *g, double *
 }
 static void draw_rgb_sliders(t_control_panel *cp, double *r, double *g, double *b)
 {
-	init_rgb_sliders(cp,r,g,b);
+	init_rgb_sliders(cp, r, g, b);
 	char r_str[20], g_str[20], b_str[20];
 	// Draw the sliders
 	draw_slider(cp, cp->config_win->red_slider);
@@ -55,27 +55,37 @@ static void draw_rgb_sliders(t_control_panel *cp, double *r, double *g, double *
 				   COLOR_WHITE, g_str);
 	mlx_string_put(cp->config_win->mlx, cp->config_win->win, 380, 322,
 				   COLOR_WHITE, b_str);
-
 }
 static void assign_rgb_values(double *rgb, double *r, double *g, double *b)
 {
-    *r = rgb[0];
-    *g = rgb[1];
-    *b = rgb[2];
+	*r = rgb[0];
+	*g = rgb[1];
+	*b = rgb[2];
 }
 
-static int get_rgb_values(t_control_panel *cp, double *r, double *g, double *b)
+int get_rgb_values(t_control_panel *cp, double *r, double *g, double *b)
 {
-    if (is_valid_sphere(cp) && cp->sphere)
-        assign_rgb_values(cp->sphere[cp->data.idx_obj].rgb,r, g, b);
-    else if (is_valid_plane(cp) && cp->plane)
-        assign_rgb_values(cp->plane[cp->data.idx_obj].rgb, r, g, b);
-    else if (is_valid_cylinder(cp) && cp->cylinder)
-        assign_rgb_values(cp->cylinder[cp->data.idx_obj].rgb, r,g, b);
-    else if (is_valid_cone(cp) && cp->cone)
-        assign_rgb_values(cp->cone[cp->data.idx_obj].rgb, r, g, b);
-
-    return 0;
+	if (is_valid_sphere(cp) && cp->sphere)
+	{
+		assign_rgb_values(cp->sphere[cp->data.idx_obj].rgb, r, g, b);
+		return 1;
+	}
+	else if (is_valid_plane(cp) && cp->plane)
+	{
+		assign_rgb_values(cp->plane[cp->data.idx_obj].rgb, r, g, b);
+		return 1;
+	}
+	else if (is_valid_cylinder(cp) && cp->cylinder)
+	{
+		assign_rgb_values(cp->cylinder[cp->data.idx_obj].rgb, r, g, b);
+		return 1;
+	}
+	else if (is_valid_cone(cp) && cp->cone)
+	{
+		assign_rgb_values(cp->cone[cp->data.idx_obj].rgb, r, g, b);
+		return 1;
+	}
+	return 0;
 }
 void create_rgb_sliders(t_control_panel *cp)
 {
@@ -90,6 +100,6 @@ void create_rgb_sliders(t_control_panel *cp)
 	r = 0;
 	g = 0;
 	b = 0;
-	get_rgb_values(cp,&r,&g,&b);
-	draw_rgb_sliders(cp,&r,&g,&b);
+	get_rgb_values(cp, &r, &g, &b);
+	draw_rgb_sliders(cp, &r, &g, &b);
 }

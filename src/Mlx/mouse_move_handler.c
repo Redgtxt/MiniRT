@@ -61,9 +61,7 @@ int	mouse_move_handler(int x, int y, void *param)
 		update_slider_value(slider, x);
 		redraw_interface(cp);
 	}
-	// dropdown
 	handle_material_selector_hover(cp, x, y);
-	// Sliders RGB da esfera
 	slider_sphere_rgb(cp, x);
 	return (0);
 }
@@ -73,12 +71,13 @@ void	set_slider_value_from_position(t_slider *slider, int mouse_x)
 	float	ratio;
 
 	ratio = (float)(mouse_x - slider->x) / slider->width;
-	// Limitar entre 0 e 1
+
 	if (ratio < 0.0)
 		ratio = 0.0;
 	if (ratio > 1.0)
 		ratio = 1.0;
-	// Calcular o novo valor
+
 	slider->current_value = slider->min_value + ratio * (slider->max_value
 			- slider->min_value);
 }
+

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/23 17:04:53 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:45:23 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,12 @@ int	is_valid_sphere(t_control_panel *cp);
 int	is_valid_plane(t_control_panel *cp);
 int	is_valid_cylinder(t_control_panel *cp);
 int	is_valid_cone(t_control_panel *cp);
-
+void init_images(t_control_panel *cp, t_win_config *control_data,int img_width,int img_height);
 void	change_object(int keycode, t_control_panel *cp);
+void control_win_hooks(t_win_config *control_data, t_control_panel *cp);
 //rgb
 void create_rgb_sliders(t_control_panel *cp);
+int get_rgb_values(t_control_panel *cp, double *r, double *g, double *b);
 // button
 void draw_button(t_control_panel *cp, t_button button);
 void update_objects_properties(t_control_panel *cp, t_slider *slider);
@@ -159,7 +161,7 @@ int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);
 void create_rgb_sliders(t_control_panel *cp);
 void set_slider_value_from_position(t_slider *slider, int mouse_x);
-
+void	update_sliders_from_selected_object(t_control_panel *cp);
 // Dropdown
 void init_material_selector(t_material_selector *selector);
 void draw_material_selector(t_control_panel *cp);
@@ -182,10 +184,10 @@ void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, i
 
 // MLX
 void my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
-int close_window(t_control_panel *control_panel);
+int close_window(t_control_panel *cp);
 int key_hook(int keycode, t_control_panel *cp);
 void game_hooks(t_control_panel *control_panel);
-void clear_image(t_control_panel *control_panel);
+void clear_image(t_control_panel *cp);
 void config_antialising_render(int keycode, t_control_panel *control_panel);
 void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 int init_values_main_win(t_mlx *mlx_data, t_control_panel *control_panel);

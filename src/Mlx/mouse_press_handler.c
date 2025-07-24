@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:22:42 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/23 15:14:04 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:49:07 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ int mouse_press_handler(int button, int x, int y, void *param)
 					   slider->current_value);
 		}
 
-		bool valid_object = (cp->data.obj_type == 0 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.sphere_count) ||
-							(cp->data.obj_type == 1 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.plane_count) ||
-							(cp->data.obj_type == 2 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cylinder_count) ||
-							(cp->data.obj_type == 3 && cp->data.idx_obj >= 0 && cp->data.idx_obj < (int)cp->data.cone_count);
+		bool valid_object = (is_valid_sphere(cp)) ||
+							(is_valid_plane(cp)) ||
+							(is_valid_cylinder(cp)) ||
+							(is_valid_cone(cp));
 
 		if (valid_object)
 		{

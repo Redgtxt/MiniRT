@@ -1,22 +1,6 @@
 #include "../../includes/miniRT.h"
 
-void clear_image_slider(t_control_panel *cp)
-{
-    int i;
-    int j;
 
-    i = 0;
-    while (i < W_HEIGHT)
-    {
-        j = 0;
-        while (j < W_WIDTH)
-        {
-            pixel_put_win_control(cp, j, i, 0x000000); // Cor preta para limpar
-            j++;
-        }
-        i++;
-    }
-}
 
 int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y)
 {
