@@ -136,7 +136,7 @@ int	is_valid_plane(t_control_panel *cp);
 int	is_valid_cylinder(t_control_panel *cp);
 int	is_valid_cone(t_control_panel *cp);
 
-
+void	change_object(int keycode, t_control_panel *cp);
 //rgb
 void create_rgb_sliders(t_control_panel *cp);
 // button

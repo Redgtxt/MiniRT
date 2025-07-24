@@ -11,23 +11,16 @@
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
-/*
-    MASOQUISMO.exe
-
-    [x]Primeiro criar um hook que vai incrementar ou decrementar uma variavel atraves das setas do teclado se tiver dentro da janela de controlo
-        [x]Depois vou fazer funcionar para mudar o idx de um array
-
-*/
 
 static t_win_config *init_control_window(t_control_panel *cp)
 {
     t_win_config *control_data;
-    int img_width, img_height;
+    int img_width;
+    int img_height;
 
     control_data = malloc(sizeof(t_win_config));
     if (!control_data)
         return (NULL);
-
     control_data->mlx = cp->mlx->mlx;
     if (!control_data->mlx)
     {
@@ -35,7 +28,6 @@ static t_win_config *init_control_window(t_control_panel *cp)
         free(control_data);
         return (NULL);
     }
-
     control_data->win = mlx_new_window(control_data->mlx, W_WIDTH, W_HEIGHT, "miniRT Control");
     if (!control_data->win)
     {
@@ -43,17 +35,13 @@ static t_win_config *init_control_window(t_control_panel *cp)
         free(control_data);
         return (NULL);
     }
-
     control_data->img = mlx_new_image(control_data->mlx, W_WIDTH, W_HEIGHT);
     control_data->addr = mlx_get_data_addr(control_data->img, &control_data->bits_per_pixel,
                                            &control_data->line_length, &control_data->endian);
-
-    // Load all three object images
     control_data->image.sphere = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/sphere_small.xpm", &img_width, &img_height);
     control_data->image.plane = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/plane_resized.xpm", &img_width, &img_height);
     control_data->image.cylinder = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/cylinder.xpm", &img_width, &img_height);
     control_data->image.cone = mlx_xpm_file_to_image(cp->mlx->mlx, "src/images/cone_resized.xpm", &img_width, &img_height);
-
     return control_data;
 }
 
@@ -110,69 +98,6 @@ static void update_sliders_from_selected_object(t_control_panel *cp)
     }
 }
 
-static void change_object(int keycode, t_control_panel *cp)
-{
-    // Código existente para mudança de objeto com setas
-    if (keycode == ARROW_RIGHT_KEY)
-    {
-        // Move to next object of current type
-        if (cp->data.obj_type == 0)
-        { // Sphere
-            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.sphere_count;
-        }
-        else if (cp->data.obj_type == 1)
-        { // Plane
-            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.plane_count;
-        }
-        else if (cp->data.obj_type == 2)
-        { // Cylinder
-            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.cylinder_count;
-        }
-        else if (cp->data.obj_type == 3)
-        { // cone
-            cp->data.idx_obj = (cp->data.idx_obj + 1) % cp->data.cone_count;
-        }
-    }
-    else if (keycode == ARROW_LEFT_KEY)
-    {
-        // Move to previous object of current type
-        if (cp->data.obj_type == 0 && cp->data.sphere_count > 0)
-        {
-            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.sphere_count) % cp->data.sphere_count;
-        }
-        else if (cp->data.obj_type == 1 && cp->data.plane_count > 0)
-        {
-            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.plane_count) % cp->data.plane_count;
-        }
-        else if (cp->data.obj_type == 2 && cp->data.cylinder_count > 0)
-        {
-            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.cylinder_count) % cp->data.cylinder_count;
-        }
-        else if (cp->data.obj_type == 3 && cp->data.cone_count > 0)
-        {
-            cp->data.idx_obj = (cp->data.idx_obj - 1 + cp->data.cone_count) % cp->data.cone_count;
-        }
-    }
-    // Add up/down arrow keys to switch between object types
-    else if (keycode == ARROW_UP_KEY || keycode == ARROW_DOWN_KEY)
-    {
-        if (keycode == ARROW_UP_KEY)
-        {
-            cp->data.obj_type = (cp->data.obj_type + 1) % 4;
-        }
-        else
-        {
-            cp->data.obj_type = (cp->data.obj_type + 3) % 4; // +3 é equivalente a -1 com módulo 4
-        }
-        cp->data.idx_obj = 0; // Reset index when switching types
-    }
-
-    cp->config_win->red_slider.is_dragging = 0;
-    cp->config_win->green_slider.is_dragging = 0;
-    cp->config_win->blue_slider.is_dragging = 0;
-
-    update_sliders_from_selected_object(cp);
-}
 
 static int control_win_key_hook(int keycode, t_control_panel *cp)
 {
