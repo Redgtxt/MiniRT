@@ -1,7 +1,5 @@
 #include "../../includes/miniRT.h"
 
-
-
 int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y)
 {
     t_interval x_interval;
