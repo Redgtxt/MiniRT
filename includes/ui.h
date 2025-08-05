@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/24 16:45:23 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:39:22 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef enum e_material_type t_material_type;
 
 #define WINDOW_HEIGHT 360
 #define WINDOW_WIDTH 1280
-#define W_WIDTH 450  // window de controlo
+#define W_WIDTH 450	 // window de controlo
 #define W_HEIGHT 600 // window de controlo
 #define KEY_ESC 65307
 #define ARROW_UP_KEY 65362
@@ -99,7 +99,6 @@ typedef struct s_material_selector
 	int color_text;			 // Cor do texto
 } t_material_selector;
 
-
 typedef struct s_win_config
 {
 	void *mlx;
@@ -130,21 +129,21 @@ typedef struct s_mlx
 	int endian;
 } t_mlx;
 
-//utils
-int	is_valid_sphere(t_control_panel *cp);
-int	is_valid_plane(t_control_panel *cp);
-int	is_valid_cylinder(t_control_panel *cp);
-int	is_valid_cone(t_control_panel *cp);
-void init_images(t_control_panel *cp, t_win_config *control_data,int img_width,int img_height);
-void	change_object(int keycode, t_control_panel *cp);
+// utils
+int is_valid_sphere(t_control_panel *cp);
+int is_valid_plane(t_control_panel *cp);
+int is_valid_cylinder(t_control_panel *cp);
+int is_valid_cone(t_control_panel *cp);
+void init_images(t_control_panel *cp, t_win_config *control_data, int img_width, int img_height);
+void change_object(int keycode, t_control_panel *cp);
 void control_win_hooks(t_win_config *control_data, t_control_panel *cp);
-//rgb
+// rgb
 void create_rgb_sliders(t_control_panel *cp);
 int get_rgb_values(t_control_panel *cp, double *r, double *g, double *b);
 // button
 void draw_button(t_control_panel *cp, t_button button);
 void update_objects_properties(t_control_panel *cp, t_slider *slider);
-int	render_button(t_control_panel *cp, t_slider *slider, int x, int y);
+int render_button(t_control_panel *cp, t_slider *slider, int x, int y);
 
 // mouse
 int mouse_release_handler(int button, int x, int y, void *param);
@@ -161,7 +160,7 @@ int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);
 void create_rgb_sliders(t_control_panel *cp);
 void set_slider_value_from_position(t_slider *slider, int mouse_x);
-void	update_sliders_from_selected_object(t_control_panel *cp);
+void update_sliders_from_selected_object(t_control_panel *cp);
 // Dropdown
 void init_material_selector(t_material_selector *selector);
 void draw_material_selector(t_control_panel *cp);
@@ -174,13 +173,37 @@ int get_dropdown_item_index(t_material_selector *selector, int mouse_x, int mous
 
 // Funções auxiliares de desenho
 void draw_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color);
+void draw_filled_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color);
 void draw_text(t_control_panel *cp, int x, int y, char *text, int color);
+void draw_text_at_position(t_control_panel *cp, int x, int y, char *text);
 
 // Novas funções para UI melhorada
 void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color);
 void draw_arrow_down(t_control_panel *cp, int x, int y);
 void draw_slider_bar(t_control_panel *cp, t_slider slider);
 void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, int height, int color);
+void draw_button_with_effects(t_control_panel *cp, t_button button);
+
+// Mouse utilities
+int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
+int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y);
+void set_slider_value_from_position(t_slider *slider, int mouse_x);
+int handle_slider_interaction(t_slider *slider, int x, int y);
+
+// RGB handling
+void update_object_rgb(t_control_panel *cp, int rgb_index, float value);
+void handle_rgb_slider_interaction(t_control_panel *cp, t_slider *slider, int x, int y);
+
+// Interface display
+void display_object_stats(t_control_panel *cp, int obj_index);
+void redraw_interface(t_control_panel *cp);
+
+// Legacy compatibility functions
+int is_mouse_on_slider_bar_legacy(t_slider slider, int mouse_x, int mouse_y);
+void draw_stats_legacy(t_control_panel *cp, int obj_index);
+void redraw_interface_legacy(t_control_panel *cp);
+void set_slider_value_from_position_legacy(t_slider *slider, int mouse_x);
+int is_mouse_on_slider_handle_legacy(t_slider slider, int mouse_x, int mouse_y);
 
 // MLX
 void my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
@@ -195,8 +218,8 @@ void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);
 int main_window_mouse_handler(int button, int x, int y, void *param);
 // Window control
 int create_control_window(t_control_panel *cp);
-int	find_clicked_object(t_control_panel *cp, int mouse_x,
-					int mouse_y, int *obj_type);
-void	update_control_interface_with_object(t_control_panel *cp,
-	int obj_index, int obj_type);
+int find_clicked_object(t_control_panel *cp, int mouse_x,
+						int mouse_y, int *obj_type);
+void update_control_interface_with_object(t_control_panel *cp,
+										  int obj_index, int obj_type);
 #endif

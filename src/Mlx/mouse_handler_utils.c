@@ -1,149 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse_handler_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/05 16:55:00 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/08/05 16:39:22 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 
-int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y)
+/*
+** This file now contains only legacy compatibility functions.
+** Main functionality has been moved to:
+** - mouse_utils.c: Mouse interaction utilities
+** - interface_display.c: Object statistics display
+** - interface_render.c: Complete interface rendering
+** - rgb_handlers.c: RGB slider handling
+**
+** These functions remain for compatibility with existing code.
+*/
+
+int is_mouse_on_slider_bar_legacy(t_slider slider, int mouse_x, int mouse_y)
 {
-    t_interval x_interval;
-    t_interval y_interval;
-
-    x_interval = interval_create(slider.x, slider.x + slider.width);
-    y_interval = interval_create(slider.y, slider.y + slider.height);
-
-    return (interval_contains(mouse_x, x_interval) &&
-            interval_contains(mouse_y, y_interval));
+    return (is_mouse_on_slider_bar(slider, mouse_x, mouse_y));
 }
 
-static void draw_stats(t_control_panel *cp, int obj_index)
+void draw_stats_legacy(t_control_panel *cp, int obj_index)
 {
-    char info_text[256];
-    char obj_type_str[20];
-    double *rgb;
-    double pos[3] = {0};
-
-    // Set object type string and check if index is valid
-    if (cp->data.obj_type == 0)
-    {
-        if (obj_index < 0 || obj_index >= (int)cp->data.sphere_count || !cp->sphere)
-            return;
-        sprintf(obj_type_str, "Sphere");
-        rgb = cp->sphere[obj_index].rgb;
-        vec3_copy(pos, cp->sphere[obj_index].cords);
-    }
-    else if (cp->data.obj_type == 1)
-    {
-        if (obj_index < 0 || obj_index >= (int)cp->data.plane_count || !cp->plane)
-            return;
-        sprintf(obj_type_str, "Plane");
-        rgb = cp->plane[obj_index].rgb;
-        vec3_copy(pos, cp->plane[obj_index].cords);
-    }
-    else if (cp->data.obj_type == 2)
-    {
-        if (obj_index < 0 || obj_index >= (int)cp->data.cylinder_count || !cp->cylinder)
-            return;
-        sprintf(obj_type_str, "Cylinder");
-        rgb = cp->cylinder[obj_index].rgb;
-        vec3_copy(pos, cp->cylinder[obj_index].cords);
-    }
-    else if (cp->data.obj_type == 3)
-    {
-        if (obj_index < 0 || obj_index >= (int)cp->data.cone_count || !cp->cone)
-            return;
-        sprintf(obj_type_str, "Cone");
-        rgb = cp->cone[obj_index].rgb;
-        vec3_copy(pos, cp->cone[obj_index].cords);
-    }
-    else
-    {
-        return;
-    }
-
-    // Display object type and index
-    sprintf(info_text, "Selected %s: %d", obj_type_str, obj_index);
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 30, COLOR_WHITE, info_text);
-
-    // Display position
-    sprintf(info_text, "Pos: %.1f,%.1f,%.1f", pos[0], pos[1], pos[2]);
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 50, COLOR_WHITE, info_text);
-
-    // Display specific properties based on object type
-    if (cp->data.obj_type == 0)
-    {
-        sprintf(info_text, "Radius: %.2f", cp->sphere[obj_index].radius);
-        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 70, COLOR_WHITE, info_text);
-    }
-    else if (cp->data.obj_type == 1)
-    {
-        sprintf(info_text, "Normal: %.2f,%.2f,%.2f",
-                cp->plane[obj_index].vec3[0],
-                cp->plane[obj_index].vec3[1],
-                cp->plane[obj_index].vec3[2]);
-        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 70, COLOR_WHITE, info_text);
-    }
-    else if (cp->data.obj_type == 2)
-    {
-        sprintf(info_text, "Radius: %.2f, Height: %.2f",
-                cp->cylinder[obj_index].radius,
-                cp->cylinder[obj_index].height);
-        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 70, COLOR_WHITE, info_text);
-    }
-    else if (cp->data.obj_type == 3)
-    {
-        sprintf(info_text, "Radius: %.2f, Height: %.2f",
-                cp->cone[obj_index].radius,
-                cp->cone[obj_index].height);
-        mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 70, COLOR_WHITE, info_text);
-    }
-    // Display RGB values
-    sprintf(info_text, "RGB: %.2f,%.2f,%.2f", rgb[0], rgb[1], rgb[2]);
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 70, 90, COLOR_WHITE, info_text);
+    display_object_stats(cp, obj_index);
 }
-// Função para redesenhar toda a interface
-void redraw_interface(t_control_panel *cp)
+
+void redraw_interface_legacy(t_control_panel *cp)
 {
-    clear_image_slider(cp);
-
-    draw_button(cp, cp->config_win->button);
-    draw_slider(cp, cp->config_win->slider);
-
-   
-    mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
-                            cp->config_win->img, 0, 0);
-
-    // Display the appropriate object image based on selected type
-    if (cp->data.obj_type == 0 && cp->config_win->image.sphere)
-        mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
-                                cp->config_win->image.sphere, 10, 10);
-    else if (cp->data.obj_type == 1 && cp->config_win->image.plane)
-        mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
-                                cp->config_win->image.plane, 10, 10);
-    else if (cp->data.obj_type == 2 && cp->config_win->image.cylinder)
-        mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
-                                cp->config_win->image.cylinder, 10, 10);
-    else if (cp->data.obj_type == 3 && cp->config_win->image.cone)
-        mlx_put_image_to_window(cp->config_win->mlx, cp->config_win->win,
-                                cp->config_win->image.cone, 10, 10);
-
-    
-    // Título principal
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 235, 15, COLOR_WHITE, "=== MiniRT Control Panel ===");
-
-     // Label para ambient light
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 185, COLOR_WHITE, "=== Ambient Light: ===");
-
-    // Label para material
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 360, COLOR_WHITE, "=== Material: ===");
-
-    
-    // Redesenhar textos melhorados
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 175, 130, COLOR_HIGHLIGHT, "RENDER");
-    draw_slider_amb_light(cp, cp->config_win->slider);
-
-    draw_stats(cp, cp->data.idx_obj);
-
-    // Labels para sliders RGB melhorados
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, 50, 235, COLOR_WHITE, "== Object Colors ==");
-
-    // Desenhar sliders RGB se um objeto estiver selecionado
-    create_rgb_sliders(cp);
-    draw_material_selector(cp);
+    redraw_interface(cp);
 }

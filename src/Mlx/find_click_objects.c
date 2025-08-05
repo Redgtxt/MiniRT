@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_click_objects.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/05 16:28:17 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/08/05 16:28:19 by hguerrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 
 static int	check_sphere_hit(t_control_panel *cp, t_ray *ray, t_hit_record *record, int *obj_type)
