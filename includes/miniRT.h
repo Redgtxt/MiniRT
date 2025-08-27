@@ -254,6 +254,13 @@ void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_d
 /*Textures*/
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
 
+/*base_values*/
+void	set_solid_material(t_material *material);
+void	set_lambertian_material(t_material *material);
+void	set_metal_material(t_material *material);
+void	set_glass_material(t_material *material);
+void	set_checker_material(t_material *material);
+
 /*Ray functions*/
 void init_ray(t_ray *ray);
 void create_ray(t_ray *ray, const double origin[3], const double direction[3]);
