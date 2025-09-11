@@ -124,13 +124,7 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 
 	(void)error_log;
 	info_len = ft_strlen(info);
-	if (!info)
-	{
-		object_material->type = SOLID;
-		vec3_copy(object_material->albedo, rgb);
-		set_solid_material(object_material);
-	}
-	else if (info_len == ft_strlen("LAMBERTIAN") && !ft_strncmp(info, "LAMBERTIAN", info_len))
+	if (!info || (info_len == ft_strlen("LAMBERTIAN") && !ft_strncmp(info, "LAMBERTIAN", info_len)))
 	{
 		object_material->type = LAMBERTIAN;
 		vec3_copy(object_material->albedo, rgb);

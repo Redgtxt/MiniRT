@@ -13,14 +13,6 @@
 #include "../../includes/miniRT.h"
 #include <unistd.h>
 
-void	set_solid_material(t_material *material)
-{
-	material->type = SOLID;
-	vec3_set(material->specular, 0.5, 0.5, 0.5);
-	material->shininess = 32.0;
-	material->refraction_index = 1.0; // Air/vacuum
-}
-
 void	set_lambertian_material(t_material *material)
 {
 	material->type = LAMBERTIAN;

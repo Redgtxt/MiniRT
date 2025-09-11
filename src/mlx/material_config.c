@@ -16,9 +16,7 @@ void configure_material_properties(t_material *material, t_material_type type)
 {
     if (!material)
         return;
-    if (type == SOLID)
-        set_solid_material(material);
-    else if (type == LAMBERTIAN)
+    if (type == LAMBERTIAN)
         set_lambertian_material(material);
     else if (type == METAL)
         set_metal_material(material);
