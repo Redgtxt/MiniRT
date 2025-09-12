@@ -164,7 +164,7 @@ void ray_color(t_control_panel *panel, int depth, const t_ray *ray, double out_c
             }
         }
 
-        	// Recursive reflection/refraction
+        	// Recursive reflection/refraction for all materials
         	if (scatter(rec.material, ray, &rec, &data_scatter)) {
             	vec3 scattered_color[3];
             	ray_color(panel, depth - 1, &data_scatter.scattered, scattered_color);

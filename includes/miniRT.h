@@ -66,7 +66,6 @@ typedef double vec3;
 
 typedef enum e_material_type
 {
-	SOLID,
 	LAMBERTIAN,
 	METAL,
 	CHECKERPATTERN,

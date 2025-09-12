@@ -91,7 +91,7 @@ typedef struct s_material_selector
 	int is_open;			 // Flag se está aberto
 	int selected_material;	 // Material atualmente selecionado
 	int hover_index;		 // Índice do item em hover
-	char *material_names[5]; // Nomes dos materiais
+	char *material_names[4]; // Nomes dos materiais
 	int item_height;		 // Altura de cada item no dropdown
 	int color_button;		 // Cor do botão principal
 	int color_dropdown;		 // Cor do dropdown

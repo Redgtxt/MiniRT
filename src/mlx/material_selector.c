@@ -25,11 +25,10 @@ void init_material_selector(t_material_selector *selector)
     selector->selected_material = LAMBERTIAN;
     selector->hover_index = -1;
     selector->item_height = 30;
-    selector->material_names[0] = "SOLID";
-    selector->material_names[1] = "LAMBERTIAN";
-    selector->material_names[2] = "METAL";
-    selector->material_names[3] = "CHECKER";
-    selector->material_names[4] = "GLASS";
+    selector->material_names[0] = "LAMBERTIAN";
+    selector->material_names[1] = "METAL";
+    selector->material_names[2] = "CHECKER";
+    selector->material_names[3] = "GLASS";
 }
 
 static void draw_selector_button(t_control_panel *cp, t_material_selector *selector)
@@ -55,7 +54,7 @@ static void draw_dropdown_items(t_control_panel *cp, t_material_selector *select
     draw_border(cp, selector->x, dropdown_y, selector->width,
                 selector->dropdown_height, 0xFFFFFF);
     i = 0;
-    while (i < 5)
+    while (i < 4)
     {
         item_y = dropdown_y + (i * selector->item_height);
         item_color = 0x404040;
