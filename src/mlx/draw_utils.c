@@ -6,29 +6,13 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:30:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/08/05 16:27:31 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:41:57 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-void draw_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color)
-{
-    int i;
-    int j;
 
-    i = 0;
-    while (i < width)
-    {
-        j = 0;
-        while (j < height)
-        {
-            pixel_put_win_control(cp, x + i, y + j, color);
-            j++;
-        }
-        i++;
-    }
-}
 
 void draw_filled_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color)
 {
