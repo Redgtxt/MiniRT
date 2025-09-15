@@ -220,30 +220,21 @@ t_control_panel *inicialize(int argc, char *argv[])
     if (!parsing(control_panel, argv[1]))
     {
         print_parsing_error(control_panel->error_log);
-        return (free_control_panel_lists(control_panel), NULL);
+        return (free_control_panel_lists(control_panel), free(control_panel), NULL);
+    }
+    if (!linked_to_array(control_panel))
+    {
+        fprintf(stderr, "Error: Failed to convert linked lists to arrays.\n"); // change print error
+        return (free_control_panel_lists(control_panel), free(control_panel), NULL);
     }
     get_values_camera(control_panel);
-
-    // Initialize object type to the first available object type
-    if (control_panel->data.sphere_count > 0)
-        control_panel->data.obj_type = 0; // Sphere
-    else if (control_panel->data.plane_count > 0)
-        control_panel->data.obj_type = 1; // Plane
-    else if (control_panel->data.cylinder_count > 0)
-        control_panel->data.obj_type = 2; // Cylinder
-    else if (control_panel->data.cone_count > 0)
-        control_panel->data.obj_type = 3; // Cone
-    else
-        control_panel->data.obj_type = 0; // Default to sphere even if none exist
-
-    control_panel->data.idx_obj = 0; // Initialize to first object
-
+    init_object_selection(control_panel);
     return control_panel;
 }
 
 int main(int argc, char *argv[])
 {
-    t_mlx mlx_data;
+    // t_mlx mlx_data;
     t_control_panel *cp;
 
     cp = inicialize(argc, argv);
@@ -251,22 +242,24 @@ int main(int argc, char *argv[])
         return 1;
 
     print_elements(cp);
-    ft_printf("MiniRT Starting...\n");
-    srand(time(NULL));
+    free_control_panel_lists(cp);
+    free(cp);
+    // ft_printf("MiniRT Starting...\n");
+    // srand(time(NULL));
 
-    if (init_values_main_win(&mlx_data, cp))
-        return 1;
+    // if (init_values_main_win(&mlx_data, cp))
+    //     return 1;
 
-    if (create_control_window(cp))
-        return 1;
+    // if (create_control_window(cp))
+    //     return 1;
 
-    render_scene(cp);
+    // render_scene(cp);
 
-    mlx_hook(mlx_data.win, 17, 0, close_window, cp);
-    mlx_key_hook(mlx_data.win, key_hook, cp);
+    // mlx_hook(mlx_data.win, 17, 0, close_window, cp);
+    // mlx_key_hook(mlx_data.win, key_hook, cp);
 
-    mlx_hook(mlx_data.win, 4, 1L << 2, main_window_mouse_handler, cp);
+    // mlx_hook(mlx_data.win, 4, 1L << 2, main_window_mouse_handler, cp);
 
-    mlx_loop(mlx_data.mlx);
+    // mlx_loop(mlx_data.mlx);
     return (0);
 }

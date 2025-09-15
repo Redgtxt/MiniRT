@@ -337,6 +337,12 @@ bool get_brightness(double *brightness, char *info, t_error_log *error_log);
 bool get_d(double *d, char *info, t_error_log *error_log);
 bool get_height(double *height, char *info, t_error_log *error_log);
 
+//	Linked_to_array.c
+bool linked_to_array(t_control_panel *control_panel);
+
+//	Init_object_seletion.c
+void init_object_selection(t_control_panel *control_panel);
+
 //	List_handler.c
 void lstadd_last_light(t_control_panel *control_panel, t_light *new_light);
 void lstadd_last_sphere(t_control_panel *control_panel, t_sphere *new_sphere);

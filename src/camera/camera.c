@@ -1,7 +1,5 @@
 #include "../../includes/miniRT.h"
 
-
-
 static void setup_camera_dimensions(t_control_panel *control_panel)
 {
 	control_panel->camera.aspect_ratio = 16.0 / 9.0;

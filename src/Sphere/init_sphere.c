@@ -1,17 +1,12 @@
 #include "../../includes/miniRT.h"
 
-/*
-
-    Vou passar a linked list que tenho para array
-*/
-
 bool linked_list_to_light_array(t_light **light_list, int size_array)
 {
     t_light *array;
     t_light *current;
     int i;
 
-    array = ft_calloc(sizeof(t_plane), size_array);
+    array = ft_calloc(size_array, sizeof(t_plane));
     if (!array)
         return (false);
 
@@ -36,7 +31,7 @@ bool linked_list_to_sphere_array(t_sphere **sphere_list, int size_array)
     t_sphere *current;
     int i;
 
-    array = ft_calloc(sizeof(t_sphere), size_array);
+    array = ft_calloc(size_array, sizeof(t_sphere));
     if (!array)
         return (false);
 
@@ -62,7 +57,7 @@ bool linked_list_to_plane_array(t_plane **plane_list, int size_array)
     t_plane *current;
     int i;
 
-    array = ft_calloc(sizeof(t_plane), size_array);
+    array = ft_calloc(size_array, sizeof(t_plane));
     if (!array)
         return (false);
 
@@ -87,7 +82,7 @@ bool linked_list_to_cylinder_array(t_cylinder **cylinder_list, int size_array)
     t_cylinder *current;
     int i;
 
-    array = ft_calloc(sizeof(t_cylinder), size_array);
+    array = ft_calloc(size_array, sizeof(t_cylinder));
     if (!array)
         return false;
 
@@ -113,7 +108,7 @@ bool linked_list_to_cone_array(t_cone **cone_list, int size_array)
     t_cone *current;
     int i;
 
-    array = ft_calloc(sizeof(t_cone), size_array);
+    array = ft_calloc(size_array, sizeof(t_cone));
     if (!array)
         return (false);
 

@@ -87,5 +87,6 @@ void	free_control_panel_lists(t_control_panel *control_panel)
     	free_plane(control_panel->plane);
     if (control_panel->cylinder)
    		free_cylinder(control_panel->cylinder);
-    free(control_panel);
+	if (control_panel->cone)
+		free_cone(control_panel->cone);
 }
