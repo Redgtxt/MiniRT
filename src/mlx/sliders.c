@@ -17,7 +17,6 @@ void draw_slider(t_control_panel *cp, t_slider slider)
 	int handle_x;
 	float value_ratio;
 
-	// Usar a nova função melhorada para desenhar a barra
 	draw_slider_bar(cp, slider);
 	// Calcular posição do handle baseado no valor atual
 	value_ratio = (slider.current_value - slider.min_value) / (slider.max_value - slider.min_value);
