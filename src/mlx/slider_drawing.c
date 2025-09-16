@@ -39,14 +39,14 @@ static void draw_handle_highlight(t_control_panel *cp, int x, int y, int width)
     }
 }
 
-void draw_slider_handle_improved(t_control_panel *cp, int x, int y, int width, int height, int color)
+void draw_slider_handle_improved(t_control_panel *cp, t_rect rect, int color)
 {
-    draw_filled_rectangle(cp, x, y, width, height, color);
-    draw_border(cp, x, y, width, height, 0xFFFFFF);
-    draw_handle_highlight(cp, x, y, width);
+    draw_filled_rectangle(cp, rect, color);
+    draw_border(cp, rect, 0xFFFFFF);
+    draw_handle_highlight(cp, rect.x, rect.y, rect.width);
 }
 
-void draw_button_with_effects(t_control_panel *cp, t_button button)
+void draw_button(t_control_panel *cp, t_button button)
 {
     int i;
 
@@ -70,7 +70,4 @@ void draw_button_with_effects(t_control_panel *cp, t_button button)
     }
 }
 
-void draw_button(t_control_panel *cp, t_button button)
-{
-    draw_button_with_effects(cp, button);
-}
+

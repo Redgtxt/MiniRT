@@ -21,9 +21,12 @@ void draw_slider(t_control_panel *cp, t_slider slider)
 	// Calcular posição do handle baseado no valor atual
 	value_ratio = (slider.current_value - slider.min_value) / (slider.max_value - slider.min_value);
 	handle_x = slider.x + (int)((slider.width - slider.handle_width) * value_ratio);
-	// Desenhar handle melhorado
-	draw_slider_handle_improved(cp, handle_x, slider.y - (slider.handle_height - slider.height) / 2, slider.handle_width, slider.handle_height,
-								slider.color_handle);
+	t_rect handle_rect;
+	handle_rect.x = x;
+	handle_rect.y = slider.y - (slider.handle_height - slider.height) / 2;
+	handle_rect.width = slider.handle_width;
+	handle_rect.height = slider.handle_height;
+	draw_slider_handle_improved(cp, handle_rect, slider.color_handle);
 }
 
 void update_slider_value(t_slider *slider, int mouse_x)

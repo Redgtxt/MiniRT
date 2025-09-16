@@ -12,14 +12,11 @@
 
 #include "../../includes/miniRT.h"
 
-static void draw_selector_button(t_control_panel *cp, t_material_selector *selector)
+static void draw_slider_handle_improved(t_control_panel *cp, t_rect rect, int color)
 {
-    draw_filled_rectangle(cp, selector->x, selector->y, selector->width,
-                          selector->height, 0x404040);
-    draw_border(cp, selector->x, selector->y, selector->width, selector->height, 0xFFFFFF);
-    draw_text_at_position(cp, selector->x + 10, selector->y + 20,
-                          selector->material_names[selector->selected_material]);
-    draw_arrow_down(cp, selector->x + selector->width - 20, selector->y + 10);
+    draw_filled_rectangle(cp, rect, color);
+    draw_border(cp, rect, 0xFFFFFF);
+    draw_handle_highlight(cp, rect.x, rect.y, rect.width);
 }
 
 static void draw_dropdown_items(t_control_panel *cp, t_material_selector *selector)

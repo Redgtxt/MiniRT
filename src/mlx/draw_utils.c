@@ -14,40 +14,40 @@
 
 
 
-void draw_filled_rectangle(t_control_panel *cp, int x, int y, int width, int height, int color)
+void draw_filled_rectangle(t_control_panel *cp, t_rect rect, int color)
 {
     int i;
     int j;
 
     i = 0;
-    while (i < width)
+    while (i < rect.width)
     {
         j = 0;
-        while (j < height)
+        while (j < rect.height)
         {
-            pixel_put_win_control(cp, x + i, y + j, color);
+            pixel_put_win_control(cp, rect.x + i, rect.y + j, color);
             j++;
         }
         i++;
     }
 }
 
-void draw_border(t_control_panel *cp, int x, int y, int width, int height, int color)
+void draw_border(t_control_panel *cp, t_rect rect, int color)
 {
     int i;
 
     i = 0;
-    while (i < width)
+    while (i < rect.width)
     {
-        pixel_put_win_control(cp, x + i, y, color);
-        pixel_put_win_control(cp, x + i, y + height - 1, color);
+        pixel_put_win_control(cp, rect.x + i, rect.y, color);
+        pixel_put_win_control(cp, rect.x + i, rect.y + rect.height - 1, color);
         i++;
     }
     i = 0;
-    while (i < height)
+    while (i < rect.height)
     {
-        pixel_put_win_control(cp, x, y + i, color);
-        pixel_put_win_control(cp, x + width - 1, y + i, color);
+        pixel_put_win_control(cp, rect.x, rect.y + i, color);
+        pixel_put_win_control(cp, rect.x + rect.width - 1, rect.y + i, color);
         i++;
     }
 }
