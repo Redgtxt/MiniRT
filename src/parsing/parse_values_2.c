@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 18:34:35 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:51:26 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ bool	get_fov(mini_int *fov, char *info, t_error_log *error_log)
 		}
 		i++;
 	}
-	if (!ft_atoc(info, fov) || *fov > 180)
+	if (!ft_atoc(info, fov))
 		return (false);
+	if (*fov > 180)
+		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
 }
 
@@ -47,6 +49,8 @@ bool	get_light_force(double *light_force, char *info, t_error_log *error_log)
 	}
 	if (!ft_atofd(info, light_force, 'd'))
 		return (false);
+	if (*light_force < 0.0 || *light_force > 1.0)
+		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
 }
 
@@ -67,8 +71,8 @@ bool	get_brightness(double *brightness, char *info, t_error_log *error_log)
 	}
 	if (!ft_atofd(info, brightness, 'd'))
 		return (false);
-	if (*brightness > 1.0) //	Melhorar precisao
-		return (false);
+	if (*brightness < 0.0 || *brightness > 1.0) //	Melhorar precisao
+		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
 }
 

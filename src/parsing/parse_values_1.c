@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_values_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/16 17:47:37 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:44:01 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	get_vector(vec3 *vector, char *info, t_error_log *error_log)
 	ft_free_double_array(array);
 	if (vector[0] > 1.0 || vector[1] > 1.0 || vector[2] > 1.0
 		|| vector[0] < -1.0 || vector[1] < -1.0 || vector[2] < -1.0) //	Melhorar precisao
-		return (false);
+		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
 }
 
@@ -90,8 +90,6 @@ static bool	parse_rgb_chars(char *info, t_error_log *error_log)
 			error_log->error_char_detail = *info;
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
 		}
-		if (nbr_len > 3)
-			return (false);
 		info++;
 	}
 	return (true);
@@ -112,6 +110,9 @@ bool	get_rgb(double rgb[3], char *info, t_error_log *error_log)
 	if (!ft_atofd(array[0], &rgb[0], 'd') || !ft_atofd(array[1], &rgb[1], 'd')
 			|| !ft_atofd(array[2], &rgb[2], 'd'))
 		return (ft_free_double_array(array), false);
+	if (rgb[0] < 0.0 || rgb[0] > 255.0 || rgb[1] < 0.0 || rgb[1] > 255.0
+		|| rgb[2] < 0.0 || rgb[2] > 255.0)
+		return (ft_free_double_array(array), error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	vec3_normalize(rgb, rgb);
 	ft_free_double_array(array);
 	return (true);

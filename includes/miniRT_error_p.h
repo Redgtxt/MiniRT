@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.h                                           :+:      :+:    :+:   */
+/*   miniRT_error_p.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/27 16:11:15 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:00:49 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef enum u_element_flags
 	ERR_ELEMENT_L = (1 << 3),
 	ERR_ELEMENT_SP = (1 << 4),
 	ERR_ELEMENT_PL = (1 << 5),
-	ERR_ELEMENT_CY = (1 << 6)
+	ERR_ELEMENT_CY = (1 << 6),
+	ERR_ELEMENT_CN = (1 << 7)
 }				t_element_flags;
 
 // ───── Values Flags (Bits 8–15) ─────
@@ -48,10 +49,11 @@ typedef enum u_general_flags
 {
 	ERR_MALLOC = (1 << 16),
 	ERR_OVERFLOW = (1 << 17),
-	ERR_NEGATIVE = (1 << 18),
-	ERR_INVALID_CHAR = (1 << 19),
-	ERR_NBR_ELEMENTS = (1 << 20),
-	ERR_NBR_VALUES = (1 << 21)
+	ERR_RANGE = (1 << 18),
+	ERR_NEGATIVE = (1 << 19),
+	ERR_INVALID_CHAR = (1 << 20),
+	ERR_NBR_ELEMENTS = (1 << 21),
+	ERR_NBR_VALUES = (1 << 22)
 }				t_general_flags;
 
 typedef struct s_error_log

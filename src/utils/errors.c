@@ -66,6 +66,8 @@ static void	print_general_error(t_error error_code, char error_detail)
 		ft_putstr_fd("Memory allocation", 2);
 	else if (has_error(error_code, ERR_OVERFLOW))
 		ft_putstr_fd("Overflow", 2);
+	else if (has_error(error_code, ERR_RANGE))
+		ft_putstr_fd("Out of range", 2);
 	else if (has_error(error_code, ERR_NEGATIVE))
 		ft_putstr_fd("Negative number", 2);
 	else if (has_error(error_code, ERR_INVALID_CHAR))

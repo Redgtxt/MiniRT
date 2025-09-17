@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/22 15:09:18 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:17:17 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,16 @@ void print_elements(t_control_panel *control_panel)
 
     if (control_panel->cylinder && control_panel->data.cylinder_count > 0)
     {
-        t_cylinder *temp = control_panel->cylinder;
-        int count = 0;
-        while (temp && count < (int)control_panel->data.cylinder_count)
+        printf("\nCYLINDER AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.cylinder_count; i++)
         {
-            printf("\nCylinder %d:\n", count + 1);
-            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
-            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
-            printf("\t d = %.2f\n", temp->d);
-            printf("\t radius = %.2f\n", temp->radius);
-            printf("\t height = %.2f\n", temp->height);
-            printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
-            temp = temp->next;
-            count++;
+            printf("\nCylinder %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->cylinder[i].cords[0], control_panel->cylinder[i].cords[1], control_panel->cylinder[i].cords[2]);
+            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->cylinder[i].vec3[0], control_panel->cylinder[i].vec3[1], control_panel->cylinder[i].vec3[2]);
+            printf("\t d = %.2f\n", control_panel->cylinder[i].d);
+            printf("\t radius = %.2f\n", control_panel->cylinder[i].radius);
+            printf("\t height = %.2f\n", control_panel->cylinder[i].height);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->cylinder[i].rgb[0], control_panel->cylinder[i].rgb[1], control_panel->cylinder[i].rgb[2]);
         }
     }
     else
@@ -123,19 +120,16 @@ void print_elements(t_control_panel *control_panel)
 
     if (control_panel->cone && control_panel->data.cone_count > 0)
     {
-        t_cone *temp = control_panel->cone;
-        int count = 0;
-        while (temp && count < (int)control_panel->data.cone_count)
+        printf("\nCONE AFTER ARRAY CONVERSION:\n");
+        for (size_t i = 0; i < control_panel->data.cone_count; i++)
         {
-            printf("\nCone %d:\n", count + 1);
-            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", temp->cords[0], temp->cords[1], temp->cords[2]);
-            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", temp->vec3[0], temp->vec3[1], temp->vec3[2]);
-            printf("\t d = %.2f\n", temp->d);
-            printf("\t radius = %.2f\n", temp->radius);
-            printf("\t height = %.2f\n", temp->height);
-            printf("\t rgb = r-> %f g-> %f b-> %f\n", temp->rgb[0], temp->rgb[1], temp->rgb[2]);
-            temp = temp->next;
-            count++;
+            printf("\nCone %zu:\n", i + 1);
+            printf("\t coord = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->cone[i].cords[0], control_panel->cone[i].cords[1], control_panel->cone[i].cords[2]);
+            printf("\t vector = x-> %.2f y-> %.2f z-> %.2f\n", control_panel->cone[i].vec3[0], control_panel->cone[i].vec3[1], control_panel->cone[i].vec3[2]);
+            printf("\t d = %.2f\n", control_panel->cone[i].d);
+            printf("\t radius = %.2f\n", control_panel->cone[i].radius);
+            printf("\t height = %.2f\n", control_panel->cone[i].height);
+            printf("\t rgb = r-> %f g-> %f b-> %f\n", control_panel->cone[i].rgb[0], control_panel->cone[i].rgb[1], control_panel->cone[i].rgb[2]);
         }
     }
     else
