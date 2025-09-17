@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:50:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/08/05 16:27:31 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:38:13 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,28 @@ void draw_slider_bar(t_control_panel *cp, t_slider slider)
 {
     float value_ratio;
     int filled_width;
+    t_rect rect;
 
-    draw_filled_rectangle(cp, slider.x, slider.y, slider.width,
-                          slider.height, 0x202020);
-    draw_border(cp, slider.x, slider.y, slider.width, slider.height, 0xFFFFFF);
+    // Create rectangle for slider
+    rect.x = slider.x;
+    rect.y = slider.y;
+    rect.width = slider.width;
+    rect.height = slider.height;
+
+    draw_filled_rectangle(cp, rect, 0x202020);
+    draw_border(cp, rect, 0xFFFFFF);
+
     value_ratio = (slider.current_value - slider.min_value) / (slider.max_value - slider.min_value);
     filled_width = (int)(slider.width * value_ratio);
+
     if (filled_width > 2)
-        draw_filled_rectangle(cp, slider.x + 1, slider.y + 1,
-                              filled_width - 2, slider.height - 2, slider.color_handle);
+    {
+        rect.x = slider.x + 1;
+        rect.y = slider.y + 1;
+        rect.width = filled_width - 2;
+        rect.height = slider.height - 2;
+        draw_filled_rectangle(cp, rect, slider.color_handle);
+    }
 }
 
 static void draw_handle_highlight(t_control_panel *cp, int x, int y, int width)
@@ -49,9 +62,16 @@ void draw_slider_handle_improved(t_control_panel *cp, t_rect rect, int color)
 void draw_button(t_control_panel *cp, t_button button)
 {
     int i;
+    t_rect rect;
 
-    draw_filled_rectangle(cp, button.x, button.y, button.width,
-                          button.height, 0x20A020);
+    // Create rectangle for button
+    rect.x = button.x;
+    rect.y = button.y;
+    rect.width = button.width;
+    rect.height = button.height;
+
+    draw_filled_rectangle(cp, rect, 0x20A020);
+
     i = 0;
     while (i < button.width)
     {
@@ -69,5 +89,3 @@ void draw_button(t_control_panel *cp, t_button button)
         i++;
     }
 }
-
-

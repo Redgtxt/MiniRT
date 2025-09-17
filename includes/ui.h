@@ -83,20 +83,19 @@ typedef struct s_image
 	void *cone;
 } t_image;
 
-//Quadrado do Dropwdown
+// Quadrado do Dropwdown
 typedef struct s_rect
 {
-    int x;
-    int y;
-    int width;
-    int height;
+	int x;
+	int y;
+	int width;
+	int height;
 } t_rect;
-.
 
 typedef struct s_material_selector
 {
 	int x;
-    int y;				 // Posição do dropdown
+	int y;					 // Posição do dropdown
 	int width, height;		 // Tamanho do botão principal
 	int dropdown_height;	 // Altura do dropdown quando aberto
 	int is_open;			 // Flag se está aberto
@@ -226,6 +225,7 @@ void change_amb_light_brightness(int keycode, t_control_panel *control_panel);
 int init_values_main_win(t_mlx *mlx_data, t_control_panel *control_panel);
 void pixel_put_win_control(t_control_panel *cp, int x, int y, int color);
 int main_window_mouse_handler(int button, int x, int y, void *param);
+int is_mouse_on_selector_button(t_material_selector *selector, int x, int y);
 // Window control
 int create_control_window(t_control_panel *cp);
 int find_clicked_object(t_control_panel *cp, int mouse_x,

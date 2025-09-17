@@ -6,18 +6,13 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:35:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/15 14:30:00 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:35:12 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-static void draw_slider_handle_improved(t_control_panel *cp, t_rect rect, int color)
-{
-    draw_filled_rectangle(cp, rect, color);
-    draw_border(cp, rect, 0xFFFFFF);
-    draw_handle_highlight(cp, rect.x, rect.y, rect.width);
-}
+
 
 static void draw_dropdown_items(t_control_panel *cp, t_material_selector *selector)
 {
@@ -25,12 +20,19 @@ static void draw_dropdown_items(t_control_panel *cp, t_material_selector *select
     int i;
     int item_y;
     int item_color;
+    t_rect rect;
 
     dropdown_y = selector->y + selector->height;
-    draw_filled_rectangle(cp, selector->x, dropdown_y, selector->width,
-                          selector->dropdown_height, 0x404040);
-    draw_border(cp, selector->x, dropdown_y, selector->width,
-                selector->dropdown_height, 0xFFFFFF);
+
+    // Create rectangle for dropdown
+    rect.x = selector->x;
+    rect.y = dropdown_y;
+    rect.width = selector->width;
+    rect.height = selector->dropdown_height;
+
+    draw_filled_rectangle(cp, rect, 0x404040);
+    draw_border(cp, rect, 0xFFFFFF);
+
     i = 0;
     while (i < 5)
     {
@@ -40,12 +42,40 @@ static void draw_dropdown_items(t_control_panel *cp, t_material_selector *select
             item_color = 0x606060;
         if (i == selector->selected_material)
             item_color = 0x808080;
-        draw_filled_rectangle(cp, selector->x + 2, item_y + 1,
-                              selector->width - 4, selector->item_height - 2, item_color);
+
+        // Create rectangle for each item
+        rect.x = selector->x + 2;
+        rect.y = item_y + 1;
+        rect.width = selector->width - 4;
+        rect.height = selector->item_height - 2;
+
+        draw_filled_rectangle(cp, rect, item_color);
         draw_text_at_position(cp, selector->x + 10, item_y + 20,
                               selector->material_names[i]);
         i++;
     }
+}
+
+static void draw_selector_button(t_control_panel *cp, t_material_selector *selector)
+{
+    t_rect rect;
+
+    // Create rectangle for button
+    rect.x = selector->x;
+    rect.y = selector->y;
+    rect.width = selector->width;
+    rect.height = selector->height;
+
+    // Draw button background
+    draw_filled_rectangle(cp, rect, 0x404040);
+    draw_border(cp, rect, 0xFFFFFF);
+
+    // Draw selected material name
+    draw_text_at_position(cp, selector->x + 10, selector->y + 20,
+                        selector->material_names[selector->selected_material]);
+    
+    // Draw dropdown arrow
+    draw_arrow_down(cp, selector->x + selector->width - 15, selector->y + 12);
 }
 
 void draw_material_selector(t_control_panel *cp)
