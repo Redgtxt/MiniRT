@@ -167,8 +167,6 @@ void draw_slider_amb_light(t_control_panel *cp, t_slider slider);
 void clear_image_slider(t_control_panel *cp);
 int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
 void redraw_interface(t_control_panel *cp);
-void create_rgb_sliders(t_control_panel *cp);
-void set_slider_value_from_position(t_slider *slider, int mouse_x);
 void update_sliders_from_selected_object(t_control_panel *cp);
 // Dropdown
 void init_material_selector(t_material_selector *selector);
@@ -194,8 +192,6 @@ void draw_slider_handle_improved(t_control_panel *cp, t_rect rect, int color);
 void draw_button(t_control_panel *cp, t_button button);
 
 // Mouse utilities
-int is_mouse_on_slider_bar(t_slider slider, int mouse_x, int mouse_y);
-int is_mouse_on_slider_handle(t_slider slider, int mouse_x, int mouse_y);
 void set_slider_value_from_position(t_slider *slider, int mouse_x);
 int handle_slider_interaction(t_slider *slider, int x, int y);
 
@@ -205,14 +201,7 @@ void handle_rgb_slider_interaction(t_control_panel *cp, t_slider *slider, int x,
 
 // Interface display
 void display_object_stats(t_control_panel *cp, int obj_index);
-void redraw_interface(t_control_panel *cp);
 
-// Legacy compatibility functions
-int is_mouse_on_slider_bar_legacy(t_slider slider, int mouse_x, int mouse_y);
-void draw_stats_legacy(t_control_panel *cp, int obj_index);
-void redraw_interface_legacy(t_control_panel *cp);
-void set_slider_value_from_position_legacy(t_slider *slider, int mouse_x);
-int is_mouse_on_slider_handle_legacy(t_slider slider, int mouse_x, int mouse_y);
 
 // MLX
 void my_mlx_pixel_put(t_control_panel *control_panel, int x, int y, int color);
