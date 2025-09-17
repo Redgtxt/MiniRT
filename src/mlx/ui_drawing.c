@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*   ui_drawing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 14:30:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/15 14:41:57 by hguerrei         ###   ########.fr       */
+/*   Created: 2025/09/17 13:00:00 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/09/17 15:56:07 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
-
-
 
 void draw_filled_rectangle(t_control_panel *cp, t_rect rect, int color)
 {
@@ -56,7 +54,8 @@ void draw_text_at_position(t_control_panel *cp, int x, int y, char *text)
 {
     if (!cp || !cp->config_win || !text)
         return;
-    mlx_string_put(cp->config_win->mlx, cp->config_win->win, x, y, 0xFFFFFF, text);
+    mlx_string_put(cp->config_win->mlx, cp->config_win->win, x, y, 0xFFFFFF,
+                   text);
 }
 
 void draw_arrow_down(t_control_panel *cp, int x, int y)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_utils.c                                      :+:      :+:    :+:   */
+/*   slider_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 16:30:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/08/05 16:39:22 by hguerrei         ###   ########.fr       */
+/*   Created: 2025/09/17 13:00:00 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/09/17 14:13:39 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,14 @@ void set_slider_value_from_position(t_slider *slider, int mouse_x)
     slider->current_value = slider->min_value + ratio * (slider->max_value - slider->min_value);
 }
 
-int handle_slider_interaction(t_slider *slider, int x, int y)
+void update_slider_value(t_slider *slider, int mouse_x)
 {
-    if (!slider)
-        return (0);
-    if (is_mouse_on_slider_bar(*slider, x, y))
-    {
-        if (is_mouse_on_slider_handle(*slider, x, y))
-        {
-            slider->is_dragging = 1;
-            return (1);
-        }
-        else
-        {
-            set_slider_value_from_position(slider, x);
-            slider->is_dragging = 1;
-            return (2);
-        }
-    }
-    return (0);
+    float ratio;
+    t_interval slider_limits;
+    int clamped_mouse_x;
+
+    slider_limits = interval_create(slider->x, slider->x + slider->width - slider->handle_width);
+    clamped_mouse_x = (int)clamp(mouse_x, slider_limits);
+    ratio = (float)(clamped_mouse_x - slider->x) / (slider->width - slider->handle_width);
+    slider->current_value = slider->min_value + ratio * (slider->max_value - slider->min_value);
 }

@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/16 17:47:37 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:40:40 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,7 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 
 	(void)error_log;
 	info_len = ft_strlen(info);
-	
-	if (!info)
-	{
-		object_material->type = SOLID;
-		vec3_copy(object_material->albedo, rgb);
-		vec3_set(object_material->specular, 0.5, 0.5, 0.5);
-		object_material->shininess = 32.0;
-		object_material->refraction_index = 1.0; // Air/vacuum
-	}
-	else if (info_len == ft_strlen("LAMBERTIAN") && !ft_strncmp(info, "LAMBERTIAN", info_len))
+	if (!info_len || (info_len == ft_strlen("LAMBERTIAN") && !ft_strncmp(info, "LAMBERTIAN", info_len)))
 	{
 		object_material->type = LAMBERTIAN;
 		vec3_copy(object_material->albedo, rgb);
@@ -160,5 +151,6 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 	}
 	else
 		return (false);
+	printf("TEST\n");
 	return (true);
 }

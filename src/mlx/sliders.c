@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:04:25 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/17 12:46:01 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:13:39 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,6 @@ void draw_slider(t_control_panel *cp, t_slider slider)
 	handle_rect.width = slider.handle_width;
 	handle_rect.height = slider.handle_height;
 	draw_slider_handle_improved(cp, handle_rect, slider.color_handle);
-}
-
-void update_slider_value(t_slider *slider, int mouse_x)
-{
-	float ratio;
-	t_interval slider_limits;
-	int clamped_mouse_x;
-
-	slider_limits = interval_create(slider->x, slider->x + slider->width - slider->handle_width);
-	// clamp para limitar a posição do mouse dentro dos limites do slider
-	clamped_mouse_x = (int)clamp(mouse_x, slider_limits);
-	// Calcular nova ratio e valor
-	ratio = (float)(clamped_mouse_x - slider->x) / (slider->width - slider->handle_width);
-	slider->current_value = slider->min_value + ratio * (slider->max_value - slider->min_value);
 }
 
 void draw_slider_amb_light(t_control_panel *cp, t_slider slider)

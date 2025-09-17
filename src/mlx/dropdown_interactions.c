@@ -12,57 +12,57 @@
 
 #include "../../includes/miniRT.h"
 
-
-void handle_selector_button_click(t_material_selector *selector)
+void	handle_selector_button_click(t_material_selector *selector)
 {
-    if (!selector)
-        return;
-    selector->is_open = !selector->is_open;
-    selector->hover_index = -1;
+	if (!selector)
+		return ;
+	selector->is_open = !selector->is_open;
+	selector->hover_index = -1;
 }
 
-void handle_dropdown_item_click(t_material_selector *selector, int item_index)
+void	handle_dropdown_item_click(t_material_selector *selector,
+		int item_index)
 {
-    if (!selector || item_index < 0)
-        return;
-    selector->selected_material = item_index;
-    selector->is_open = 0;
-    selector->hover_index = -1;
+	if (!selector || item_index < 0)
+		return ;
+	selector->selected_material = item_index;
+	selector->is_open = 0;
+	selector->hover_index = -1;
 }
 
-void handle_material_selector_click(t_control_panel *cp, int x, int y)
+void	handle_material_selector_click(t_control_panel *cp, int x, int y)
 {
-    t_material_selector *selector;
-    int item_index;
+	t_material_selector	*selector;
+	int					item_index;
 
-    if (!cp || !cp->config_win)
-        return;
-    selector = &cp->config_win->material_selector;
-    if (is_mouse_on_selector_button(selector, x, y))
-    {
-        handle_selector_button_click(selector);
-        return;
-    }
-    if (selector->is_open)
-    {
-        item_index = get_dropdown_item_index(selector, x, y);
-        if (item_index >= 0)
-            handle_dropdown_item_click(selector, item_index);
-        else
-        {
-            selector->is_open = 0;
-            selector->hover_index = -1;
-        }
-    }
+	if (!cp || !cp->config_win)
+		return ;
+	selector = &cp->config_win->material_selector;
+	if (is_mouse_on_selector_button(selector, x, y))
+	{
+		handle_selector_button_click(selector);
+		return ;
+	}
+	if (selector->is_open)
+	{
+		item_index = get_dropdown_item_index(selector, x, y);
+		if (item_index >= 0)
+			handle_dropdown_item_click(selector, item_index);
+		else
+		{
+			selector->is_open = 0;
+			selector->hover_index = -1;
+		}
+	}
 }
 
-void handle_material_selector_hover(t_control_panel *cp, int x, int y)
+void	handle_material_selector_hover(t_control_panel *cp, int x, int y)
 {
-    t_material_selector *selector;
+	t_material_selector	*selector;
 
-    if (!cp || !cp->config_win)
-        return;
-    selector = &cp->config_win->material_selector;
-    if (selector->is_open)
-        selector->hover_index = get_dropdown_item_index(selector, x, y);
+	if (!cp || !cp->config_win)
+		return ;
+	selector = &cp->config_win->material_selector;
+	if (selector->is_open)
+		selector->hover_index = get_dropdown_item_index(selector, x, y);
 }
