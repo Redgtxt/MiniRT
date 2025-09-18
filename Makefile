@@ -1,5 +1,5 @@
 # ======================== #
-#         	    $(addprefix mlx/, hooks.c update_sliders_from_selected_object.c change_object.c rgb_slider.c mlx_utils.c verifications.c init_dropdown_materials.c dropdown_interactions.c material_selector.c material_config.c material_apply.c ui_drawing.c slider_drawing.c slider_utils.c interface_display.c rgb_handlers.c interface_render.c mlx_antialising.c render_button.c mlx_brightness.c control_window.c mlx_init_values.c mouse_hooks.c interaction_rgb_sliders.c update_interface_objects.c buttons.c sliders.c mouse_handlers.c mouse_click_handlers.c mouse_move_utils.c find_click_objects.c )OLORS           #
+#       COLORS            #
 # ======================== #
 RESET   = \033[0m
 RED     = \033[1;31m
