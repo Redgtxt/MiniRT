@@ -6,19 +6,12 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:52:01 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/24 16:56:54 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:36:27 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-/**
- * Coloca um pixel na imagem em uma posição específica
- * @param data Estrutura contendo informações MLX
- * @param x Coordenada X do pixel
- * @param y Coordenada Y do pixel
- * @param color Cor em formato RGB (0xRRGGBB)
- */
 void	my_mlx_pixel_put(t_control_panel *control_panel, int x, int y,
 		int color)
 {
@@ -95,7 +88,7 @@ void	clear_image_slider(t_control_panel *cp)
 		j = 0;
 		while (j < W_WIDTH)
 		{
-			pixel_put_win_control(cp, j, i, 0x000000); // Cor preta para limpar
+			pixel_put_win_control(cp, j, i, 0x000000);
 			j++;
 		}
 		i++;

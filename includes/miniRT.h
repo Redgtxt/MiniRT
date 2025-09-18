@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/22 18:53:25 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:58:24 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@
 typedef unsigned char mini_int;
 typedef double vec3;
 
-typedef enum e_material_type
+typedef enum e_mt_t
 {
-	SOLID,
 	LAMBERTIAN,
 	METAL,
 	CHECKERPATTERN,
@@ -81,7 +80,7 @@ typedef struct s_ray
 
 } t_ray;
 
-typedef struct s_material
+typedef struct s_mt
 {
 	t_material_type type;
 	double albedo[3];
@@ -231,7 +230,7 @@ typedef struct s_cone
 	struct s_cone *next;
 } t_cone;
 
-typedef struct s_control_panel
+typedef struct s_cp
 {
 	t_amb_light amb_light;
 	t_camera camera;
@@ -245,7 +244,6 @@ typedef struct s_control_panel
 	t_mlx *mlx;
 	t_win_config *config_win;
 } t_control_panel;
-
 
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);

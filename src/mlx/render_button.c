@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 15:11:27 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/23 15:11:29 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:24:25 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,65 +15,73 @@
 static void	update_sphere_properties(t_control_panel *cp,
 		t_material_type material)
 {
-	int	idx;
+	int			idx;
+	t_material	*mat;
 
 	idx = cp->data.idx_obj;
+	mat = &cp->sphere[idx].material;
 	cp->sphere[idx].rgb[0] = cp->config_win->red_slider.current_value;
 	cp->sphere[idx].rgb[1] = cp->config_win->green_slider.current_value;
 	cp->sphere[idx].rgb[2] = cp->config_win->blue_slider.current_value;
-	cp->sphere[idx].material.albedo[0] = cp->config_win->red_slider.current_value;
-	cp->sphere[idx].material.albedo[1] = cp->config_win->green_slider.current_value;
-	cp->sphere[idx].material.albedo[2] = cp->config_win->blue_slider.current_value;
-	cp->sphere[idx].material.type = material;
-	configure_material_properties(&cp->sphere[idx].material, material);
+	(*mat).albedo[0] = cp->config_win->red_slider.current_value;
+	(*mat).albedo[1] = cp->config_win->green_slider.current_value;
+	(*mat).albedo[2] = cp->config_win->blue_slider.current_value;
+	(*mat).type = material;
+	configure_material_properties(mat, material);
 }
 
 static void	update_plane_properties(t_control_panel *cp,
 		t_material_type material)
 {
-	int	idx;
+	int			idx;
+	t_material	*mat;
 
 	idx = cp->data.idx_obj;
+	mat = &cp->plane[idx].material;
 	cp->plane[idx].rgb[0] = cp->config_win->red_slider.current_value;
 	cp->plane[idx].rgb[1] = cp->config_win->green_slider.current_value;
 	cp->plane[idx].rgb[2] = cp->config_win->blue_slider.current_value;
-	cp->plane[idx].material.albedo[0] = cp->config_win->red_slider.current_value;
-	cp->plane[idx].material.albedo[1] = cp->config_win->green_slider.current_value;
-	cp->plane[idx].material.albedo[2] = cp->config_win->blue_slider.current_value;
-	cp->plane[idx].material.type = material;
-	configure_material_properties(&cp->plane[idx].material, material);
+	(*mat).albedo[0] = cp->config_win->red_slider.current_value;
+	(*mat).albedo[1] = cp->config_win->green_slider.current_value;
+	(*mat).albedo[2] = cp->config_win->blue_slider.current_value;
+	(*mat).type = material;
+	configure_material_properties(mat, material);
 }
 
 static void	update_cylinder_properties(t_control_panel *cp,
 		t_material_type material)
 {
-	int	idx;
+	int			idx;
+	t_material	*mat;
 
 	idx = cp->data.idx_obj;
+	mat = &cp->cylinder[idx].material;
 	cp->cylinder[idx].rgb[0] = cp->config_win->red_slider.current_value;
 	cp->cylinder[idx].rgb[1] = cp->config_win->green_slider.current_value;
 	cp->cylinder[idx].rgb[2] = cp->config_win->blue_slider.current_value;
-	cp->cylinder[idx].material.albedo[0] = cp->config_win->red_slider.current_value;
-	cp->cylinder[idx].material.albedo[1] = cp->config_win->green_slider.current_value;
-	cp->cylinder[idx].material.albedo[2] = cp->config_win->blue_slider.current_value;
-	cp->cylinder[idx].material.type = material;
-	configure_material_properties(&cp->cylinder[idx].material, material);
+	(*mat).albedo[0] = cp->config_win->red_slider.current_value;
+	(*mat).albedo[1] = cp->config_win->green_slider.current_value;
+	(*mat).albedo[2] = cp->config_win->blue_slider.current_value;
+	(*mat).type = material;
+	configure_material_properties(mat, material);
 }
 
 static void	update_cone_properties(t_control_panel *cp,
 		t_material_type material)
 {
-	int	idx;
+	int			idx;
+	t_material	*mat;
 
 	idx = cp->data.idx_obj;
+	mat = &cp->cone[idx].material;
 	cp->cone[idx].rgb[0] = cp->config_win->red_slider.current_value;
 	cp->cone[idx].rgb[1] = cp->config_win->green_slider.current_value;
 	cp->cone[idx].rgb[2] = cp->config_win->blue_slider.current_value;
-	cp->cone[idx].material.albedo[0] = cp->config_win->red_slider.current_value;
-	cp->cone[idx].material.albedo[1] = cp->config_win->green_slider.current_value;
-	cp->cone[idx].material.albedo[2] = cp->config_win->blue_slider.current_value;
-	cp->cone[idx].material.type = material;
-	configure_material_properties(&cp->cone[idx].material, material);
+	(*mat).albedo[0] = cp->config_win->red_slider.current_value;
+	(*mat).albedo[1] = cp->config_win->green_slider.current_value;
+	(*mat).albedo[2] = cp->config_win->blue_slider.current_value;
+	(*mat).type = material;
+	configure_material_properties(mat, material);
 }
 
 void	update_objects_properties(t_control_panel *cp, t_slider *slider)
