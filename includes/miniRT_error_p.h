@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/17 15:00:49 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:37:42 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ typedef enum u_general_flags
 	ERR_MALLOC = (1 << 16),
 	ERR_OVERFLOW = (1 << 17),
 	ERR_RANGE = (1 << 18),
-	ERR_NEGATIVE = (1 << 19),
-	ERR_INVALID_CHAR = (1 << 20),
+	ERR_INVALID_CHAR = (1 << 19),
+	ERR_INVALID_VALUE = (1 << 19),
+	ERR_NO_ELEMENT = (1 << 20),
 	ERR_NBR_ELEMENTS = (1 << 21),
 	ERR_NBR_VALUES = (1 << 22)
 }				t_general_flags;

@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/06/18 18:32:15 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/18 15:15:16 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ bool	parse_amb_light(t_control_panel *control_panel, char **element_info, t_erro
 		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_RGB), false);
 	vec3_normalize(control_panel->amb_light.rgb, control_panel->amb_light.rgb);
 	control_panel->data.amb_light_count++;
+	if (control_panel->data.amb_light_count > 1)
+		return (error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_NBR_ELEMENTS), false);
 	return (true);
 }
 
@@ -38,6 +40,8 @@ bool	parse_camera(t_control_panel *control_panel, char **element_info, t_error_l
 	if (!get_fov(&control_panel->camera.fov, element_info[3], error_log))
 	return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_FOV), false);
 	control_panel->data.camera_count++;
+	if (control_panel->data.camera_count > 1)
+		return (error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_ELEMENTS), false);
 	return (true);
 }
 

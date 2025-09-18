@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/22 18:53:25 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/18 14:10:43 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,7 @@ void free_sphere(t_sphere *sphere);
 void free_plane(t_plane *plane);
 void free_cylinder(t_cylinder *cylinder);
 void free_cone(t_cone *cone);
-void free_control_panel_lists(t_control_panel *control_panel);
+void free_control_panel(t_control_panel *control_panel);
 
 //	Utils.c
 size_t double_array_len(char **array);

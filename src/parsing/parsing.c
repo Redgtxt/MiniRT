@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/07/16 17:31:56 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:18:28 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 //	Checks if the file as the right amount of elements for the program
 static bool	parse_number_elements(t_data data, t_error_log *error_log)
 {
-	if (data.amb_light_count != 1)
-		error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_NBR_ELEMENTS);
-	else if (data.camera_count != 1)
-		error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NBR_ELEMENTS);
+	if (data.amb_light_count == 0)
+		error_code(&error_log->code_error, ERR_ELEMENT_A, ERR_NO_ELEMENT);
+	else if (data.camera_count == 0)
+		error_code(&error_log->code_error, ERR_ELEMENT_C, ERR_NO_ELEMENT);
 	else if (data.light_count == 0)
-		error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_NBR_ELEMENTS);
+		error_code(&error_log->code_error, ERR_ELEMENT_L, ERR_NO_ELEMENT);
 	if (error_log->code_error != 0)
 	{
 		error_log->line_nbr = 0;
@@ -30,9 +30,8 @@ static bool	parse_number_elements(t_data data, t_error_log *error_log)
 }
 
 //	Filters elements by identifier and takes it into the right parsing mode
-static bool	parse_element_type(t_control_panel *control_panel, char **element_info)
+static bool	parse_element(t_control_panel *control_panel, char **element_info)
 {
-	control_panel->error_log.element = element_info[0];
 	if (ft_strncmp(element_info[0], "A", 1) == 0)
 		parse_amb_light(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "C", 1) == 0)
@@ -50,7 +49,10 @@ static bool	parse_element_type(t_control_panel *control_panel, char **element_in
 	else if (ft_strncmp(element_info[0], "#", 1) == 0) // REMOVE WHEN DELIVERING {?}
 		return (true);
 	else
+	{
+		control_panel->error_log.element = ft_strdup(element_info[0]);
 		error_code(&control_panel->error_log.code_error, INV_ELEMENT, 0);
+	}
 	if (control_panel->error_log.code_error != 0)
 		return (false);
 	return (true);
@@ -84,7 +86,7 @@ static bool	parse_new_line(t_control_panel *control_panel, char *new_line)
 	element_info = get_element_info(new_line); // Returns the elements separated in a double array
 	if (!element_info)
 		return (false);
-	if (parse_element_type(control_panel, element_info) == false) // Parse the element_info(double array) depending on the type
+	if (parse_element(control_panel, element_info) == false) // Parse the element_info(double array) depending on the type
 		return (ft_free_double_array(element_info), false);
 	ft_free_double_array(element_info);
 	return (true);
@@ -123,6 +125,7 @@ bool	parsing(t_control_panel *control_panel, char *file_name)
 	close(fd);
 	if (!parse_number_elements(control_panel->data, &control_panel->error_log))
 		return (false);
+	ft_memset(&control_panel->error_log, 0, sizeof(t_error_log));
 	return (true);
 }
 

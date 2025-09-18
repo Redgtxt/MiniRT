@@ -77,7 +77,7 @@ void	free_cone(t_cone *cone)
 	}
 }
 
-void	free_control_panel_lists(t_control_panel *control_panel)
+void	free_control_panel(t_control_panel *control_panel)
 {
 	if (control_panel->light)
 		free_light(control_panel->light);
@@ -89,4 +89,7 @@ void	free_control_panel_lists(t_control_panel *control_panel)
    		free_cylinder(control_panel->cylinder);
 	if (control_panel->cone)
 		free_cone(control_panel->cone);
+	if (control_panel->error_log.element)
+		free(control_panel->error_log.element);
+	free(control_panel);
 }

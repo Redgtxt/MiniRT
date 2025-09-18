@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/17 16:44:01 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:37:56 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,26 @@ bool	get_vector(vec3 *vector, char *info, t_error_log *error_log)
 //	RGB //
 static bool	parse_rgb_chars(char *info, t_error_log *error_log)
 {
-	size_t	nbr_len;
+	size_t	nbr_comma;
 
-	nbr_len = 0;
+	nbr_comma = 0;
 	while(*info)
 	{
-		if (ft_isdigit(*info))
-			nbr_len++;
-		else if (*info == ',')
-			nbr_len = 0;
-		else
+		if (!ft_isdigit(*info))
 		{
 			error_log->error_char_detail = *info;
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
 		}
+		else if (*info == ',')
+		{
+			nbr_comma++;
+			if (nbr_comma > 2)
+			{
+				error_log->error_char_detail = *info;
+				return (error_code(&error_log->code_error, ERR_INVALID_VALUE, 0), false);
+			}
+		}
+		else
 		info++;
 	}
 	return (true);

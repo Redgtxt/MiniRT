@@ -57,7 +57,7 @@ static void	print_value_error(t_error error_code)
 	else if (has_error(error_code, ERR_HEIGHT))
 		ft_putstr_fd("Height", 2);
 	else
-		ft_putstr_fd("No value", 2);
+		ft_putstr_fd("No info", 2);
 }
 
 static void	print_general_error(t_error error_code, char error_detail)
@@ -68,8 +68,6 @@ static void	print_general_error(t_error error_code, char error_detail)
 		ft_putstr_fd("Overflow", 2);
 	else if (has_error(error_code, ERR_RANGE))
 		ft_putstr_fd("Out of range", 2);
-	else if (has_error(error_code, ERR_NEGATIVE))
-		ft_putstr_fd("Negative number", 2);
 	else if (has_error(error_code, ERR_INVALID_CHAR))
 	{
 		ft_putstr_fd("Invalid character - '", 2);
@@ -78,14 +76,16 @@ static void	print_general_error(t_error error_code, char error_detail)
 	}
 	else if (has_error(error_code, ERR_NBR_VALUES))
 		ft_putstr_fd("Not the right number of values", 2);
-	else if (has_error(error_code, ERR_NBR_ELEMENTS))
+	else if (has_error(error_code, ERR_NO_ELEMENT))
 	{
 		if (has_error(error_code, ERR_ELEMENT_A) || has_error(error_code, ERR_ELEMENT_C)
 				|| has_error(error_code, ERR_ELEMENT_L))
-			ft_putstr_fd("Not the right number of elements - Only accepts one", 2);
-		else if (has_error(error_code, ERR_ELEMENT_SP) || has_error(error_code, ERR_ELEMENT_PL)
-				|| has_error(error_code, ERR_ELEMENT_CY))
-			ft_putstr_fd("Not the right number of elements - Needs at least one", 2);
+			ft_putstr_fd("Element not found - Needs one", 2);
+	}
+	else if (has_error(error_code, ERR_NBR_ELEMENTS))
+	{
+		if (has_error(error_code, ERR_ELEMENT_A) || has_error(error_code, ERR_ELEMENT_C))
+			ft_putstr_fd("Not the right number of elements - only one is allowed", 2);
 	}
 	else
 		ft_putstr_fd("No details", 2);

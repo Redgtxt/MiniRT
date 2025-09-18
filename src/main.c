@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/17 14:17:17 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/18 14:30:07 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void render_scene(t_control_panel *control_panel)
         printf("\n" REDHB BBLK "Antialiasing: OFF" reset "\n");
 }
 
-t_control_panel *inicialize(int argc, char *argv[])
+t_control_panel *inicialize_cp(int argc, char *argv[])
 {
     t_control_panel *control_panel;
 
@@ -210,17 +210,14 @@ t_control_panel *inicialize(int argc, char *argv[])
 
     control_panel = ft_calloc(1, sizeof(t_control_panel));
     if (!control_panel)
-        return (NULL);
+		return (NULL);
     if (!parsing(control_panel, argv[1]))
     {
         print_parsing_error(control_panel->error_log);
-        return (free_control_panel_lists(control_panel), free(control_panel), NULL);
+        return (free_control_panel(control_panel), NULL);
     }
     if (!linked_to_array(control_panel))
-    {
-        fprintf(stderr, "Error: Failed to convert linked lists to arrays.\n"); // change print error
-        return (free_control_panel_lists(control_panel), free(control_panel), NULL);
-    }
+        return (perror("Error"), free_control_panel(control_panel), NULL);
     get_values_camera(control_panel);
     init_object_selection(control_panel);
     return control_panel;
@@ -231,13 +228,12 @@ int main(int argc, char *argv[])
     // t_mlx mlx_data;
     t_control_panel *cp;
 
-    cp = inicialize(argc, argv);
+    cp = inicialize_cp(argc, argv);
     if (!cp)
         return 1;
 
     print_elements(cp);
-    free_control_panel_lists(cp);
-    free(cp);
+    free_control_panel(cp);
     // ft_printf("MiniRT Starting...\n");
     // srand(time(NULL));
 
