@@ -47,8 +47,8 @@ bool	get_light_force(double *light_force, char *info, t_error_log *error_log)
 		}
 		i++;
 	}
-	if (!ft_atofd(info, light_force, 'd'))
-		return (false);
+	if (!ft_atod(info, light_force))
+		return (error_code(&error_log->code_error, ERR_OVERFLOW, 0), false);
 	if (*light_force < 0.0 || *light_force > 1.0)
 		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
@@ -69,8 +69,8 @@ bool	get_brightness(double *brightness, char *info, t_error_log *error_log)
 		}
 		i++;
 	}
-	if (!ft_atofd(info, brightness, 'd'))
-		return (false);
+	if (!ft_atod(info, brightness))
+		return (error_code(&error_log->code_error, ERR_OVERFLOW, 0), false);
 	if (*brightness < 0.0 || *brightness > 1.0) //	Melhorar precisao
 		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
@@ -90,8 +90,8 @@ bool	get_d(double *d, char *info, t_error_log *error_log)
 		}
 		i++;
 	}
-	if (!ft_atofd(info, d, 'd'))
-		return (false);
+	if (!ft_atod(info, d))
+		return (error_code(&error_log->code_error, ERR_OVERFLOW, 0), false);
 	return (true);
 }
 
@@ -102,14 +102,14 @@ bool	get_height(double *height, char *info, t_error_log *error_log)
 	i = 0;
 	while(info[i])
 	{
-		if (!ft_isdigit(info[i]) && info[i] != '.' && info[i] != '-')
+		if (!ft_isdigit(info[i]) && info[i] != '.')
 		{
 			error_log->error_char_detail = info[i];
 			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
 		}
 		i++;
 	}
-	if (!ft_atofd(info, height, 'd'))
-		return (false);
+	if (!ft_atod(info, height))
+		return (error_code(&error_log->code_error, ERR_OVERFLOW, 0), false);
 	return (true);
 }

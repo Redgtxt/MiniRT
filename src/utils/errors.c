@@ -67,7 +67,22 @@ static void	print_general_error(t_error error_code, char error_detail)
 	else if (has_error(error_code, ERR_OVERFLOW))
 		ft_putstr_fd("Overflow", 2);
 	else if (has_error(error_code, ERR_RANGE))
-		ft_putstr_fd("Out of range", 2);
+	{
+		ft_putstr_fd("Out of range -", 2);
+		if (has_error(error_code, ERR_RGB))
+			ft_putstr_fd(" (0-255)", 2);
+		else if (has_error(error_code, ERR_VECTOR))
+			ft_putstr_fd(" (-1.0 to 1.0)", 2);
+		else if (has_error(error_code, ERR_FOV))
+			ft_putstr_fd(" (0-180)", 2);
+		else if (has_error(error_code, ERR_LIGHT_FORCE) || has_error(error_code, ERR_BRIGHTNESS))
+			ft_putstr_fd(" (0.0-1.0)", 2);
+		else if (has_error(error_code, ERR_D) || has_error(error_code, ERR_HEIGHT))
+			ft_putstr_fd(" (>0)", 2);
+
+	}
+	else if (has_error(error_code, ERR_INVALID_VALUE))
+		ft_putstr_fd("Invalid value format", 2);
 	else if (has_error(error_code, ERR_INVALID_CHAR))
 	{
 		ft_putstr_fd("Invalid character - '", 2);

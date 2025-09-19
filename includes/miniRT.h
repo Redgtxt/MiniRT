@@ -361,7 +361,7 @@ void free_control_panel(t_control_panel *control_panel);
 //	Utils.c
 size_t double_array_len(char **array);
 bool ft_atoc(const char *str, mini_int *dest);
-bool ft_atofd(const char *str, void *dest, char type);
+bool ft_atod(const char *str, double *dest);
 char **split_spaces(char const *s);
 
 //	Extra -> Tests

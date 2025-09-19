@@ -1,6 +1,6 @@
-A					1						0,255,255 
-C 	0,0,0					0,0,-1		180
-L 	0,0,0				1				255,255,255,222 
+A					1						0,255,255
+C 	0,0,0			0,0,-1		180
+L 	0,0,0				1				255,255,255
 L	0,0,0		1								255,255,255
 sp 	1,0,-1.2		    1 							255,255,255 GLASS
 sp 	1,0,-2.2		    1 							0,255,255 
@@ -20,4 +20,8 @@ pl 	0,0,-10			0,0.5,1 						150,100,0 METAL
 # [x] FOV for camera must be between 0 and 180
 # [x] light brightness must be between 0 and 1
 
-# [ ] Check atod for overflows, underflows and precision
+# [x] Coords parsing
+# [x] Vector parsing
+# [x] RGB parsing
+
+# [ ] Check atod for overflows, underflows and precision *** (Its done but need improvement) ***

@@ -128,6 +128,7 @@ bool glass_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_sc
 
     return true;
 }
+
 //	------------------	//
 
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter)

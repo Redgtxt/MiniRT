@@ -51,10 +51,10 @@ typedef enum u_general_flags
 	ERR_OVERFLOW = (1 << 17),
 	ERR_RANGE = (1 << 18),
 	ERR_INVALID_CHAR = (1 << 19),
-	ERR_INVALID_VALUE = (1 << 19),
-	ERR_NO_ELEMENT = (1 << 20),
-	ERR_NBR_ELEMENTS = (1 << 21),
-	ERR_NBR_VALUES = (1 << 22)
+	ERR_INVALID_VALUE = (1 << 20),
+	ERR_NO_ELEMENT = (1 << 21),
+	ERR_NBR_ELEMENTS = (1 << 22),
+	ERR_NBR_VALUES = (1 << 23)
 }				t_general_flags;
 
 typedef struct s_error_log
