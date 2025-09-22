@@ -17,11 +17,11 @@ void configure_material_properties(t_material *material, t_material_type type)
     if (!material)
         return;
     if (type == LAMBERTIAN)
-        set_lambertian_material(material);
+        set_lambertian_material(material, material->albedo);
     else if (type == METAL)
-        set_metal_material(material);
+        set_metal_material(material, material->albedo);
     else if (type == CHECKERPATTERN)
-        set_checker_material(material);
+        set_checker_material(material, material->albedo);
     else if (type == GLASS)
         set_glass_material(material);
 }

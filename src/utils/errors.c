@@ -56,70 +56,78 @@ static void	print_value_error(t_error error_code)
 		ft_putstr_fd("Diameter", 2);
 	else if (has_error(error_code, ERR_HEIGHT))
 		ft_putstr_fd("Height", 2);
+	else if (has_error(error_code, ERR_MATERIAL))
+		ft_putstr_fd("Material", 2);
 	else
 		ft_putstr_fd("No info", 2);
 }
 
-static void	print_general_error(t_error error_code, char error_detail)
+static void	print_general_error(t_error_log *error_log)
 {
-	if (has_error(error_code, ERR_MALLOC))
+	if (has_error(error_log->code_error, ERR_MALLOC))
 		ft_putstr_fd("Memory allocation", 2);
-	else if (has_error(error_code, ERR_OVERFLOW))
+	else if (has_error(error_log->code_error, ERR_OVERFLOW))
 		ft_putstr_fd("Overflow", 2);
-	else if (has_error(error_code, ERR_RANGE))
+	else if (has_error(error_log->code_error, ERR_RANGE))
 	{
 		ft_putstr_fd("Out of range -", 2);
-		if (has_error(error_code, ERR_RGB))
+		if (has_error(error_log->code_error, ERR_RGB))
 			ft_putstr_fd(" (0-255)", 2);
-		else if (has_error(error_code, ERR_VECTOR))
+		else if (has_error(error_log->code_error, ERR_VECTOR))
 			ft_putstr_fd(" (-1.0 to 1.0)", 2);
-		else if (has_error(error_code, ERR_FOV))
+		else if (has_error(error_log->code_error, ERR_FOV))
 			ft_putstr_fd(" (0-180)", 2);
-		else if (has_error(error_code, ERR_LIGHT_FORCE) || has_error(error_code, ERR_BRIGHTNESS))
+		else if (has_error(error_log->code_error, ERR_LIGHT_FORCE) || has_error(error_log->code_error, ERR_BRIGHTNESS))
 			ft_putstr_fd(" (0.0-1.0)", 2);
-		else if (has_error(error_code, ERR_D) || has_error(error_code, ERR_HEIGHT))
+		else if (has_error(error_log->code_error, ERR_D) || has_error(error_log->code_error, ERR_HEIGHT))
 			ft_putstr_fd(" (>0)", 2);
 
 	}
-	else if (has_error(error_code, ERR_INVALID_VALUE))
+	else if (has_error(error_log->code_error, ERR_INVALID_VALUE))
 		ft_putstr_fd("Invalid value format", 2);
-	else if (has_error(error_code, ERR_INVALID_CHAR))
+	else if (has_error(error_log->code_error, ERR_INVALID_CHAR))
 	{
 		ft_putstr_fd("Invalid character - '", 2);
-		ft_putchar_fd(error_detail, 2);
+		ft_putchar_fd(error_log->error_char_detail, 2);
 		ft_putchar_fd('\'', 2);
 	}
-	else if (has_error(error_code, ERR_NBR_VALUES))
+	else if (has_error(error_log->code_error, ERR_NBR_VALUES))
 		ft_putstr_fd("Not the right number of values", 2);
-	else if (has_error(error_code, ERR_NO_ELEMENT))
+	else if (has_error(error_log->code_error, ERR_NO_ELEMENT))
 	{
-		if (has_error(error_code, ERR_ELEMENT_A) || has_error(error_code, ERR_ELEMENT_C)
-				|| has_error(error_code, ERR_ELEMENT_L))
+		if (has_error(error_log->code_error, ERR_ELEMENT_A) || has_error(error_log->code_error, ERR_ELEMENT_C)
+				|| has_error(error_log->code_error, ERR_ELEMENT_L))
 			ft_putstr_fd("Element not found - Needs one", 2);
 	}
-	else if (has_error(error_code, ERR_NBR_ELEMENTS))
+	else if (has_error(error_log->code_error, ERR_NBR_ELEMENTS))
 	{
-		if (has_error(error_code, ERR_ELEMENT_A) || has_error(error_code, ERR_ELEMENT_C))
+		if (has_error(error_log->code_error, ERR_ELEMENT_A) || has_error(error_log->code_error, ERR_ELEMENT_C))
 			ft_putstr_fd("Not the right number of elements - only one is allowed", 2);
+	}
+	else if (has_error(error_log->code_error, ERR_MATERIAL))
+	{
+		ft_putstr_fd("Unkown material - '", 2);
+		ft_putstr_fd(error_log->error_str_detail, 2);
+		ft_putchar_fd('\'', 2);
 	}
 	else
 		ft_putstr_fd("No details", 2);
 }
 
-void	print_parsing_error(t_error_log error_log)
+void	print_parsing_error(t_error_log *error_log)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd("Parsing Error:\n", 2);
 	ft_putstr_fd("\t# line number: ", 2);
-	ft_putnbr_fd(error_log.line_nbr, 2);
+	ft_putnbr_fd(error_log->line_nbr, 2);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tElement -> ", 2);
-	print_element_error(error_log.code_error, error_log.element);
+	print_element_error(error_log->code_error, error_log->element);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tValue -> ", 2);
-	print_value_error(error_log.code_error);
+	print_value_error(error_log->code_error);
 	ft_putstr_fd(".\n", 2);
 	ft_putstr_fd("\tError details -> ", 2);
-	print_general_error(error_log.code_error, error_log.error_char_detail);
+	print_general_error(error_log);
 	ft_putstr_fd(".\n", 2);
 }

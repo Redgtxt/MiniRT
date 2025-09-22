@@ -213,7 +213,7 @@ t_control_panel *inicialize_cp(int argc, char *argv[])
 		return (NULL);
     if (!parsing(control_panel, argv[1]))
     {
-        print_parsing_error(control_panel->error_log);
+        print_parsing_error(&control_panel->error_log);
         return (free_control_panel(control_panel), NULL);
     }
     if (!linked_to_array(control_panel))

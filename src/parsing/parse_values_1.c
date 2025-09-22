@@ -166,25 +166,18 @@ bool	get_material(t_material *object_material, double rgb[3], char *info, t_erro
 	(void)error_log;
 	info_len = ft_strlen(info);
 	if (!info || (info_len == ft_strlen("LAMBERTIAN") && !ft_strncmp(info, "LAMBERTIAN", info_len)))
-	{
-		object_material->type = LAMBERTIAN;
-		vec3_copy(object_material->albedo, rgb);
-		set_lambertian_material(object_material);
-	}
+		set_lambertian_material(object_material, rgb);
 	else if (info_len == ft_strlen("METAL") && !ft_strncmp(info, "METAL", info_len))
-	{
-		object_material->type = METAL;
-		vec3_copy(object_material->albedo, rgb);
-		set_metal_material(object_material);
-	}
+		set_metal_material(object_material, rgb);
 	else if (info_len == ft_strlen("GLASS") && !ft_strncmp(info, "GLASS", info_len))
-	{
-		object_material->type = GLASS;
-		// For glass, use white/clear albedo for transparency
-		vec3_set(object_material->albedo, 1.0, 1.0, 1.0);
 		set_glass_material(object_material);
-	}
+	else if (info_len == ft_strlen("CHECKERPATTERN") && !ft_strncmp(info, "CHECKERPATTERN", info_len))
+		set_checker_material(object_material, rgb);
 	else
-		return (false);
+	{
+		error_log->error_str_detail = ft_strdup(info);
+		return (error_code(&error_log->code_error, ERR_INV_MATERIAL, 0), false);
+	}
 	return (true);
 }
+

@@ -41,43 +41,58 @@ bool	ft_atoc(const char *str, mini_int *dest)
 	return (true);
 }
 
+bool	convert_to_double(char *str, long double *val, long double *frac, long double *div)
+{
+    bool decimal;
+
+	decimal = false;
+    while ((*str >= '0' && *str <= '9') || *str == '.')
+	{
+        if (*str == '.')
+            decimal = true;
+        else
+		{
+            if (!decimal)
+			{
+                *val = *val * 10.0 + (*str - '0');
+                if (*val > 2147483648) // check absolute max
+                    return false;
+            }
+			else
+			{
+                *frac += (*str - '0') / *div;
+                *div *= 10.0;
+            }
+		}
+        str++;
+    }
+	return (true);
+}
+
 bool ft_atod(const char *str, double *dest)
 {
-	long double value = 0.0, fraction = 0.0, division = 10.0;
-	int negative = 1;
-	bool decimal = false;
+    long double value;
+	long double fraction;
+	long double division;
+	long double result;
+    int negative = 1;
 
-	if (!str || !dest)
-		return false;
-	if (*str == '-') {
-		negative = -1;
-		str++;
-	}
-	while ((*str >= '0' && *str <= '9') || *str == '.')
+	value = 0.0;
+	fraction = 0.0;
+	division = 10.0;
+	result = 0.0;
+    if (!str || !dest)
+        return false;
+    if (*str == '-')
 	{
-		if (*str == '.')
-			decimal = true;
-		else 
-		{
-			if (!decimal) 
-			{
-				value = value * 10.0 + (*str - '0');
-				if (value > LDBL_MAX)
-					return (false);
-			}
-			else 
-			{
-				fraction += (*str - '0') / division;
-				division *= 10.0;
-				if (fraction > LDBL_MAX)
-					return false;
-			}
-		}
-		str++;
-	}
-	value = negative * (value + fraction);
-	if (value > DBL_MAX || value < -DBL_MAX)
+        negative = -1;
+        str++;
+    }
+	if (!convert_to_double((char *)str, &value, &fraction, &division))
 		return false;
-	*dest = (double)value;
-	return true;
+    result = negative * (value + fraction);
+    if (result > OVERFLOW_MAX_LIMIT || result < OVERFLOW_MIN_LIMIT)
+        return false;
+    *dest = (double)result;
+    return true;
 }

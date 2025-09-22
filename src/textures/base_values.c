@@ -13,17 +13,19 @@
 #include "../../includes/miniRT.h"
 #include <unistd.h>
 
-void	set_lambertian_material(t_material *material)
+void	set_lambertian_material(t_material *material, double rgb[3])
 {
 	material->type = LAMBERTIAN;
+	vec3_copy(material->albedo, rgb);
 	vec3_set(material->specular, 0.5, 0.5, 0.5);
 	material->shininess = 32.0;
 	material->refraction_index = 1.0; // Air/vacuum
 }
 
-void	set_metal_material(t_material *material)
+void	set_metal_material(t_material *material, double rgb[3])
 {
 	material->type = METAL;
+	vec3_copy(material->albedo, rgb);
 	vec3_set(material->specular, 1.0, 1.0, 1.0);
 	material->shininess = 200.0;
 	material->refraction_index = 1.0; // Not used for metal
@@ -32,14 +34,16 @@ void	set_metal_material(t_material *material)
 void	set_glass_material(t_material *material)
 {
 	material->type = GLASS;
+	vec3_set(material->albedo, 1.0, 1.0, 1.0);
 	vec3_set(material->specular, 1.0, 1.0, 1.0);
 	material->shininess = 200.0;
 	material->refraction_index = 1.5; // Glass refractive index
 }
 
-void	set_checker_material(t_material *material)
+void	set_checker_material(t_material *material, double rgb[3])
 {
 	material->type = CHECKERPATTERN;
+	vec3_copy(material->albedo, rgb);
 	vec3_set(material->specular, 0.5, 0.5, 0.5);
 	material->shininess = 32.0;
 	material->checker_scale = 0.5; // Default scale

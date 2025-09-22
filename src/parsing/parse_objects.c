@@ -33,7 +33,7 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 	if (!get_rgb(sphere->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
 	if (!get_material(&sphere->material, sphere->rgb, element_info[4], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, 0), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_MATERIAL), false);
 	control_panel->data.sphere_count++;
 	return (true);
 }
@@ -58,7 +58,7 @@ bool	parse_plane(t_control_panel *control_panel, char **element_info, t_error_lo
 	if (!get_rgb(plane->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_RGB), false);
 	if (!get_material(&plane->material, plane->rgb, element_info[4], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, 0), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_PL, ERR_MATERIAL), false);
 	control_panel->data.plane_count++;
 	return (true);
 }
@@ -88,7 +88,7 @@ bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 	if (!get_rgb(cylinder->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
 	if (!get_material(&cylinder->material, cylinder->rgb, element_info[6], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, 0), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_MATERIAL), false);
 	control_panel->data.cylinder_count++;
 	return (true);
 }
@@ -117,7 +117,7 @@ bool	parse_cone(t_control_panel *control_panel, char **element_info, t_error_log
 	if (!get_rgb(cone->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
 	if (!get_material(&cone->material, cone->rgb, element_info[6], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, 0), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_MATERIAL), false);
 	control_panel->data.cone_count++;
 	return (true);
 }

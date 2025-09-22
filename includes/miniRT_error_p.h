@@ -16,6 +16,9 @@
 # include <stdint.h>
 # include <stdio.h>
 
+#define OVERFLOW_MAX_LIMIT 2147483647
+#define OVERFLOW_MIN_LIMIT -2147483648
+
 typedef uint32_t t_error;
 
 // ───── Element Flags (Bits 0–7) ─────
@@ -57,15 +60,23 @@ typedef enum u_general_flags
 	ERR_NBR_VALUES = (1 << 23)
 }				t_general_flags;
 
+// ───── General Parsing Errors II (Bits 24–32) ─────
+typedef enum u_sec_general_flags
+{
+	ERR_MATERIAL = (1 << 24),
+	ERR_INV_MATERIAL = (1 << 25)
+}				t_sec_general_flags;
+
 typedef struct s_error_log
 {
 	t_error		code_error;
 	char		*element;
 	char		error_char_detail;
+	char		*error_str_detail;
 	size_t		line_nbr;
 }				t_error_log;
 
 void	error_code(t_error *error_code, int flag_one, int flag_two);
-void	print_parsing_error(t_error_log error_log);
+void	print_parsing_error(t_error_log *error_log);
 
 #endif
