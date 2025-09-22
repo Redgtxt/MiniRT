@@ -1,8 +1,9 @@
 A					1						0,255,255
 C 	0,0,0						0,0,-1		180
+C 	0,0,0						0,0,-1		180
 L 	0,0,0				1				255,255,255
 L	0,0,0				1								255,255,255
-sp 	1,0,-1.2		    1 							255,255,255 
+sp 	1,0,-1.2		    1 							255,255,255
 sp 	1,0,-2.2		    1 							0,255,255 
 # sp 	-1,0,-1.2		    1 						255,100,50
 # sp 	0,-10.6,-1		20 							255,255,255
@@ -10,18 +11,5 @@ cn 1,0.9,-1.2		0,1,0		1	1		255,0,20
 cn -1,0.9,-1.2		0,1,0		1	1		0,200,20 
 cy 0,0,-1.5		0,1,1		1	1		50,50,200 
 cy 0,0,-1.5		0,1,1		1	1		50,50,200 
-pl 	0,0,-10			0,0.5,1 						150,100,0 METAL 
 pl 	0,0,-10			0,0.5,1 						150,100,0 METAL
-
-
-# [x] Ambient lighting (A)		- value between 0.0 and 1.0
-# [x] RGB values should be between 0 and 255
-# [x] vector must be normalized (0,0,0 is not a valid vector) + range -1 to 1
-# [x] FOV for camera must be between 0 and 180
-# [x] light brightness must be between 0 and 1
-
-# [x] Coords parsing
-# [x] Vector parsing
-# [x] RGB parsing
-
-# [ ] Check atod for overflows, underflows and precision *** (Its done but need improvement) ***
+pl 	0,0,-10			0,0.5,1 						150,100,0 METAL

@@ -92,6 +92,26 @@ static bool	parse_new_line(t_control_panel *control_panel, char *new_line)
 	return (true);
 }
 
+int	parse_file_name(char *file_name, t_error_log *error_log)
+{
+	int		fd;
+	size_t	len;
+
+	len = ft_strlen(file_name);
+	if (len < 3 || ft_strncmp(&file_name[len - 3], ".rt", 3) != 0)
+		return (error_code(&error_log->code_error, ERR_FILE_NAME, 0), -1);
+	fd = open (file_name, O_RDONLY | __O_DIRECTORY);
+	if (fd != -1)
+	{
+		close(fd);
+		return (error_code(&error_log->code_error, ERR_IS_DIR, 0), -1);
+	}
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1) 
+		return (error_code(&error_log->code_error, ERR_FILE_OPEN, 0), -1);
+	return (fd);
+}
+
 //	Main parsing
 // 		- opens file;
 // 		- gets the full new_line;
@@ -106,9 +126,9 @@ bool	parsing(t_control_panel *control_panel, char *file_name)
 	char	*new_line;
 
 	new_line = NULL;
-	fd = open(file_name, O_RDONLY); // Open file
+	fd = parse_file_name(file_name, &control_panel->error_log);
 	if (fd == -1)
-		return (false);
+		return (error_code(&control_panel->error_log.code_error, ERR_FILE, 0), false);
 	while (1)
 	{
 		new_line = get_next_line(fd); // Read full line

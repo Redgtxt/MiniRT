@@ -63,8 +63,12 @@ typedef enum u_general_flags
 // ───── General Parsing Errors II (Bits 24–32) ─────
 typedef enum u_sec_general_flags
 {
-	ERR_MATERIAL = (1 << 24),
-	ERR_INV_MATERIAL = (1 << 25)
+	ERR_FILE = (1 << 24),
+	ERR_FILE_NAME = (1 << 25),
+	ERR_FILE_OPEN = (1 << 26),
+	ERR_IS_DIR = (1 << 27),
+	ERR_MATERIAL = (1 << 28),
+	ERR_INV_MATERIAL = (1 << 29)
 }				t_sec_general_flags;
 
 typedef struct s_error_log

@@ -25,17 +25,20 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <float.h>
+#include <fcntl.h>
+#include <errno.h>
 #include <unistd.h>
 #include <time.h> //BONUS
 
 //	Printf colors
 #define REDHB "\e[0;101m"
 #define GRNHB "\e[0;102m"
-#define reset "\e[0m"
 #define BBLK "\e[1;30m"
+#define BRED "\e[1;31m"
 #define BHGRN "\e[1;92m"
 #define BHYEL "\e[1;93m"
 #define HMAG "\e[1;95m"
+#define RESET "\e[0m"
 
 // Light intensity control constants
 #define DIFFUSE_INTENSITY 1.5  // Diffuse lighting multiplier (increased for brighter diffuse)

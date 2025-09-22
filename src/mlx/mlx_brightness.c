@@ -9,7 +9,7 @@ void change_amb_light_brightness(int keycode, t_control_panel *control_panel)
     {
         control_panel->amb_light.light_force += .1;
         control_panel->amb_light.light_force = clamp(control_panel->amb_light.light_force, interval);
-        printf(HMAG "Ambient brightness: %.1f " reset, control_panel->amb_light.light_force);
+        printf(HMAG "Ambient brightness: %.1f " RESET, control_panel->amb_light.light_force);
 
         clear_image(control_panel);
         render_scene(control_panel);
@@ -18,7 +18,7 @@ void change_amb_light_brightness(int keycode, t_control_panel *control_panel)
     {
         control_panel->amb_light.light_force -= .1;
         control_panel->amb_light.light_force = clamp(control_panel->amb_light.light_force, interval);
-        printf(HMAG "Ambient brightness: %.1f " reset, control_panel->amb_light.light_force);
+        printf(HMAG "Ambient brightness: %.1f " RESET, control_panel->amb_light.light_force);
 
         clear_image(control_panel);
         render_scene(control_panel);

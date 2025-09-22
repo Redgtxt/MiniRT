@@ -20,7 +20,7 @@ static void mlx_antialising(t_control_panel *control_panel, char *msg, int num_o
 {
     control_panel->camera.antialiasing = on;
     setup_antialiasing(control_panel, num_of_samples);
-    ft_printf("\n" HMAG "%s" reset "\n", msg);
+    ft_printf("\n" HMAG "%s" RESET "\n", msg);
     clear_image(control_panel);
     render_scene(control_panel);
 }
@@ -42,6 +42,6 @@ void config_antialising_render(int keycode, t_control_panel *control_panel)
     else if (keycode == '0')
     {
         mlx_antialising(control_panel, OFF_ANTIALISNG, 1, false);
-        ft_printf(BHYEL "\rResetting scene" reset "\n");
+        ft_printf(BHYEL "\rResetting scene" RESET "\n");
     }
 }

@@ -36,6 +36,10 @@ static void	print_element_error(t_error error_code, char *element)
 		ft_putstr_fd("Plane 'pl'", 2);
 	else if (has_error(error_code, ERR_ELEMENT_CY))
 		ft_putstr_fd("Cylinder 'cy'", 2);
+	else if (has_error(error_code, ERR_ELEMENT_CN))
+		ft_putstr_fd("Cone 'cn'", 2);
+	else
+		ft_putstr_fd("No info", 2);
 }
 
 static void	print_value_error(t_error error_code)
@@ -104,11 +108,21 @@ static void	print_general_error(t_error_log *error_log)
 		if (has_error(error_log->code_error, ERR_ELEMENT_A) || has_error(error_log->code_error, ERR_ELEMENT_C))
 			ft_putstr_fd("Not the right number of elements - only one is allowed", 2);
 	}
-	else if (has_error(error_log->code_error, ERR_MATERIAL))
+	else if (has_error(error_log->code_error, ERR_INV_MATERIAL))
 	{
 		ft_putstr_fd("Unkown material - '", 2);
 		ft_putstr_fd(error_log->error_str_detail, 2);
 		ft_putchar_fd('\'', 2);
+	}
+	else if (has_error(error_log->code_error, ERR_FILE))
+	{
+		ft_putstr_fd("File error - ", 2);
+		if (has_error(error_log->code_error, ERR_FILE_NAME))
+			ft_putstr_fd("Invalid file name (should end with .rt)", 2);
+		else if (has_error(error_log->code_error, ERR_FILE_OPEN))
+			ft_putstr_fd("Could not open file", 2);
+		else if (has_error(error_log->code_error, ERR_IS_DIR))
+			ft_putstr_fd("Is a directory", 2);
 	}
 	else
 		ft_putstr_fd("No details", 2);
@@ -116,18 +130,26 @@ static void	print_general_error(t_error_log *error_log)
 
 void	print_parsing_error(t_error_log *error_log)
 {
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd("Parsing Error:\n", 2);
-	ft_putstr_fd("\t# line number: ", 2);
-	ft_putnbr_fd(error_log->line_nbr, 2);
-	ft_putstr_fd(".\n", 2);
-	ft_putstr_fd("\tElement -> ", 2);
-	print_element_error(error_log->code_error, error_log->element);
-	ft_putstr_fd(".\n", 2);
-	ft_putstr_fd("\tValue -> ", 2);
-	print_value_error(error_log->code_error);
-	ft_putstr_fd(".\n", 2);
-	ft_putstr_fd("\tError details -> ", 2);
-	print_general_error(error_log);
-	ft_putstr_fd(".\n", 2);
+	ft_putstr_fd(REDHB "Error\n" RESET, 2); 
+	ft_putstr_fd(BRED "\n* ---------------------- *\n" RESET, 2);
+	if (has_error(error_log->code_error, ERR_FILE))
+		print_general_error(error_log);
+	else
+	{
+		ft_putstr_fd(BRED "Parsing file error:\n" RESET, 2);
+		ft_putstr_fd(BHYEL "\t# line number: " RESET, 2);
+		ft_putnbr_fd(error_log->line_nbr, 2);
+		ft_putstr_fd(".\n", 2);
+		ft_putstr_fd(BHYEL "\tElement -> " RESET, 2);
+		print_element_error(error_log->code_error, error_log->element);
+		ft_putstr_fd(".\n", 2);
+		ft_putstr_fd(BHYEL "\tValue -> " RESET, 2);
+		print_value_error(error_log->code_error);
+		ft_putstr_fd(".\n", 2);
+		ft_putstr_fd(BHYEL "\tError details -> " RESET, 2);
+		print_general_error(error_log);
+		ft_putchar_fd('.', 2);
+	}
+	ft_putstr_fd(BRED "\n* ---------------------- *\n" RESET, 2);	
+	ft_putchar_fd('\n', 2);
 }

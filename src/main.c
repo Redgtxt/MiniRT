@@ -189,16 +189,16 @@ void render_scene(t_control_panel *control_panel)
         }
 
         if (y % 10 == 0)
-            ft_printf(BHYEL "\rScanlines remaining: %d " reset, (control_panel->camera.image_height - y));
+            ft_printf(BHYEL "\rScanlines remaining: %d " RESET, (control_panel->camera.image_height - y));
 
         y++;
     }
-    ft_printf(BHGRN "\rScanlines remaining: DONE!" reset "\n");
+    ft_printf(BHGRN "\rScanlines remaining: DONE!" RESET "\n");
     mlx_put_image_to_window(mlx_data->mlx, mlx_data->win, mlx_data->img, 0, 0);
     if (control_panel->camera.antialiasing)
-        printf("\n" GRNHB BBLK "Antialiasing: ON" reset "\n");
+        printf("\n" GRNHB BBLK "Antialiasing: ON" RESET "\n");
     else
-        printf("\n" REDHB BBLK "Antialiasing: OFF" reset "\n");
+        printf("\n" REDHB BBLK "Antialiasing: OFF" RESET "\n");
 }
 
 t_control_panel *inicialize_cp(int argc, char *argv[])

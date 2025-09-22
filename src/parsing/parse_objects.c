@@ -29,7 +29,6 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_COORD), false);
 	if (!get_d(&sphere->d, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_D), false);
-	//	RADIUS
 	if (!get_rgb(sphere->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
 	if (!get_material(&sphere->material, sphere->rgb, element_info[4], error_log))
@@ -82,7 +81,6 @@ bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_VECTOR), false);
 	if (!get_d(&cylinder->d, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_D), false);
-	//	Radius
 	if (!get_height(&cylinder->height, element_info[4], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
 	if (!get_rgb(cylinder->rgb, element_info[5], error_log))
@@ -100,24 +98,23 @@ bool	parse_cone(t_control_panel *control_panel, char **element_info, t_error_log
 
 	len = double_array_len(element_info);
 	if (len != 6 && len != 7)
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_NBR_VALUES), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_NBR_VALUES), false);
 	cone = ft_calloc(1, sizeof(t_cone));
 	if (!cone)
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_MALLOC), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_MALLOC), false);
 	lstadd_last_cone(control_panel, cone);
 	if (!get_coord(cone->cords, element_info[1], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_COORD), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_COORD), false);
 	if (!get_vector(cone->vec3, element_info[2], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_VECTOR), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_VECTOR), false);
 	if (!get_d(&cone->d, element_info[3], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_D), false);
-	//	Radius
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_D), false);
 	if (!get_height(&cone->height, element_info[4], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_HEIGHT), false);
 	if (!get_rgb(cone->rgb, element_info[5], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_RGB), false);
 	if (!get_material(&cone->material, cone->rgb, element_info[6], error_log))
-		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_MATERIAL), false);
+		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_MATERIAL), false);
 	control_panel->data.cone_count++;
 	return (true);
 }
