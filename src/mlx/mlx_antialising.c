@@ -16,32 +16,33 @@
 #define SLOW_ANTIALISNG "SLOW Antialiasing: APPLYING with 100 samples"
 #define OFF_ANTIALISNG "Antialiasing: DISABLED"
 
-static void mlx_antialising(t_control_panel *control_panel, char *msg, int num_of_samples, bool on)
+static void	mlx_antialising(t_control_panel *control_panel, char *msg,
+		int num_of_samples, bool on)
 {
-    control_panel->camera.antialiasing = on;
-    setup_antialiasing(control_panel, num_of_samples);
-    ft_printf("\n" HMAG "%s" RESET "\n", msg);
-    clear_image(control_panel);
-    render_scene(control_panel);
+	control_panel->camera.antialiasing = on;
+	setup_antialiasing(control_panel, num_of_samples);
+	ft_printf("\n" HMAG "%s" RESET "\n", msg);
+	clear_image(control_panel);
+	render_scene(control_panel);
 }
 
-void config_antialising_render(int keycode, t_control_panel *control_panel)
+void	config_antialising_render(int keycode, t_control_panel *control_panel)
 {
-    if (keycode == '1')
-    {
-        mlx_antialising(control_panel, FAST_ANTIALISNG, 16, true);
-    }
-    else if (keycode == '2')
-    {
-        mlx_antialising(control_panel, MEDIUM_ANTIALISNG, 50, true);
-    }
-    else if (keycode == '3')
-    {
-        mlx_antialising(control_panel, SLOW_ANTIALISNG, 100, true);
-    }
-    else if (keycode == '0')
-    {
-        mlx_antialising(control_panel, OFF_ANTIALISNG, 1, false);
-        ft_printf(BHYEL "\rResetting scene" RESET "\n");
-    }
+	if (keycode == '1')
+	{
+		mlx_antialising(control_panel, FAST_ANTIALISNG, 16, true);
+	}
+	else if (keycode == '2')
+	{
+		mlx_antialising(control_panel, MEDIUM_ANTIALISNG, 50, true);
+	}
+	else if (keycode == '3')
+	{
+		mlx_antialising(control_panel, SLOW_ANTIALISNG, 100, true);
+	}
+	else if (keycode == '0')
+	{
+		mlx_antialising(control_panel, OFF_ANTIALISNG, 1, false);
+		ft_printf(BHYEL "\rResetting scene" RESET "\n");
+	}
 }

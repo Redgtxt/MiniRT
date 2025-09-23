@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
-#include <unistd.h>
 
 static bool	parse_numbers(char *info, size_t *nbr_dot, t_error_log *error_log)
 {
