@@ -102,7 +102,7 @@ cylinder:
 	./miniRT cylinder.rt
 
 
-val: re
+val: all
 	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
 	@valgrind $(VFLAGS) ./miniRT elements_input.rt
 

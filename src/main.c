@@ -225,7 +225,7 @@ t_control_panel *inicialize_cp(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-    // t_mlx mlx_data;
+    t_mlx mlx_data;
     t_control_panel *cp;
 
     cp = inicialize_cp(argc, argv);
@@ -233,23 +233,23 @@ int main(int argc, char *argv[])
         return 1;
 
     print_elements(cp);
-    free_control_panel(cp);
-    // ft_printf("MiniRT Starting...\n");
-    // srand(time(NULL));
+    // free_control_panel(cp);
+    ft_printf("MiniRT Starting...\n");
+    srand(time(NULL));
 
-    // if (init_values_main_win(&mlx_data, cp))
-    //     return 1;
+    if (init_values_main_win(&mlx_data, cp))
+        return 1;
 
-    // if (create_control_window(cp))
-    //     return 1;
+    if (create_control_window(cp))
+        return 1;
 
-    // render_scene(cp);
+    render_scene(cp);
 
-    // mlx_hook(mlx_data.win, 17, 0, close_window, cp);
-    // mlx_key_hook(mlx_data.win, key_hook, cp);
+    mlx_hook(mlx_data.win, 17, 0, close_window, cp);
+    mlx_key_hook(mlx_data.win, key_hook, cp);
 
-    // mlx_hook(mlx_data.win, 4, 1L << 2, main_window_mouse_handler, cp);
+    mlx_hook(mlx_data.win, 4, 1L << 2, main_window_mouse_handler, cp);
 
-    // mlx_loop(mlx_data.mlx);
+    mlx_loop(mlx_data.mlx);
     return (0);
 }

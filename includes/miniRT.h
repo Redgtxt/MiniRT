@@ -336,8 +336,7 @@ bool get_material(t_material *object_material, double rgb[3], char *info, t_erro
 bool get_fov(mini_int *fov, char *info, t_error_log *error_log);
 bool get_light_force(double *light_force, char *info, t_error_log *error_log);
 bool get_brightness(double *brightness, char *info, t_error_log *error_log);
-bool get_d(double *d, char *info, t_error_log *error_log);
-bool get_height(double *height, char *info, t_error_log *error_log);
+bool get_size(double *d, char *info, t_error_log *error_log);
 
 //	Linked_to_array.c
 bool linked_to_array(t_control_panel *control_panel);

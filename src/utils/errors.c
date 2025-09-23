@@ -52,8 +52,6 @@ static void	print_value_error(t_error error_code)
 		ft_putstr_fd("RGB", 2);
 	else if (has_error(error_code, ERR_FOV))
 		ft_putstr_fd("FOV", 2);
-	else if (has_error(error_code, ERR_LIGHT_FORCE))
-		ft_putstr_fd("Light force", 2);
 	else if (has_error(error_code, ERR_BRIGHTNESS))
 		ft_putstr_fd("Brightness", 2);
 	else if (has_error(error_code, ERR_D))
@@ -81,7 +79,7 @@ static void	print_general_error(t_error_log *error_log)
 			ft_putstr_fd(" (-1.0 to 1.0)", 2);
 		else if (has_error(error_log->code_error, ERR_FOV))
 			ft_putstr_fd(" (0-180)", 2);
-		else if (has_error(error_log->code_error, ERR_LIGHT_FORCE) || has_error(error_log->code_error, ERR_BRIGHTNESS))
+		else if (has_error(error_log->code_error, ERR_BRIGHTNESS))
 			ft_putstr_fd(" (0.0-1.0)", 2);
 		else if (has_error(error_log->code_error, ERR_D) || has_error(error_log->code_error, ERR_HEIGHT))
 			ft_putstr_fd(" (>0)", 2);
@@ -130,23 +128,23 @@ static void	print_general_error(t_error_log *error_log)
 
 void	print_parsing_error(t_error_log *error_log)
 {
-	ft_putstr_fd(REDHB "Error\n" RESET, 2); 
+	ft_putstr_fd(REDHB "Error" RESET "\n", 2); 
 	ft_putstr_fd(BRED "\n* ---------------------- *\n" RESET, 2);
 	if (has_error(error_log->code_error, ERR_FILE))
 		print_general_error(error_log);
 	else
 	{
-		ft_putstr_fd(BRED "Parsing file error:\n" RESET, 2);
-		ft_putstr_fd(BHYEL "\t# line number: " RESET, 2);
+		ft_putstr_fd(BRED "Parsing file error:" RESET "\n", 2);
+		ft_putstr_fd("\t" BHYEL "# line number: " RESET, 2);
 		ft_putnbr_fd(error_log->line_nbr, 2);
 		ft_putstr_fd(".\n", 2);
-		ft_putstr_fd(BHYEL "\tElement -> " RESET, 2);
+		ft_putstr_fd("\t" BHYEL "Element -> " RESET, 2);
 		print_element_error(error_log->code_error, error_log->element);
 		ft_putstr_fd(".\n", 2);
-		ft_putstr_fd(BHYEL "\tValue -> " RESET, 2);
+		ft_putstr_fd("\t" BHYEL "Value -> " RESET, 2);
 		print_value_error(error_log->code_error);
 		ft_putstr_fd(".\n", 2);
-		ft_putstr_fd(BHYEL "\tError details -> " RESET, 2);
+		ft_putstr_fd("\t" BHYEL "Error details -> " RESET, 2);
 		print_general_error(error_log);
 		ft_putchar_fd('.', 2);
 	}

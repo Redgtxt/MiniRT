@@ -27,7 +27,7 @@ bool	parse_sphere(t_control_panel *control_panel, char **element_info, t_error_l
 	lstadd_last_sphere(control_panel, sphere);
 	if (!get_coord(sphere->cords, element_info[1], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_COORD), false);
-	if (!get_d(&sphere->d, element_info[2], error_log))
+	if (!get_size(&sphere->d, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_D), false);
 	if (!get_rgb(sphere->rgb, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_SP, ERR_RGB), false);
@@ -79,9 +79,9 @@ bool	parse_cylinder(t_control_panel *control_panel, char **element_info, t_error
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_COORD), false);
 	if (!get_vector(cylinder->vec3, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_VECTOR), false);
-	if (!get_d(&cylinder->d, element_info[3], error_log))
+	if (!get_size(&cylinder->d, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_D), false);
-	if (!get_height(&cylinder->height, element_info[4], error_log))
+	if (!get_size(&cylinder->height, element_info[4], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_HEIGHT), false);
 	if (!get_rgb(cylinder->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CY, ERR_RGB), false);
@@ -107,9 +107,9 @@ bool	parse_cone(t_control_panel *control_panel, char **element_info, t_error_log
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_COORD), false);
 	if (!get_vector(cone->vec3, element_info[2], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_VECTOR), false);
-	if (!get_d(&cone->d, element_info[3], error_log))
+	if (!get_size(&cone->d, element_info[3], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_D), false);
-	if (!get_height(&cone->height, element_info[4], error_log))
+	if (!get_size(&cone->height, element_info[4], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_HEIGHT), false);
 	if (!get_rgb(cone->rgb, element_info[5], error_log))
 		return (error_code(&error_log->code_error, ERR_ELEMENT_CN, ERR_RGB), false);

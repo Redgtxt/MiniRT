@@ -41,10 +41,10 @@ typedef enum u_values_flags
 	ERR_VECTOR = (1 << 9),
 	ERR_RGB = (1 << 10),
 	ERR_FOV = (1 << 11),
-	ERR_LIGHT_FORCE = (1 << 12),
-	ERR_BRIGHTNESS = (1 << 13),
-	ERR_D = (1 << 14),
-	ERR_HEIGHT = (1 << 15)
+	ERR_BRIGHTNESS = (1 << 12),
+	ERR_D = (1 << 13),
+	ERR_HEIGHT = (1 << 14),
+	ERR_MATERIAL = (1 << 15)
 }				t_values_flags;
 
 // ───── General Parsing Errors (Bits 16–23) ─────
@@ -67,8 +67,7 @@ typedef enum u_sec_general_flags
 	ERR_FILE_NAME = (1 << 25),
 	ERR_FILE_OPEN = (1 << 26),
 	ERR_IS_DIR = (1 << 27),
-	ERR_MATERIAL = (1 << 28),
-	ERR_INV_MATERIAL = (1 << 29)
+	ERR_INV_MATERIAL = (1 << 28)
 }				t_sec_general_flags;
 
 typedef struct s_error_log
