@@ -20,7 +20,7 @@ static t_win_config *init_control_window(t_control_panel *cp)
 
 	img_width = 0;
 	img_height = 0;
-	control_data = malloc(sizeof(t_win_config));
+	control_data = ft_calloc(1,sizeof(t_win_config));
 	if (!control_data)
 		return (NULL);
 	control_data->mlx = cp->mlx->mlx;

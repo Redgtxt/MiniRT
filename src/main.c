@@ -236,7 +236,6 @@ int main(int argc, char *argv[])
     // free_control_panel(cp);
     ft_printf("MiniRT Starting...\n");
     srand(time(NULL));
-
     if (init_values_main_win(&mlx_data, cp))
         return 1;
 

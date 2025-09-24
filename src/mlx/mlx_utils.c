@@ -30,25 +30,45 @@ void	my_mlx_pixel_put(t_control_panel *control_panel, int x, int y,
 
 int	close_window(t_control_panel *cp)
 {
-	if (cp && cp->config_win)
-	{
-		if (cp->config_win->image.sphere)
-			mlx_destroy_image(cp->config_win->mlx,
-				cp->config_win->image.sphere);
-		if (cp->config_win->image.plane)
-			mlx_destroy_image(cp->config_win->mlx, cp->config_win->image.plane);
-		if (cp->config_win->image.cylinder)
-			mlx_destroy_image(cp->config_win->mlx,
-				cp->config_win->image.cylinder);
-		if (cp->config_win->img)
-			mlx_destroy_image(cp->config_win->mlx, cp->config_win->img);
-		if (cp->config_win->win)
-			mlx_destroy_window(cp->config_win->mlx, cp->config_win->win);
-		free(cp->config_win);
-		cp->config_win = NULL;
-	}
-	exit(0);
-	return (0);
+    if (cp && cp->config_win)
+    {
+        if (cp->config_win->image.sphere)
+            mlx_destroy_image(cp->config_win->mlx,
+                cp->config_win->image.sphere);
+        if (cp->config_win->image.plane)
+            mlx_destroy_image(cp->config_win->mlx, cp->config_win->image.plane);
+        if (cp->config_win->image.cylinder)
+            mlx_destroy_image(cp->config_win->mlx,
+                cp->config_win->image.cylinder);
+        if (cp->config_win->image.cone)
+            mlx_destroy_image(cp->config_win->mlx, cp->config_win->image.cone);
+        if (cp->config_win->img)
+            mlx_destroy_image(cp->config_win->mlx, cp->config_win->img);
+        if (cp->config_win->win)
+            mlx_destroy_window(cp->config_win->mlx, cp->config_win->win);
+        free(cp->config_win);
+        cp->config_win = NULL;
+    }
+    
+    // Clean up main MLX resources, but don't free the struct itself
+    if (cp && cp->mlx)
+    {
+        if (cp->mlx->img)
+            mlx_destroy_image(cp->mlx->mlx, cp->mlx->img);
+        if (cp->mlx->win)
+            mlx_destroy_window(cp->mlx->mlx, cp->mlx->win);
+        if (cp->mlx->mlx)
+        {
+            mlx_destroy_display(cp->mlx->mlx);
+            free(cp->mlx->mlx);  // This is allocated, so it's safe to free
+        }
+        // Don't free cp->mlx as it's stack-allocated in main!
+    }
+    
+    // Free other allocated memory in control panel
+    free_control_panel(cp);
+    exit(0);
+    return (0);
 }
 
 void	clear_image(t_control_panel *cp)
