@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_window.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 12:46:03 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:00:21 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ static void display_object_image(t_control_panel *cp)
 
 static int should_update_sliders(t_control_panel *cp)
 {
-	return ((cp->data.obj_type == 0 && cp->sphere && cp->data.sphere_count > 0) || (cp->data.obj_type == 1 && cp->plane && cp->data.plane_count > 0) || (cp->data.obj_type == 2 && cp->cylinder && cp->data.cylinder_count > 0) || (cp->data.obj_type == 3 && cp->cone && cp->data.cone_count > 0));
+	return ((cp->data.obj_type == 0 && cp->sphere && cp->data.sphere_count > 0) ||
+				(cp->data.obj_type == 1 && cp->plane && cp->data.plane_count > 0) ||
+				(cp->data.obj_type == 2 && cp->cylinder && cp->data.cylinder_count > 0) ||
+				(cp->data.obj_type == 3 && cp->cone && cp->data.cone_count > 0));
 }
 
 int create_control_window(t_control_panel *cp)

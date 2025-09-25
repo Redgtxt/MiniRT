@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 12:58:24 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:57:00 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ void				handle_rgb_sliders_group(t_control_panel *cp, int x, int y);
 void				handle_dragging_rgb_slider(t_control_panel *cp);
 
 // mouse move utilities
-void				slider_sphere_rgb(t_control_panel *cp, int x);
+void				slider_rgb(t_control_panel *cp, int x);
 
 // slider
 void				draw_slider(t_control_panel *cp, t_slider slider);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 13:00:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/17 16:47:40 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:57:00 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	mouse_move_handler(int x, int y, void *param)
 		redraw_interface(cp);
 	}
 	handle_material_selector_hover(cp, x, y);
-	slider_sphere_rgb(cp, x);
+	slider_rgb(cp, x);
 	return (0);
 }
 
