@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 13:00:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/17 14:13:39 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:10:26 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,22 @@ void	update_slider_value(t_slider *slider, int mouse_x)
 			- slider->handle_width);
 	slider->current_value = slider->min_value + ratio * (slider->max_value
 			- slider->min_value);
+}
+
+void	clear_image_slider(t_control_panel *cp)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < W_HEIGHT)
+	{
+		j = 0;
+		while (j < W_WIDTH)
+		{
+			pixel_put_win_control(cp, j, i, 0x000000);
+			j++;
+		}
+		i++;
+	}
 }

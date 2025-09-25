@@ -12,36 +12,35 @@
 
 #include "../../includes/miniRT.h"
 
-void handle_selector_button_click(t_mat_select *selector)
+void	handle_selector_button_click(t_mat_select *selector)
 {
 	if (!selector)
-		return;
+		return ;
 	selector->is_open = !selector->is_open;
 	selector->hover_index = -1;
 }
 
-void handle_dropdown_item_click(t_mat_select *selector,
-								int item_index)
+void	handle_dropdown_item_click(t_mat_select *selector, int item_index)
 {
 	if (!selector || item_index < 0)
-		return;
+		return ;
 	selector->selected_material = item_index;
 	selector->is_open = 0;
 	selector->hover_index = -1;
 }
 
-void handle_material_selector_click(t_control_panel *cp, int x, int y)
+void	handle_material_selector_click(t_control_panel *cp, int x, int y)
 {
-	t_mat_select *selector;
-	int item_index;
+	t_mat_select	*selector;
+	int				item_index;
 
 	if (!cp || !cp->config_win)
-		return;
+		return ;
 	selector = &cp->config_win->material_selector;
 	if (is_mouse_on_selector_button(selector, x, y))
 	{
 		handle_selector_button_click(selector);
-		return;
+		return ;
 	}
 	if (selector->is_open)
 	{
@@ -56,12 +55,12 @@ void handle_material_selector_click(t_control_panel *cp, int x, int y)
 	}
 }
 
-void handle_material_selector_hover(t_control_panel *cp, int x, int y)
+void	handle_material_selector_hover(t_control_panel *cp, int x, int y)
 {
-	t_mat_select *selector;
+	t_mat_select	*selector;
 
 	if (!cp || !cp->config_win)
-		return;
+		return ;
 	selector = &cp->config_win->material_selector;
 	if (selector->is_open)
 		selector->hover_index = get_dropdown_item_index(selector, x, y);

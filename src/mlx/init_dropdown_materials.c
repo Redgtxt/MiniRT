@@ -12,10 +12,10 @@
 
 #include "../../includes/miniRT.h"
 
-void init_mat_select(t_mat_select *selector)
+void	init_mat_select(t_mat_select *selector)
 {
 	if (!selector)
-		return;
+		return ;
 	selector->x = 50;
 	selector->y = 375;
 	selector->width = 125;
@@ -31,24 +31,26 @@ void init_mat_select(t_mat_select *selector)
 	selector->material_names[3] = "GLASS";
 }
 
-int is_mouse_on_selector_button(t_mat_select *selector, int x, int y)
+int	is_mouse_on_selector_button(t_mat_select *selector, int x, int y)
 {
 	if (!selector)
 		return (0);
-	return (x >= selector->x && x <= selector->x + selector->width && y >= selector->y && y <= selector->y + selector->height);
+	return (x >= selector->x && x <= selector->x + selector->width
+		&& y >= selector->y && y <= selector->y + selector->height);
 }
 
-int is_mouse_on_dropdown_area(t_mat_select *selector, int x, int y)
+int	is_mouse_on_dropdown_area(t_mat_select *selector, int x, int y)
 {
-	int dropdown_y;
+	int	dropdown_y;
 
 	if (!selector || !selector->is_open)
 		return (0);
 	dropdown_y = selector->y + selector->height;
-	return (x >= selector->x && x <= selector->x + selector->width && y >= dropdown_y && y <= dropdown_y + selector->dropdown_height);
+	return (x >= selector->x && x <= selector->x + selector->width
+		&& y >= dropdown_y && y <= dropdown_y + selector->dropdown_height);
 }
 
-int is_mouse_on_material_selector(t_mat_select *selector, int x, int y)
+int	is_mouse_on_material_selector(t_mat_select *selector, int x, int y)
 {
 	if (!selector)
 		return (0);
@@ -57,16 +59,17 @@ int is_mouse_on_material_selector(t_mat_select *selector, int x, int y)
 	return (is_mouse_on_dropdown_area(selector, x, y));
 }
 
-int get_dropdown_item_index(t_mat_select *selector, int x, int y)
+int	get_dropdown_item_index(t_mat_select *selector, int x, int y)
 {
-	int dropdown_y;
-	int relative_y;
-	int index;
+	int	dropdown_y;
+	int	relative_y;
+	int	index;
 
 	if (!selector || !selector->is_open)
 		return (-1);
 	dropdown_y = selector->y + selector->height;
-	if (x >= selector->x && x <= selector->x + selector->width && y >= dropdown_y && y <= dropdown_y + selector->dropdown_height)
+	if (x >= selector->x && x <= selector->x + selector->width
+		&& y >= dropdown_y && y <= dropdown_y + selector->dropdown_height)
 	{
 		relative_y = y - dropdown_y;
 		index = relative_y / selector->item_height;
