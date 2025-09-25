@@ -88,7 +88,7 @@ void get_values_camera(t_control_panel *control_panel)
     vec3_add(control_panel->camera.lookat, control_panel->camera.cords, control_panel->camera.vec3);
     vec3_set(control_panel->camera.vup, 0, 1, 0);
     setup_camera_viewport(control_panel);
-    control_panel->camera.max_bounces = 50;
+    control_panel->camera.max_bounces = MAX_CAMERA_BOUNCES;
 }
 
 /*

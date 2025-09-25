@@ -40,6 +40,8 @@
 #define HMAG "\e[1;95m"
 #define RESET "\e[0m"
 
+#define MAX_CAMERA_BOUNCES 10
+
 // Light intensity control constants
 #define DIFFUSE_INTENSITY 1.5  // Diffuse lighting multiplier (increased for brighter diffuse)
 #define SPECULAR_INTENSITY 1.2 // Specular lighting multiplier (slightly increased for shinier highlights)
