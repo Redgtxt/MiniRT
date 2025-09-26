@@ -14,9 +14,6 @@
 
 static void	update_red_slider(t_control_panel *cp, int x)
 {
-	float	current_value;
-
-	current_value = cp->config_win->red_slider.current_value;
 	update_slider_value(&cp->config_win->red_slider, x);
 	update_object_rgb(cp, 0, cp->config_win->red_slider.current_value);
 	redraw_interface(cp);
@@ -24,9 +21,6 @@ static void	update_red_slider(t_control_panel *cp, int x)
 
 static void	update_green_slider(t_control_panel *cp, int x)
 {
-	float	current_value;
-
-	current_value = cp->config_win->green_slider.current_value;
 	update_slider_value(&cp->config_win->green_slider, x);
 	update_object_rgb(cp, 1, cp->config_win->green_slider.current_value);
 	redraw_interface(cp);
@@ -34,9 +28,6 @@ static void	update_green_slider(t_control_panel *cp, int x)
 
 static void	update_blue_slider(t_control_panel *cp, int x)
 {
-	float	current_value;
-
-	current_value = cp->config_win->blue_slider.current_value;
 	update_slider_value(&cp->config_win->blue_slider, x);
 	update_object_rgb(cp, 2, cp->config_win->blue_slider.current_value);
 	redraw_interface(cp);
