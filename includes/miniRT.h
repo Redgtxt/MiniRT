@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/18 14:10:43 by randrade         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:05:47 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,14 @@ double get_shadow_intensity(t_control_panel *panel, vec3 point[3], t_light *ligh
 void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
 /*Textures*/
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
+//	Lambertian
+bool lambertian_scatter(t_hit_record *rec, t_data_scatter *data_scatter);
+//	Metal
+bool metal_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
+//	Glass
+bool glass_scatter(const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
+//	CheckerPattern
+bool checker_scatter(t_hit_record *rec, t_data_scatter *data_scatter);
 
 /*base_values*/
 void	set_lambertian_material(t_material *material, double rgb[3]);

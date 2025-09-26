@@ -42,7 +42,7 @@ SRC_FILES = main.c \
 	$(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c parse_values_utils.c init_element_array.c initialization.c) \
 	$(addprefix interval/, interval.c) \
 	$(addprefix light/, light.c) \
-	$(addprefix textures/, textures.c base_values.c noise.c noise_utils.c) \
+	$(addprefix textures/, textures.c base_values.c checker.c glass.c lambertian.c metal.c) \
 	$(addprefix ray/, ray.c ray_utils.c) \
 	$(addprefix effects/, antialiasing.c) \
 	$(addprefix camera/, camera.c camera_movement.c) \
