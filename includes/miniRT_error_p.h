@@ -24,14 +24,14 @@ typedef uint32_t t_error;
 // ───── Element Flags (Bits 0–7) ─────
 typedef enum u_element_flags
 {
-	INV_ELEMENT = (1 << 0),
-	ERR_ELEMENT_A = (1 << 1),
-	ERR_ELEMENT_C = (1 << 2),
-	ERR_ELEMENT_L = (1 << 3),
-	ERR_ELEMENT_SP = (1 << 4),
-	ERR_ELEMENT_PL = (1 << 5),
-	ERR_ELEMENT_CY = (1 << 6),
-	ERR_ELEMENT_CN = (1 << 7)
+	INV_ELEM = (1 << 0),
+	ERR_ELEM_A = (1 << 1),
+	ERR_ELEM_C = (1 << 2),
+	ERR_ELEM_L = (1 << 3),
+	ERR_ELEM_SP = (1 << 4),
+	ERR_ELEM_PL = (1 << 5),
+	ERR_ELEM_CY = (1 << 6),
+	ERR_ELEM_CN = (1 << 7)
 }				t_element_flags;
 
 // ───── Values Flags (Bits 8–15) ─────
@@ -41,7 +41,7 @@ typedef enum u_values_flags
 	ERR_VECTOR = (1 << 9),
 	ERR_RGB = (1 << 10),
 	ERR_FOV = (1 << 11),
-	ERR_BRIGHTNESS = (1 << 12),
+	ERR_BRIGHT = (1 << 12),
 	ERR_D = (1 << 13),
 	ERR_HEIGHT = (1 << 14),
 	ERR_MATERIAL = (1 << 15)
@@ -53,11 +53,11 @@ typedef enum u_general_flags
 	ERR_MALLOC = (1 << 16),
 	ERR_OVERFLOW = (1 << 17),
 	ERR_RANGE = (1 << 18),
-	ERR_INVALID_CHAR = (1 << 19),
-	ERR_INVALID_VALUE = (1 << 20),
+	ERR_INV_CHAR = (1 << 19),
+	ERR_INV_VALUE = (1 << 20),
 	ERR_NO_ELEMENT = (1 << 21),
-	ERR_NBR_ELEMENTS = (1 << 22),
-	ERR_NBR_VALUES = (1 << 23)
+	ERR_NBR_ELEM = (1 << 22),
+	ERR_NBR_VAL = (1 << 23)
 }				t_general_flags;
 
 // ───── General Parsing Errors II (Bits 24–32) ─────
@@ -80,6 +80,15 @@ typedef struct s_error_log
 }				t_error_log;
 
 void	error_code(t_error *error_code, int flag_one, int flag_two);
+int		has_error(t_error error_code, int flag);
+void	print_range_error(t_error_log *error_log);
+void	print_file_error(t_error_log *error_log);
+void	print_nbr_element_error(t_error_log *error_log);
+void	print_inv_char_error(t_error_log *error_log);
+void	print_inv_material_error(t_error_log *error_log);
+void	print_element_error(t_error error_code, char *element);
+void	print_value_error(t_error error_code);
+void	print_general_error(t_error_log *error_log);
 void	print_parsing_error(t_error_log *error_log);
 
 #endif

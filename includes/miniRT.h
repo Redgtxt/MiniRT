@@ -339,10 +339,14 @@ bool get_light_force(double *light_force, char *info, t_error_log *error_log);
 bool get_brightness(double *brightness, char *info, t_error_log *error_log);
 bool get_size(double *d, char *info, t_error_log *error_log);
 
-//	Linked_to_array.c
-bool linked_to_array(t_control_panel *control_panel);
+//	Parse_values_utils.c
+bool parse_numbers(char *info, size_t *nbr_dot, t_error_log *error_log, bool negative);
+bool parse_three_octet_values(char *info, t_error_log *error_log);
+bool parse_rgb_chars(char *info, t_error_log *error_log);
+bool parse_number_elements(t_data data, t_error_log *error_log);
 
-//	Init_object_seletion.c
+//	Initialization.c
+bool linked_to_array(t_control_panel *control_panel);
 void init_object_selection(t_control_panel *control_panel);
 
 //	List_handler.c

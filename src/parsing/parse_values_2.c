@@ -12,37 +12,17 @@
 
 #include "../../includes/miniRT.h"
 
-static bool	parse_numbers(char *info, size_t *nbr_dot, t_error_log *error_log)
-{
-	if (!ft_isdigit(*info) && *info != '.')
-	{
-		error_log->error_char_detail = *info;
-		return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
-	}
-	if (*info == '.')
-	{
-		*nbr_dot += 1;
-		if (!*(info + 1))
-			return (error_code(&error_log->code_error, ERR_INVALID_VALUE, 0), false);
-		if (*(info + 1) && (!ft_isdigit(*(info + 1)) || !ft_isdigit(*(info - 1))))
-			return (error_code(&error_log->code_error, ERR_INVALID_VALUE, 0), false);
-		if (*nbr_dot > 1)
-			return (error_code(&error_log->code_error, ERR_INVALID_VALUE, 0), false);
-	}
-	return (true);
-}
-
 bool	get_fov(mini_int *fov, char *info, t_error_log *error_log)
 {
 	size_t	i;
 
 	i = 0;
-	while(info[i])
+	while (info[i])
 	{
 		if (!ft_isdigit(info[i]))
 		{
 			error_log->error_char_detail = info[i];
-			return (error_code(&error_log->code_error, ERR_INVALID_CHAR, 0), false);
+			return (error_code(&error_log->code_error, ERR_INV_CHAR, 0), false);
 		}
 		i++;
 	}
@@ -53,7 +33,6 @@ bool	get_fov(mini_int *fov, char *info, t_error_log *error_log)
 	return (true);
 }
 
-//	NOTE: Melhorar precisao > 1.0
 bool	get_brightness(double *brightness, char *info, t_error_log *error_log)
 {
 	size_t	nbr_dot;
@@ -62,16 +41,16 @@ bool	get_brightness(double *brightness, char *info, t_error_log *error_log)
 	nbr_dot = 0;
 	i = 0;
 	if (*info == '.')
-		return (error_code(&error_log->code_error, ERR_INVALID_VALUE, 0), false);
-	while(info[i])
+		return (error_code(&error_log->code_error, ERR_INV_VALUE, 0), false);
+	while (info[i])
 	{
-		if (!parse_numbers(&info[i], &nbr_dot, error_log))
+		if (!parse_numbers(&info[i], &nbr_dot, error_log, false))
 			return (false);
 		i++;
 	}
 	if (!ft_atod(info, brightness))
 		return (error_code(&error_log->code_error, ERR_OVERFLOW, 0), false);
-	if (*brightness > 1.0) //	Melhorar precisao
+	if (*brightness > 1.0)
 		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
 	return (true);
 }
@@ -84,10 +63,10 @@ bool	get_size(double *d, char *info, t_error_log *error_log)
 	nbr_dot = 0;
 	i = 0;
 	if (*info == '.')
-		return (error_code(&error_log->code_error, ERR_INVALID_VALUE, 0), false);
-	while(info[i])
+		return (error_code(&error_log->code_error, ERR_INV_VALUE, 0), false);
+	while (info[i])
 	{
-		if (!parse_numbers(&info[i], &nbr_dot, error_log))
+		if (!parse_numbers(&info[i], &nbr_dot, error_log, false))
 			return (false);
 		i++;
 	}

@@ -36,16 +36,17 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 MLX       = $(MLX_DIR)/libmlx.a
 
 SRC_FILES = main.c \
-	    $(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c errors.c draw_color.c)  \
-	    $(addprefix mlx/, hooks.c update_sliders_from_selected_object.c change_object.c rgb_slider.c mlx_utils.c verifications.c init_dropdown_materials.c dropdown_interactions.c material_selector.c material_config.c material_apply.c ui_drawing.c slider_drawing.c slider_utils.c interface_display.c rgb_handlers.c interface_render.c mlx_antialising.c render_button.c interface_object_properties.c  control_window.c mlx_init_values.c interaction_rgb_sliders.c update_interface_objects.c buttons.c sliders.c mouse_handlers.c mouse_click_handlers.c mouse_move_utils.c find_click_objects.c )  \
-	    $(addprefix Sphere/,init_sphere.c sphere_collision.c plane_collisions.c cylinder_collision.c cone_collision.c)  \
-	    $(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c linked_to_array.c init_object_selection.c) \
-	    $(addprefix interval/, interval.c)\
-	    $(addprefix light/, light.c)\
-	    $(addprefix textures/, textures.c base_values.c)\
-	    $(addprefix ray/, ray.c ray_utils.c)\
-	    $(addprefix effects/, antialiasing.c)\
-	    $(addprefix camera/, camera.c camera_movement.c)
+	$(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c draw_color.c) \
+	$(addprefix mlx/, hooks.c update_sliders_from_selected_object.c change_object.c rgb_slider.c mlx_utils.c verifications.c init_dropdown_materials.c dropdown_interactions.c material_selector.c material_config.c material_apply.c ui_drawing.c slider_drawing.c slider_utils.c interface_display.c rgb_handlers.c interface_render.c mlx_antialising.c render_button.c interface_object_properties.c control_window.c mlx_init_values.c interaction_rgb_sliders.c update_interface_objects.c buttons.c sliders.c mouse_handlers.c mouse_click_handlers.c mouse_move_utils.c find_click_objects.c) \
+	$(addprefix Sphere/, sphere_collision.c plane_collisions.c cylinder_collision.c cone_collision.c) \
+	$(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c parse_values_utils.c init_element_array.c initialization.c) \
+	$(addprefix interval/, interval.c) \
+	$(addprefix light/, light.c) \
+	$(addprefix textures/, textures.c base_values.c noise.c noise_utils.c) \
+	$(addprefix ray/, ray.c ray_utils.c) \
+	$(addprefix effects/, antialiasing.c) \
+	$(addprefix camera/, camera.c camera_movement.c) \
+	$(addprefix errors/, error_utils.c error_element_value.c error_print.c error_print_helpers.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -67,6 +68,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/light
 	@mkdir -p $(OBJ_DIR)/effects
 	@mkdir -p $(OBJ_DIR)/camera
+	@mkdir -p $(OBJ_DIR)/errors
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
 
 $(LIBFT):

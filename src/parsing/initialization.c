@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_object_selection.c                            :+:      :+:    :+:   */
+/*   initialization.c                            		:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,6 +11,21 @@
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+
+bool	linked_to_array(t_control_panel *cp)
+{
+	if (!linked_list_to_light_array(&cp->light, cp->data.light_count))
+		return (false);
+	if (!linked_list_to_sphere_array(&cp->sphere, cp->data.sphere_count))
+		return (false);
+	if (!linked_list_to_plane_array(&cp->plane, cp->data.plane_count))
+		return (false);
+	if (!linked_list_to_cylinder_array(&cp->cylinder, cp->data.cylinder_count))
+		return (false);
+	if (!linked_list_to_cone_array(&cp->cone, cp->data.cone_count))
+		return (false);
+	return (true);
+}
 
 void	init_object_selection(t_control_panel *control_panel)
 {
