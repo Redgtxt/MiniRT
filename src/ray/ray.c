@@ -1,31 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/30 18:39:18 by ruigoncalve       #+#    #+#             */
+/*   Updated: 2025/09/30 18:45:33 by ruigoncalve      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
-#include <unistd.h>
-
-/// @brief Will store the values of the ray
-/// @param cords
-/// @param vector3
-/// @return
-void init_ray(t_ray *ray)
-{
-    ray->origin[0] = 0;
-    ray->origin[1] = 0;
-    ray->origin[2] = 0;
-
-    ray->direction[0] = 0;
-    ray->direction[1] = 1;
-    ray->direction[2] = 0;
-}
-
-// vou dar a informacao para criar um novo raio
-/// @brief Create a ray with specific origin and direction (constructor with parameters)
-/// @param ray pointer to ray structure
-/// @param origin origin point coordinates
-/// @param direction direction vector
-void create_ray(t_ray *ray, const double origin[3], const double direction[3])
-{
-    vec3_copy(ray->origin, origin);
-    vec3_copy(ray->direction, direction);
-}
 
 t_ray get_ray(int i, int j, t_control_panel *control_panel)
 {
@@ -59,22 +44,6 @@ t_ray get_ray(int i, int j, t_control_panel *control_panel)
     create_ray(&ray, control_panel->camera.cords, ray_direction);
 
     return ray;
-}
-
-/// @brief Get ray origin (equivalent to origin() method)
-/// @param ray pointer to ray structure
-/// @param out output array to store origin
-void ray_origin(const t_ray *ray, double out[3])
-{
-    vec3_copy(out, ray->origin);
-}
-
-/// @brief Get ray direction (equivalent to direction() method)
-/// @param ray pointer to ray structure
-/// @param out output array to store direction
-void ray_direction(const t_ray *ray, double out[3])
-{
-    vec3_copy(out, ray->direction);
 }
 
 void	set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_color[3])

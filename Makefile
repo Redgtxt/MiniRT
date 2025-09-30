@@ -38,7 +38,7 @@ MLX       = $(MLX_DIR)/libmlx.a
 SRC_FILES = main.c \
 	$(addprefix utils/, utils.c vector_utils.c split_spaces.c list_handler.c free.c draw_color.c) \
 	$(addprefix mlx/, hooks.c update_sliders_from_selected_object.c change_object.c rgb_slider.c mlx_utils.c verifications.c init_dropdown_materials.c dropdown_interactions.c material_selector.c material_config.c material_apply.c ui_drawing.c slider_drawing.c slider_utils.c interface_display.c rgb_handlers.c interface_render.c mlx_antialising.c render_button.c interface_object_properties.c control_window.c mlx_init_values.c interaction_rgb_sliders.c update_interface_objects.c buttons.c sliders.c mouse_handlers.c mouse_click_handlers.c mouse_move_utils.c find_click_objects.c) \
-	$(addprefix Sphere/, sphere_collision.c plane_collisions.c cylinder_collision.c cone_collision.c) \
+	$(addprefix objects/, sphere_collision.c plane_collisions.c cylinder_collision.c cylinder_caps.c cylinder_body.c cylinder_utils.c cone_collision.c cone_body.c cone_cap.c hit_world.c) \
 	$(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c parse_values_utils.c init_element_array.c initialization.c) \
 	$(addprefix interval/, interval.c) \
 	$(addprefix light/, light.c) \
@@ -60,7 +60,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/utils
 	@mkdir -p $(OBJ_DIR)/mlx
-	@mkdir -p $(OBJ_DIR)/Sphere
+	@mkdir -p $(OBJ_DIR)/objects
 	@mkdir -p $(OBJ_DIR)/parsing
 	@mkdir -p $(OBJ_DIR)/interval
 	@mkdir -p $(OBJ_DIR)/ray

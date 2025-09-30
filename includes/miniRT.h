@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/26 17:05:47 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/09/30 18:25:31 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "vec3.h"
 #include "interval.h"
 #include "miniRT_error_p.h"
+// #include "hit_objects.h"
 #include <limits.h>
 #include <math.h>
 #include <stdbool.h>
@@ -67,7 +68,6 @@
 #define D_INFINITY ((double)INFINITY)
 
 typedef unsigned char mini_int;
-typedef double vec3;
 
 typedef enum e_mt_t
 {
@@ -250,6 +250,111 @@ typedef struct s_cp
 	t_win_config *config_win;
 } t_control_panel;
 
+// --- Structs from cone_collision.c ---
+typedef struct s_cone_cap_vars {
+	double cap_center[3];
+	double p_minus_o[3];
+	double intersection_point[3];
+	double dist_vec[3];
+	double denom;
+	double t;
+} t_cone_cap_vars;
+
+typedef struct s_cone_body_vars {
+	double oc[3];
+	double tan_theta;
+	double k;
+	double dot_d_v;
+	double dot_oc_v;
+	double a;
+	double b;
+	double c;
+	double discriminant;
+	double sqrt_d;
+	double t1;
+	double t2;
+	double t;
+	double m1;
+	double m2;
+	double m;
+	double temp[3];
+	double normal[3];
+	double p_minus_c[3];
+	double cone_tip[3];
+} t_cone_body_vars;
+
+// --- Structs from cylinder_collision.c ---
+typedef struct s_cylinder_body_vars {
+	vec3 axis[3];
+	vec3 oc[3];
+	double dir_dot_axis;
+	double oc_dot_axis;
+	vec3 dir_parallel[3];
+	vec3 dir_perp[3];
+	vec3 oc_parallel[3];
+	vec3 oc_perp[3];
+	double a;
+	double b;
+	double c;
+	double discriminant;
+	double sqrt_disc;
+	double t1;
+	double t2;
+	double t;
+	vec3 hit_point[3];
+	vec3 hit_vec[3];
+	double hit_height;
+	vec3 cp[3];
+	vec3 outward_normal[3];
+} t_cylinder_body_vars;
+
+typedef struct s_cylinder_cap_vars {
+	double denom;
+	double p0l0[3];
+	double t;
+	vec3 normalized_axis[3];
+	double outward_normal[3];
+} t_cylinder_cap_vars;
+
+typedef struct s_have_hit_cylinder_vars {
+	bool hit_anything;
+	double closest_so_far;
+	t_hit_record temp_rec;
+	t_cylinder *cylinder;
+	t_cylinder original_cylinder;
+	double original_rgb[3];
+	vec3 axis[3];
+} t_have_hit_cylinder_vars;
+
+// --- Structs from plane_collisions.c ---
+typedef struct s_plane_vars {
+	double denom;
+	double p0l0[3];
+	double t;
+} t_plane_vars;
+
+// --- Structs from sphere_collision.c ---
+typedef struct s_sphere_vars {
+	double oc[3];
+	double a;
+	double h;
+	double c;
+	double discriminant;
+	double root;
+} t_sphere_vars;
+
+// --- Function prototypes ---
+bool have_hit_cone(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_cones(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+void random_on_hemisphere(double normal[3], double out[3]);
+
 /*Light*/
 bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
 double get_shadow_intensity(t_control_panel *panel, vec3 point[3], t_light *light);
@@ -296,25 +401,44 @@ bool linked_list_to_cylinder_array(t_cylinder **cylinder_list, int size_array);
 bool linked_list_to_cone_array(t_cone **cone_list, int size_array);
 
 /*Sphere Collision*/
+void set_hit_record(bool *hit, double *closest_so_far, t_hit_record *record, t_hit_record *temp_rec);
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 void random_on_hemisphere(double normal[3], double out[3]);
 void set_face_normal(const t_ray *ray, const double outward_normal[3], t_hit_record *record);
 bool have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
 // Planes
-bool have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_planes(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 
 // Cylinder
-bool have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_cylinders(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 
-double pont_dist(vec3 a[3], vec3 b[3]);
+// Cylinder body
+bool hit_cylinder_body(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+// Cylinder caps
+bool have_hit_cylinder_cap(t_cylinder *cylinder, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+// Cylinder utils
+double	pont_dist(vec3 a[3], vec3 b[3]);
+void	init_cylinder_cap_vars(t_cylinder_cap_vars *vars, t_cylinder *cylinder, const t_ray *ray);
+void 	init_cylinder_body_vars(t_cylinder_body_vars *vars, t_cylinder *cylinder, const t_ray *ray);
+void	init_have_hit_cylinder_struct(t_have_hit_cylinder_vars *vars, t_cylinder *cylinder, t_interval t_ray);
+
 // Cone
 bool hit_cones(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool have_hit_cone(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+// Cone cap
+bool have_hit_cone_cap(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
+// Cone body
+bool hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray, t_hit_record *record);
+
 // Scene
 void render_scene(t_control_panel *cp);
+
 // antialiasing
 void setup_antialiasing(t_control_panel *control_panel, int num_of_samples);
 void sample_square(double out[3]);

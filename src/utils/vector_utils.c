@@ -322,3 +322,18 @@ double schlick_reflectance(double cosine, double refraction_index)
     r0 = r0 * r0;
     return r0 + (1.0 - r0) * pow((1.0 - cosine), 5);
 }
+
+/// @brief Se front_face for 1 significa que o raio bateu na parte de tras da esfera.
+///        Se front_face for 0 significa que batemos de frente na esfera
+/// @param ray
+/// @param
+/// @param record
+void	set_face_normal(const t_ray *ray, const double outward_normal[3],
+			t_hit_record *record)
+{
+    record->front_face = vec3_dot(ray->direction, outward_normal) < 0;
+    if (record->front_face)
+        vec3_copy(record->normal, outward_normal);
+    else
+        vec3_negate(record->normal, outward_normal);
+}
