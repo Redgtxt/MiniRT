@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/02 15:36:33 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/02 16:33:05 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,17 @@ typedef struct s_refract_data {
 } t_refract_data;
 
 //----- //
+// render //
 
+typedef struct s_pixel_color
+{
+    int sample;
+    double pixel_color[3];
+    double sample_color[3];
+    double pixel_samples_scale;
+} t_pixel_color;
+
+//----- //
 
 // --- Structs from cone_collision.c ---
 typedef struct s_cone_cap_vars {
@@ -419,6 +429,12 @@ bool have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray, t_hit
 bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit_record *record);
 void random_on_hemisphere(double normal[3], double out[3]);
+
+// Render_utils
+void	switch_antialiasing_message(t_control_panel *control_panel);
+void	print_current_rendering_process(t_control_panel *control_panel, t_coord *coord);
+void	color_pixel(t_control_panel *control_panel, t_ray *ray, t_coord *coord, t_pixel_color *pixel_color);
+void	apply_pixel_color(t_control_panel *control_panel, t_coord *coord, t_pixel_color *pixel_color);
 
 /*Light*/
 double get_shadow_intensity(t_control_panel *panel, vec3 point[3], t_light *light);

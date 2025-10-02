@@ -45,6 +45,7 @@ SRC_FILES = main.c \
 	$(addprefix textures/, textures.c base_values.c checker.c glass.c lambertian.c metal.c) \
 	$(addprefix ray/, ray.c get_ray.c ray_utils.c) \
 	$(addprefix effects/, antialiasing.c) \
+	$(addprefix render/, render.c render_utils.c) \
 	$(addprefix camera/, camera.c camera_movement.c) \
 	$(addprefix errors/, error_utils.c error_element_value.c error_print.c error_print_helpers.c)
 
@@ -67,6 +68,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/textures
 	@mkdir -p $(OBJ_DIR)/light
 	@mkdir -p $(OBJ_DIR)/effects
+	@mkdir -p $(OBJ_DIR)/render
 	@mkdir -p $(OBJ_DIR)/camera
 	@mkdir -p $(OBJ_DIR)/errors
 	@echo "$(YELLOW)Created object directory: $(OBJ_DIR)$(RESET)"
