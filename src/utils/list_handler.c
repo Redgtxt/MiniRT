@@ -73,7 +73,7 @@ void	lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane)
 
 	last = NULL;
 	temp = control_panel->plane;
-	if (control_panel == NULL || new_plane== NULL)
+	if (control_panel == NULL || new_plane == NULL)
 		return ;
 	if (control_panel->plane)
 	{
@@ -93,14 +93,15 @@ void	lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane)
 	new_plane->next = NULL;
 }
 
-void	lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylinder)
+void	lstadd_last_cylinder(t_control_panel *control_panel,
+					t_cylinder *new_cylinder)
 {
 	t_cylinder	*temp;
 	t_cylinder	*last;
 
 	last = NULL;
 	temp = control_panel->cylinder;
-	if (control_panel == NULL || new_cylinder== NULL)
+	if (control_panel == NULL || new_cylinder == NULL)
 		return ;
 	if (control_panel->cylinder)
 	{
@@ -122,12 +123,12 @@ void	lstadd_last_cylinder(t_control_panel *control_panel, t_cylinder *new_cylind
 
 void	lstadd_last_cone(t_control_panel *control_panel, t_cone *new_cone)
 {
-	t_cone *temp;
-	t_cone *last;
+	t_cone	*temp;
+	t_cone	*last;
 
 	last = NULL;
 	temp = control_panel->cone;
-	if (control_panel == NULL || new_cone== NULL)
+	if (control_panel == NULL || new_cone == NULL)
 		return ;
 	if (control_panel->cone)
 	{

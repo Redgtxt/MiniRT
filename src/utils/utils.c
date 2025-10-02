@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:10:48 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/09 17:23:26 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:05:08 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
-
 
 size_t	double_array_len(char **array)
 {
@@ -41,7 +40,8 @@ bool	ft_atoc(const char *str, mini_int *dest)
 	return (true);
 }
 
-bool	convert_to_double(char *str, long double *val, long double *frac, long double *div)
+bool	convert_to_double(char *str, long double *val,
+					long double *frac, long double *div)
 {
     bool decimal;
 
@@ -55,8 +55,8 @@ bool	convert_to_double(char *str, long double *val, long double *frac, long doub
             if (!decimal)
 			{
                 *val = *val * 10.0 + (*str - '0');
-                if (*val > 2147483648) // check absolute max
-                    return false;
+                if (*val > 2147483648)
+                    return (false);
             }
 			else
 			{
@@ -69,7 +69,7 @@ bool	convert_to_double(char *str, long double *val, long double *frac, long doub
 	return (true);
 }
 
-bool ft_atod(const char *str, double *dest)
+bool 	ft_atod(const char *str, double *dest)
 {
     long double value;
 	long double fraction;
@@ -82,17 +82,17 @@ bool ft_atod(const char *str, double *dest)
 	division = 10.0;
 	result = 0.0;
     if (!str || !dest)
-        return false;
+        return (false);
     if (*str == '-')
 	{
         negative = -1;
         str++;
     }
 	if (!convert_to_double((char *)str, &value, &fraction, &division))
-		return false;
+		return (false);
     result = negative * (value + fraction);
     if (result > OVERFLOW_MAX_LIMIT || result < OVERFLOW_MIN_LIMIT)
-        return false;
+        return (false);
     *dest = (double)result;
-    return true;
+    return (true);
 }

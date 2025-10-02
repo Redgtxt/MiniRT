@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/18 14:30:07 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:38:01 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
+/*
 void print_elements(t_control_panel *control_panel)
 {
     if (!control_panel)
@@ -137,11 +138,12 @@ void print_elements(t_control_panel *control_panel)
         printf("\nNo cones found or cone list is NULL\n");
     }
 }
+*/
+
 
 void render_scene(t_control_panel *control_panel)
 {
-    int y;
-    int x;
+	t_coord coord;
     int sample;
     t_ray ray;
     double pixel_color[3];
@@ -150,16 +152,16 @@ void render_scene(t_control_panel *control_panel)
     double pixel_samples_scale;
     t_mlx *mlx_data = control_panel->mlx;
 
-    y = 0;
-    while (y < control_panel->camera.image_height)
+    coord.y = 0;
+    while (coord.y < control_panel->camera.image_height)
     {
-        x = 0;
-        while (x < control_panel->camera.image_width)
+        coord.x = 0;
+        while (coord.x < control_panel->camera.image_width)
         {
             vec3_zero(pixel_color);
             if (!control_panel->camera.antialiasing)
             {
-                ray = get_ray(x, y, control_panel);
+                ray = get_ray(coord, control_panel);
                 ray_color(control_panel, control_panel->camera.max_bounces, &ray, pixel_color);
             }
             else
@@ -168,7 +170,7 @@ void render_scene(t_control_panel *control_panel)
                 while (control_panel->camera.samples_per_pixel > sample)
                 {
                     vec3_zero(sample_color);
-                    ray = get_ray(x, y, control_panel);
+                    ray = get_ray(coord, control_panel);
                     ray_color(control_panel, control_panel->camera.max_bounces, &ray, sample_color);
                     pixel_color[0] += sample_color[0];
                     pixel_color[1] += sample_color[1];
@@ -184,14 +186,14 @@ void render_scene(t_control_panel *control_panel)
             }
 
             rgb = write_color(pixel_color[0], pixel_color[1], pixel_color[2]);
-            my_mlx_pixel_put(control_panel, x, y, rgb);
-            x++;
+            my_mlx_pixel_put(control_panel, coord.x, coord.y, rgb);
+            coord.x++;
         }
+		
+        if (coord.y % 10 == 0)
+            ft_printf(BHYEL "\rScanlines remaining: %d " RESET, (control_panel->camera.image_height - coord.y));
 
-        if (y % 10 == 0)
-            ft_printf(BHYEL "\rScanlines remaining: %d " RESET, (control_panel->camera.image_height - y));
-
-        y++;
+        coord.y++;
     }
     ft_printf(BHGRN "\rScanlines remaining: DONE!" RESET "\n");
     mlx_put_image_to_window(mlx_data->mlx, mlx_data->win, mlx_data->img, 0, 0);
@@ -231,24 +233,17 @@ int main(int argc, char *argv[])
     cp = inicialize_cp(argc, argv);
     if (!cp)
         return 1;
-
-    print_elements(cp);
-    // free_control_panel(cp);
+    // print_elements(cp);
     ft_printf("MiniRT Starting...\n");
     srand(time(NULL));
     if (init_values_main_win(&mlx_data, cp))
         return 1;
-
     if (create_control_window(cp))
         return 1;
-
     render_scene(cp);
-
     mlx_hook(mlx_data.win, 17, 0, close_window, cp);
     mlx_key_hook(mlx_data.win, key_hook, cp);
-
     mlx_hook(mlx_data.win, 4, 1L << 2, main_window_mouse_handler, cp);
-
     mlx_loop(mlx_data.mlx);
     return (0);
 }

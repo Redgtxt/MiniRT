@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_spaces.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 00:30:48 by randrade          #+#    #+#             */
-/*   Updated: 2025/05/27 13:42:18 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:56:28 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	ft_count_words(char const *s)
 	{
 		if (s[i] != ' ' && s[i] != '\t')
 		{
-			if (s[i + 1] == ' ' || s[i + 1] == '\t'|| s[i + 1] == '\0')
+			if (s[i + 1] == ' ' || s[i + 1] == '\t' || s[i + 1] == '\0')
 				count++;
 		}
 		i++;

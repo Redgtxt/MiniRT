@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_click_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:28:17 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/17 14:28:49 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/09/30 19:09:27 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,11 @@ int	find_clicked_object(t_control_panel *cp, int mouse_x, int mouse_y,
 	t_hit_record	record;
 	int				result;
 	t_interval		t_ray;
+	t_coord			coord;
 
-	ray = get_ray(mouse_x, mouse_y, cp);
+	coord.x = mouse_x;
+	coord.y = mouse_y;
+	ray = get_ray(coord, cp);
 	t_ray = interval_create(0.001, D_INFINITY);
 	if (!hit_world(cp, &ray, t_ray, &record))
 		return (-1);

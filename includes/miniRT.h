@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/30 18:25:31 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/02 15:36:33 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ typedef enum e_mt_t
 	CHECKERPATTERN,
 	GLASS
 } t_material_type;
+
+typedef struct s_coord
+{
+	int x;
+	int y;
+} t_coord;
 
 typedef struct s_ray
 {
@@ -250,6 +256,65 @@ typedef struct s_cp
 	t_win_config *config_win;
 } t_control_panel;
 
+// ---- //
+// RAY
+
+typedef struct s_specular_args {
+    t_hit_record *rec;
+    const t_ray *ray;
+    vec3 *light_dir;
+    t_light *light;
+    double attenuation;
+} t_specular_args;
+
+typedef struct s_light_args {
+    t_control_panel *panel;
+    t_hit_record *rec;
+    const t_ray *ray;
+    vec3 *color;
+    size_t i;
+} t_light_args;
+
+typedef struct s_scatter_args {
+    t_control_panel *panel;
+    int depth;
+    const t_ray *ray;
+    t_hit_record *rec;
+} t_scatter_args;
+
+// ---- //
+
+// ----- //
+// shadow //
+
+typedef struct s_intensity_args {
+	t_control_panel *panel;
+	t_light *light;
+	double *light_distance;
+	double *light_transmission;
+} t_intensity_args;
+
+typedef struct s_intensity_data {
+	t_ray shadow_ray;
+	vec3 light_dir[3];
+	double light_distance;
+	double light_transmission;
+} t_intensity_data;
+
+// ----- //
+// reflect_types //
+
+typedef struct s_refract_data {
+	double uv_negated[3];
+	double cos_theta;
+	double cos_theta_n[3];
+	double temp[3];
+	double r_out_perp[3];
+} t_refract_data;
+
+//----- //
+
+
 // --- Structs from cone_collision.c ---
 typedef struct s_cone_cap_vars {
 	double cap_center[3];
@@ -356,9 +421,12 @@ bool hit_world(t_control_panel *scene, const t_ray *ray, t_interval t_ray, t_hit
 void random_on_hemisphere(double normal[3], double out[3]);
 
 /*Light*/
-bool is_shadowed(t_control_panel *panel, vec3 point[3], t_light *light);
 double get_shadow_intensity(t_control_panel *panel, vec3 point[3], t_light *light);
-void diffuse_comp(t_light *light, t_hit_record *rec, vec3 color[3], vec3 light_dir[3], double attenuation);
+void diffuse_comp(t_light_args *args, vec3 light_dir[3], double attenuation);
+void process_light(t_light_args *args);
+void set_amb_light(t_control_panel *control_panel, const t_ray *ray, double out_color[3]);
+void init_spec_args(t_specular_args *spec_args, t_light_args *args, vec3 light_dir[3], double attenuation);
+void add_specular(t_specular_args *args, vec3 color[3]);
 /*Textures*/
 bool scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec, t_data_scatter *data_scatter);
 //	Lambertian
@@ -384,13 +452,17 @@ void ray_direction(const t_ray *ray, double out[3]);
 void ray_at(double t, t_ray ray, double result[3]);
 void ray_color(t_control_panel *control_panel, int depth, const t_ray *ray, double out_color[3]);
 void vec3_normalize(double out[3], const double v[3]);
-t_ray get_ray(int i, int j, t_control_panel *control_panel);
+t_ray get_ray(t_coord coord, t_control_panel *control_panel);
 
 /*UITLS*/
+double	lenght_squared(const double vector[3]);
 double degrees_to_radians(double degrees);
 double random_double_0_to_1();
 double random_double(double min, double max);
 int write_color(double r, double g, double b);
+void	calc_perpendicular(t_refract_data *data, const double uv[3], const double n[3], double etai_over_etat);
+void	calc_parallel(double r_out_parallel[3], const double n[3], double r_out_perp[3]);
+
 /*	sphere	*/
 
 /*	Init	Sphere array	*/

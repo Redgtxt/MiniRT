@@ -3,35 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   draw_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:59:33 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/06/16 16:03:37 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:52:59 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-static double linear_to_gamma(double linear_component)
+static double	linear_to_gamma(double linear_component)
 {
     if (linear_component > 0)
         return sqrt(linear_component);
     return 0;
 }
 
-int write_color(double r, double g, double b)
+int	write_color(double r, double g, double b)
 {
     int ir;
     int ig;
     int ib;
     t_interval intensity;
 
-    // Apply a linear to gamma transform for gamma 2
     ir = linear_to_gamma(r);
     ig = linear_to_gamma(g);
     ib = linear_to_gamma(b);
-    
-    // Translate the [0,1] component values to the byte range [0,255].
     intensity = interval_create(0.000, 0.999);
     ir = (int)(256 * clamp(r, intensity));
     ig = (int)(256 * clamp(g, intensity));
