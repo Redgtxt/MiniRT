@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rgb_slider.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:02:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 12:26:38 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:22:20 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static void	init_rgb_sliders(t_control_panel *cp, double *r, double *g,
 	green_dragging = cp->config_win->green_slider.is_dragging;
 	blue_dragging = cp->config_win->blue_slider.is_dragging;
 	cp->config_win->red_slider = (t_slider){60, 250, 300, 10, 20, 30, 0.0, 1.0,
-		*r, 0x808080, 0xFF0000, red_dragging};
+		*r, 0xFF0000, red_dragging};
 	cp->config_win->green_slider = (t_slider){60, 280, 300, 10, 20, 30, 0.0,
-		1.0, *g, 0x808080, 0x00FF00, green_dragging};
+		1.0, *g, 0x00FF00, green_dragging};
 	cp->config_win->blue_slider = (t_slider){60, 310, 300, 10, 20, 30, 0.0, 1.0,
-		*b, 0x808080, 0x0000FF, blue_dragging};
+		*b, 0x0000FF, blue_dragging};
 }
 
 static void	draw_rgb_sliders(t_control_panel *cp, double *r, double *g,

@@ -28,9 +28,6 @@ typedef struct s_light
 	vec3			cords[3];
 	double			brightness;
 	double			rgb[3];
-	double			range;
-	int				type;
-	double			intensity;
 	struct s_light	*prev;
 	struct s_light	*next;
 }	t_light;

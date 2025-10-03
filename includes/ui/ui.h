@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/03 14:02:43 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/03 14:22:20 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct s_slider
 	float			min_value;
 	float			max_value;
 	float			current_value;
-	int				color_bar;
 	int				color_handle;
 	int				is_dragging;
 }					t_slider;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_window.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/25 17:00:21 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:22:20 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	setup_control_components(t_control_panel *cp,
 
 	my_button = (t_button){100, 100, 200, 50, 0x00FF00};
 	my_slider = (t_slider){50, 200, 300, 10, 20, 30, 0.0, 1.0,
-		cp->amb_light.light_force, 0x808080, 0xFF0000, 0};
+		cp->amb_light.light_force, 0xFF0000, 0};
 	control_data->button = my_button;
 	control_data->slider = my_slider;
 	init_mat_select(&cp->config_win->material_selector);
