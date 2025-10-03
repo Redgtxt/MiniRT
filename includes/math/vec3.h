@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 13:05:12 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/30 14:56:31 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/03 14:02:43 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void vec3_negate(double out[3], const double v[3]);
 
 void vec3_zero(double v[3]);
 void vec3_unit_vector(double out[3], const double v[3]);
+void vec3_normalize(double out[3], const double v[3]);
 void vec3_sub_chain(double out[3], const double a[3], const double b[3],
                     const double c[3]);
 void vec3_random(double out[3]);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   interval.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:01:22 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 13:02:51 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:02:43 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/interval.h"
+#include "../../includes/math/interval.h"
 
 double	interval_size(t_interval interval)
 {

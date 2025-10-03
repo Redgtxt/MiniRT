@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:57:00 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:02:43 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,17 +141,6 @@ typedef struct s_win_config
 	t_image			image;
 }					t_win_config;
 
-typedef struct s_mlx
-{
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-}					t_mlx;
-
 // utils
 int					is_valid_sphere(t_control_panel *cp);
 int					is_valid_plane(t_control_panel *cp);
@@ -255,8 +244,6 @@ int					key_hook(int keycode, t_control_panel *cp);
 void				game_hooks(t_control_panel *control_panel);
 void				clear_image(t_control_panel *cp);
 void				config_antialising_render(int keycode,
-						t_control_panel *control_panel);
-int					init_values_main_win(t_mlx *mlx_data,
 						t_control_panel *control_panel);
 void				pixel_put_win_control(t_control_panel *cp, int x, int y,
 						int color);

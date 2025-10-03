@@ -28,6 +28,14 @@ MLX_DIR      = $(LIBFT_DIR)/minilibx-linux
 SRC_DIR      = ./src
 OBJ_DIR      = $(SRC_DIR)/obj
 INC_DIR      = ./includes
+# Header organization:
+# - core/: Basic types and constants  
+# - math/: Mathematical utilities (vec3, interval)
+# - graphics/: Rendering components (materials, ray, camera, lighting, render)
+# - objects/: Geometric objects (sphere, plane, cylinder, cone)
+# - ui/: User interface components
+# - system/: System integration (MLX wrapper, memory management)
+# - io/: Input/output (parsing, error handling)
 
 # ======================== #
 #        SRC/OBJ           #

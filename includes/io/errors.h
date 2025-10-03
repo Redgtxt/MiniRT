@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT_error_p.h                                   :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/18 16:37:42 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:02:43 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_ERROR_P_H
-# define MINIRT_ERROR_P_H
-# include "../Library/libft/libft.h"
+#ifndef ERRORS_H
+# define ERRORS_H
+# include "../../Library/libft/libft.h"
 # include <stdint.h>
 # include <stdio.h>
 
