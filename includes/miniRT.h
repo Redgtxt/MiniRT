@@ -14,15 +14,15 @@
 # define MINIRT_H
 
 /* Standard C libraries */
+# include <errno.h>
+# include <fcntl.h>
+# include <float.h>
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include <float.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <unistd.h>
 # include <time.h>
+# include <unistd.h>
 
 /* External libraries */
 # include "../Library/ft_printf/ft_printf.h"
@@ -35,26 +35,26 @@
 # include "core/types.h"
 
 /* Math includes */
-# include "math/vec3.h"
 # include "math/interval.h"
+# include "math/vec3.h"
 
 /* Graphics includes */
-# include "graphics/ray.h"
-# include "graphics/materials.h"
 # include "graphics/camera.h"
 # include "graphics/lighting.h"
+# include "graphics/materials.h"
+# include "graphics/ray.h"
 # include "graphics/render.h"
 
 /* Object includes */
-# include "objects/objects.h"
-# include "objects/sphere.h"
-# include "objects/plane.h"
-# include "objects/cylinder.h"
 # include "objects/cone.h"
+# include "objects/cylinder.h"
+# include "objects/objects.h"
+# include "objects/plane.h"
+# include "objects/sphere.h"
 
 /* System includes */
-# include "system/mlx_wrapper.h"
 # include "system/memory.h"
+# include "system/mlx_wrapper.h"
 
 /* UI includes */
 # include "ui/ui.h"

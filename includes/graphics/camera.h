@@ -19,28 +19,28 @@
 /* Camera structure */
 typedef struct s_camera
 {
-	vec3	cords[3];
-	vec3	vec3[3];
+	vec3		cords[3];
+	vec3		vec3[3];
 	mini_int	fov;
-	int		image_height;
-	int		image_width;
-	double	aspect_ratio;
-	double	pixel00_loc[3];
-	double	pixel_delta_u[3];
-	double	pixel_delta_v[3];
-	int		samples_per_pixel;
-	double	pixel_samples_scale;
-	double	lookat[3];
-	double	vup[3];
-	double	u[3];
-	double	v[3];
-	double	W[3];
-	double	max_bounces;
-	bool	antialiasing;
-}	t_camera;
+	int			image_height;
+	int			image_width;
+	double		aspect_ratio;
+	double		pixel00_loc[3];
+	double		pixel_delta_u[3];
+	double		pixel_delta_v[3];
+	int			samples_per_pixel;
+	double		pixel_samples_scale;
+	double		lookat[3];
+	double		vup[3];
+	double		u[3];
+	double		v[3];
+	double		W[3];
+	double		max_bounces;
+	bool		antialiasing;
+}				t_camera;
 
 /* Camera function prototypes */
-void	get_values_camera(t_control_panel *control_panel);
-void	move_camera_with_keys(int keycode, t_control_panel *cp);
+void			get_values_camera(t_control_panel *control_panel);
+void			move_camera_with_keys(int keycode, t_control_panel *cp);
 
 #endif

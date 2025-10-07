@@ -45,7 +45,8 @@ bool	get_rgb(double rgb[3], char *info, t_error_log *error_log);
 bool	get_material(t_material *object_material, double rgb[3], char *info,
 			t_error_log *error_log);
 bool	get_fov(mini_int *fov, char *info, t_error_log *error_log);
-bool	get_light_force(double *light_force, char *info, t_error_log *error_log);
+bool	get_light_force(double *light_force, char *info,
+			t_error_log *error_log);
 bool	get_brightness(double *brightness, char *info, t_error_log *error_log);
 bool	get_size(double *d, char *info, t_error_log *error_log);
 
