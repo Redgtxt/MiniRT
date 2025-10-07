@@ -12,10 +12,10 @@
 
 #include "../../includes/miniRT.h"
 
-//vai returnar o tamanho de um vetor
+// vai returnar o tamanho de um vetor
 double	vec3_lenght(const double vector[3])
 {
-    return (sqrt(lenght_squared(vector)));
+	return (sqrt(lenght_squared(vector)));
 }
 
 void	vec3_normalize(double out[3], const double v[3])
@@ -40,10 +40,10 @@ void	vec3_normalize(double out[3], const double v[3])
 /// onde A é a origem do raio e B é a direção do raio
 void	ray_at(double t, t_ray ray, double result[3])
 {
-    double scaled_direction[3];
+	double	scaled_direction[3];
 
-    vec3_scale(scaled_direction, ray.direction, t);
-    vec3_add(result, ray.origin, scaled_direction);
+	vec3_scale(scaled_direction, ray.direction, t);
+	vec3_add(result, ray.origin, scaled_direction);
 }
 
 /// @brief Change the value of a VECTOR

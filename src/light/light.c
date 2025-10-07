@@ -14,18 +14,18 @@
 
 static double	get_attenuation(double distance, double shadow_intensity)
 {
-    double attenuation;
+	double	attenuation;
 
-    attenuation = 1.0 / (LIGHT_CONSTANT + LIGHT_LINEAR * distance +
-									LIGHT_QUADRATIC * distance * distance);
-    attenuation *= shadow_intensity;
-    return (attenuation);
+	attenuation = 1.0 / (LIGHT_CONSTANT + LIGHT_LINEAR * distance
+			+ LIGHT_QUADRATIC * distance * distance);
+	attenuation *= shadow_intensity;
+	return (attenuation);
 }
 
 static void	apply_lighting(t_light_args *args, vec3 light_dir[3],
-				double attenuation)
+		double attenuation)
 {
-	t_specular_args spec_args;
+	t_specular_args	spec_args;
 
 	diffuse_comp(args, light_dir, attenuation);
 	if (args->rec->material->shininess > 0)
@@ -37,16 +37,15 @@ static void	apply_lighting(t_light_args *args, vec3 light_dir[3],
 
 void	process_light(t_light_args *args)
 {
-	vec3 light_dir[3];
-	double distance;
-	double shadow_intensity;
-	double attenuation;
+	vec3	light_dir[3];
+	double	distance;
+	double	shadow_intensity;
+	double	attenuation;
 
-	vec3_sub(light_dir, args->panel->light[args->i].cords,
-		args->rec->position);
+	vec3_sub(light_dir, args->panel->light[args->i].cords, args->rec->position);
 	distance = vec3_length(light_dir);
-	shadow_intensity = get_shadow_intensity(args->panel,
-		args->rec->position, &args->panel->light[args->i]);
+	shadow_intensity = get_shadow_intensity(args->panel, args->rec->position,
+			&args->panel->light[args->i]);
 	if (shadow_intensity > 0.0)
 	{
 		vec3_normalize(light_dir, light_dir);

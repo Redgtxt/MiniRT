@@ -23,19 +23,19 @@
 /// @note This function modifies the out vector directly.
 void	reflect(const double v[3], const double n[3], double out[3])
 {
-    double dot_product;
-    double scaled_normal[3];
-    
+	double	dot_product;
+	double	scaled_normal[3];
+
 	dot_product = vec3_dot(v, n);
-    vec3_scale(scaled_normal, n, 2.0 * dot_product);
-    vec3_sub(out, v, scaled_normal);
+	vec3_scale(scaled_normal, n, 2.0 * dot_product);
+	vec3_sub(out, v, scaled_normal);
 }
 
-void	refract(const double uv[3], const double n[3],
-			double etai_over_etat, double out[3])
+void	refract(const double uv[3], const double n[3], double etai_over_etat,
+		double out[3])
 {
-	t_refract_data data;
-	double r_out_parallel[3];
+	t_refract_data	data;
+	double			r_out_parallel[3];
 
 	vec3_negate(data.uv_negated, uv);
 	data.cos_theta = vec3_dot(data.uv_negated, n);
@@ -52,11 +52,11 @@ void	refract(const double uv[3], const double n[3],
 /// @return reflectance probability (0.0 to 1.0)
 double	schlick_reflectance(double cosine, double refraction_index)
 {
-    double r0;
+	double	r0;
 
 	r0 = (1.0 - refraction_index) / (1.0 + refraction_index);
-    r0 = r0 * r0;
-    return (r0 + (1.0 - r0) * pow((1.0 - cosine), 5));
+	r0 = r0 * r0;
+	return (r0 + (1.0 - r0) * pow((1.0 - cosine), 5));
 }
 
 /// @brief Se front_face for 1 significa que o raio bateu na parte de
@@ -66,11 +66,11 @@ double	schlick_reflectance(double cosine, double refraction_index)
 /// @param
 /// @param record
 void	set_face_normal(const t_ray *ray, const double outward_normal[3],
-			t_hit_record *record)
+		t_hit_record *record)
 {
-    record->front_face = vec3_dot(ray->direction, outward_normal) < 0;
-    if (record->front_face)
-        vec3_copy(record->normal, outward_normal);
-    else
-        vec3_negate(record->normal, outward_normal);
+	record->front_face = vec3_dot(ray->direction, outward_normal) < 0;
+	if (record->front_face)
+		vec3_copy(record->normal, outward_normal);
+	else
+		vec3_negate(record->normal, outward_normal);
 }

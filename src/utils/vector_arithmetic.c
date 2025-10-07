@@ -40,9 +40,9 @@ void	vec3_sub(double out[3], const double a[3], const double b[3])
 /// @param b second input vector
 void	vec3_multiply(double out[3], const double a[3], const double b[3])
 {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    out[2] = a[2] * b[2];
+	out[0] = a[0] * b[0];
+	out[1] = a[1] * b[1];
+	out[2] = a[2] * b[2];
 }
 
 /// @brief Divide a vector by a scalar
@@ -51,7 +51,7 @@ void	vec3_multiply(double out[3], const double a[3], const double b[3])
 /// @param t scalar divisor
 void	vec3_divide(double out[3], const double v[3], double t)
 {
-    vec3_scale(out, v, 1.0 / t);
+	vec3_scale(out, v, 1.0 / t);
 }
 
 /// @brief Scale a VECTOR by a scalar value

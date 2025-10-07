@@ -18,13 +18,12 @@
 /// @return
 void	init_ray(t_ray *ray)
 {
-    ray->origin[0] = 0;
-    ray->origin[1] = 0;
-    ray->origin[2] = 0;
-
-    ray->direction[0] = 0;
-    ray->direction[1] = 1;
-    ray->direction[2] = 0;
+	ray->origin[0] = 0;
+	ray->origin[1] = 0;
+	ray->origin[2] = 0;
+	ray->direction[0] = 0;
+	ray->direction[1] = 1;
+	ray->direction[2] = 0;
 }
 
 // vou dar a informacao para criar um novo raio
@@ -34,10 +33,10 @@ void	init_ray(t_ray *ray)
 /// @param origin origin point coordinates
 /// @param direction direction vector
 void	create_ray(t_ray *ray, const double origin[3],
-				const double direction[3])
+		const double direction[3])
 {
-    vec3_copy(ray->origin, origin);
-    vec3_copy(ray->direction, direction);
+	vec3_copy(ray->origin, origin);
+	vec3_copy(ray->direction, direction);
 }
 
 /// @brief Get ray origin (equivalent to origin() method)
@@ -45,7 +44,7 @@ void	create_ray(t_ray *ray, const double origin[3],
 /// @param out output array to store origin
 void	ray_origin(const t_ray *ray, double out[3])
 {
-    vec3_copy(out, ray->origin);
+	vec3_copy(out, ray->origin);
 }
 
 /// @brief Get ray direction (equivalent to direction() method)
@@ -53,5 +52,5 @@ void	ray_origin(const t_ray *ray, double out[3])
 /// @param out output array to store direction
 void	ray_direction(const t_ray *ray, double out[3])
 {
-    vec3_copy(out, ray->direction);
+	vec3_copy(out, ray->direction);
 }

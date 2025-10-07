@@ -13,7 +13,7 @@
 #include "../../includes/miniRT.h"
 
 static void	get_checker_color(t_hit_record *rec, double scale,
-			double *checker_color)
+		double *checker_color)
 {
 	int	x;
 	int	y;

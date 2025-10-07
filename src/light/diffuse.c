@@ -14,13 +14,13 @@
 
 void	diffuse_comp(t_light_args *args, vec3 light_dir[3], double attenuation)
 {
-    vec3 diffuse[3];
-	double diff; 
-	
+	vec3	diffuse[3];
+	double	diff;
+
 	diff = fmax(vec3_dot(args->rec->normal, light_dir), 0.0);
-    vec3_scale(diffuse, args->rec->material->albedo, diff * DIFFUSE_INTENSITY);
-    vec3_multiply(diffuse, diffuse, args->panel->light[args->i].rgb);
-    vec3_scale(diffuse, diffuse,
-			args->panel->light[args->i].brightness * attenuation);
-    vec3_add(args->color, args->color, diffuse);
+	vec3_scale(diffuse, args->rec->material->albedo, diff * DIFFUSE_INTENSITY);
+	vec3_multiply(diffuse, diffuse, args->panel->light[args->i].rgb);
+	vec3_scale(diffuse, diffuse, args->panel->light[args->i].brightness
+		* attenuation);
+	vec3_add(args->color, args->color, diffuse);
 }

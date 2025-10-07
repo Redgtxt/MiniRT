@@ -13,7 +13,7 @@
 #include "../../includes/miniRT.h"
 
 bool	metal_scatter(const t_ray *r_in, t_hit_record *rec,
-			t_data_scatter *data)
+		t_data_scatter *data)
 {
 	double	reflected[3];
 

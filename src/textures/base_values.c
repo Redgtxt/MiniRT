@@ -14,7 +14,7 @@
 
 void	set_lambertian_material(t_material *material, double rgb[3])
 {
-	double specular;
+	double	specular;
 
 	specular = LAMBERTIAN_SPECULAR;
 	material->type = LAMBERTIAN;
@@ -26,7 +26,7 @@ void	set_lambertian_material(t_material *material, double rgb[3])
 
 void	set_metal_material(t_material *material, double rgb[3])
 {
-	double specular;
+	double	specular;
 
 	specular = METAL_SPECULAR;
 	material->type = METAL;
@@ -38,7 +38,7 @@ void	set_metal_material(t_material *material, double rgb[3])
 
 void	set_glass_material(t_material *material)
 {
-	double specular;
+	double	specular;
 
 	specular = GLASS_SPECULAR;
 	material->type = GLASS;
@@ -50,7 +50,7 @@ void	set_glass_material(t_material *material)
 
 void	set_checker_material(t_material *material, double rgb[3])
 {
-	double specular;
+	double	specular;
 
 	specular = CHECKER_SPECULAR;
 	material->type = CHECKERPATTERN;
@@ -62,8 +62,8 @@ void	set_checker_material(t_material *material, double rgb[3])
 
 void	set_solid_material(t_material *material, double rgb[3])
 {
-	double specular;
-	
+	double	specular;
+
 	specular = SOLID_SPECULAR;
 	material->type = SOLID;
 	vec3_copy(material->albedo, rgb);

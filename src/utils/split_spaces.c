@@ -64,7 +64,7 @@ char	**split_spaces(char const *s)
 	int		i;
 
 	count_words = ft_count_words(s);
-	ptr = (char **) ft_calloc((count_words + 1), sizeof(char *));
+	ptr = (char **)ft_calloc((count_words + 1), sizeof(char *));
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
@@ -73,7 +73,7 @@ char	**split_spaces(char const *s)
 		while (*s == ' ' || *s == '\t')
 			s++;
 		wrd_len = ft_wrdlen(s);
-		ptr[i] = (char *) ft_calloc(wrd_len + 1, sizeof(char));
+		ptr[i] = (char *)ft_calloc(wrd_len + 1, sizeof(char));
 		if (ptr[i] == NULL)
 		{
 			ft_free_double_array(ptr);

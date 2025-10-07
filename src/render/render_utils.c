@@ -14,22 +14,22 @@
 
 void	switch_antialiasing_message(t_control_panel *control_panel)
 {
-    if (control_panel->camera.antialiasing)
-        printf("\n" GRNHB BBLK "Antialiasing: ON" RESET "\n");
-    else
-        printf("\n" REDHB BBLK "Antialiasing: OFF" RESET "\n");
+	if (control_panel->camera.antialiasing)
+		printf("\n" GRNHB BBLK "Antialiasing: ON" RESET "\n");
+	else
+		printf("\n" REDHB BBLK "Antialiasing: OFF" RESET "\n");
 }
 
 void	print_current_rendering_process(t_control_panel *control_panel,
-								t_coord *coord)
+		t_coord *coord)
 {
-    if (coord->y % 10 == 0)
-        ft_printf(BHYEL "\rScanlines remaining: %d " RESET,
+	if (coord->y % 10 == 0)
+		ft_printf(BHYEL "\rScanlines remaining: %d " RESET,
 			(control_panel->camera.image_height - coord->y));
 }
 
-void	color_pixel(t_control_panel *control_panel, t_ray *ray,
-				t_coord *coord, t_pixel_color *pixel_color)
+void	color_pixel(t_control_panel *control_panel, t_ray *ray, t_coord *coord,
+		t_pixel_color *pixel_color)
 {
 	*ray = get_ray(*coord, control_panel);
 	ray_color(control_panel, control_panel->camera.max_bounces, ray,
@@ -37,11 +37,11 @@ void	color_pixel(t_control_panel *control_panel, t_ray *ray,
 }
 
 void	apply_pixel_color(t_control_panel *control_panel, t_coord *coord,
-				t_pixel_color *pixel_color)
+		t_pixel_color *pixel_color)
 {
-	int rgb;
+	int	rgb;
 
-	rgb = write_color(pixel_color->pixel_color[0],
-			pixel_color->pixel_color[1], pixel_color->pixel_color[2]);
+	rgb = write_color(pixel_color->pixel_color[0], pixel_color->pixel_color[1],
+			pixel_color->pixel_color[2]);
 	my_mlx_pixel_put(control_panel, coord->x, coord->y, rgb);
 }

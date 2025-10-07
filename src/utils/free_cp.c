@@ -18,10 +18,10 @@ void	free_control_panel(t_control_panel *control_panel)
 		free_light(control_panel->light);
 	if (control_panel->sphere)
 		free_sphere(control_panel->sphere);
-    if (control_panel->plane)
-    	free_plane(control_panel->plane);
-    if (control_panel->cylinder)
-   		free_cylinder(control_panel->cylinder);
+	if (control_panel->plane)
+		free_plane(control_panel->plane);
+	if (control_panel->cylinder)
+		free_cylinder(control_panel->cylinder);
 	if (control_panel->cone)
 		free_cone(control_panel->cone);
 	if (control_panel->error_log.element)

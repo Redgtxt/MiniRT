@@ -13,7 +13,7 @@
 #include "../../includes/miniRT.h"
 
 bool	scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec,
-				t_data_scatter *data_scatter)
+		t_data_scatter *data_scatter)
 {
 	if (mat->type == LAMBERTIAN)
 		return (lambertian_scatter(rec, data_scatter));

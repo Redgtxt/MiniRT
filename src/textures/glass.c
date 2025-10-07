@@ -24,7 +24,7 @@ static double	get_glass_ri(const t_hit_record *rec)
 }
 
 static bool	get_glass_direction(const double *unit_direction,
-				const t_hit_record *rec, double ri, double *direction)
+		const t_hit_record *rec, double ri, double *direction)
 {
 	double	neg_unit_direction[3];
 	double	cos_theta;
@@ -37,8 +37,8 @@ static bool	get_glass_direction(const double *unit_direction,
 		cos_theta = 1.0;
 	sin_theta = sqrt(1.0 - cos_theta * cos_theta);
 	cannot_refract = ri * sin_theta > 1.0;
-	if (cannot_refract
-		|| schlick_reflectance(cos_theta, ri) > random_double_0_to_1())
+	if (cannot_refract || schlick_reflectance(cos_theta,
+			ri) > random_double_0_to_1())
 	{
 		reflect(unit_direction, rec->normal, direction);
 		return (true);
@@ -48,7 +48,7 @@ static bool	get_glass_direction(const double *unit_direction,
 }
 
 bool	glass_scatter(const t_ray *r_in, t_hit_record *rec,
-			t_data_scatter *data_scatter)
+		t_data_scatter *data_scatter)
 {
 	double	unit_direction[3];
 	double	direction[3];

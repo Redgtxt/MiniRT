@@ -13,7 +13,7 @@
 #include "../../includes/miniRT.h"
 
 void	calc_perpendicular(t_refract_data *data, const double uv[3],
-			const double n[3], double etai_over_etat)
+		const double n[3], double etai_over_etat)
 {
 	vec3_scale(data->cos_theta_n, n, data->cos_theta);
 	vec3_add(data->temp, uv, data->cos_theta_n);
@@ -21,7 +21,7 @@ void	calc_perpendicular(t_refract_data *data, const double uv[3],
 }
 
 void	calc_parallel(double r_out_parallel[3], const double n[3],
-			double r_out_perp[3])
+		double r_out_perp[3])
 {
 	double	perp_length_sq;
 	double	parallel_magnitude;

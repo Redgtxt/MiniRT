@@ -94,7 +94,7 @@ void	lstadd_last_plane(t_control_panel *control_panel, t_plane *new_plane)
 }
 
 void	lstadd_last_cylinder(t_control_panel *control_panel,
-					t_cylinder *new_cylinder)
+		t_cylinder *new_cylinder)
 {
 	t_cylinder	*temp;
 	t_cylinder	*last;
