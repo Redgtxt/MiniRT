@@ -46,7 +46,8 @@ typedef enum e_mt_t
 	LAMBERTIAN,
 	METAL,
 	CHECKERPATTERN,
-	GLASS
+	GLASS,
+	SOLID
 }	t_material_type;
 
 /* Data counting structure */

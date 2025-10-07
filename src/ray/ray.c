@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:39:18 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/01 13:33:47 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/03 16:10:28by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@ static void	process_scatter(t_scatter_args *args, vec3 color[3])
     }
 }
 
+void	init_scatter_args(t_scatter_args *args, int depth, const t_ray *ray,
+			t_hit_record *rec)
+{
+	args->depth = depth;
+	args->ray = ray;
+	args->rec = rec;
+}
+
 void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 			double out_color[3])
 {
@@ -63,11 +71,16 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
     {
         if (rec.material->type != GLASS)
             process_lights(panel, &rec, ray, color);
-        scatter_args.panel = panel;
-    	scatter_args.depth = depth;
-    	scatter_args.ray = ray;
-    	scatter_args.rec = &rec;
-        process_scatter(&scatter_args, color);
+        if (rec.material->type == SOLID)
+			solid_scatter(panel, &rec, color);
+        else
+        {
+            scatter_args.panel = panel;
+            scatter_args.depth = depth;
+            scatter_args.ray = ray;
+            scatter_args.rec = &rec;
+            process_scatter(&scatter_args, color);
+        }
         vec3_copy(out_color, color);
     }
     else

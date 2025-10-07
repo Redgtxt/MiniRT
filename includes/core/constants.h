@@ -46,4 +46,29 @@
 # define OVERFLOW_MAX_LIMIT 2147483647
 # define OVERFLOW_MIN_LIMIT -2147483648
 
+/* Lambertian material properties */
+# define LAMBERTIAN_SPECULAR 0.5
+# define LAMBERTIAN_SHININESS 32.0
+# define LAMBERTIAN_REFRACTION_INDEX 1.0
+
+/* Metal material properties */
+# define METAL_SPECULAR 1.0
+# define METAL_SHININESS 200.0
+# define METAL_REFRACTION_INDEX 1.0
+
+/* Glass material properties */
+# define GLASS_SPECULAR 1.0
+# define GLASS_SHININESS 200.0
+# define GLASS_REFRACTION_INDEX 1.5
+
+/* Checker pattern material properties */
+# define CHECKER_SPECULAR 0.5
+# define CHECKER_SHININESS 32.0
+# define CHECKER_SCALE 0.5
+
+/* Solid material properties */
+# define SOLID_SPECULAR 0.3
+# define SOLID_SHININESS 64.0
+# define SOLID_REFRACTION_INDEX 1.0
+
 #endif

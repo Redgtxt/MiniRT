@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_dropdown_materials.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:55:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 12:46:03 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:49:49 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_mat_select(t_mat_select *selector)
 	selector->y = 375;
 	selector->width = 125;
 	selector->height = 30;
-	selector->dropdown_height = 125;
+	selector->dropdown_height = 150;
 	selector->is_open = 0;
 	selector->selected_material = LAMBERTIAN;
 	selector->hover_index = -1;
@@ -29,6 +29,7 @@ void	init_mat_select(t_mat_select *selector)
 	selector->material_names[1] = "METAL";
 	selector->material_names[2] = "CHECKER";
 	selector->material_names[3] = "GLASS";
+	selector->material_names[4] = "SOLID";
 }
 
 int	is_mouse_on_selector_button(t_mat_select *selector, int x, int y)
@@ -73,7 +74,7 @@ int	get_dropdown_item_index(t_mat_select *selector, int x, int y)
 	{
 		relative_y = y - dropdown_y;
 		index = relative_y / selector->item_height;
-		if (index >= 0 && index < 4)
+		if (index >= 0 && index < 5)
 			return (index);
 	}
 	return (-1);

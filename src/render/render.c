@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/02 16:37:03 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/03 15:56:30 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 static void	antialiasing(t_pixel_color *pixel, t_coord *coord,
 				t_control_panel *control_panel, t_ray *ray)
 {
+    t_pixel_color	sample_pixel;
+    
     pixel->sample = 0;
     while (control_panel->camera.samples_per_pixel > pixel->sample)
     {
-        vec3_zero(pixel->sample_color);
-        color_pixel(control_panel, ray, coord, pixel);
+        vec3_zero(sample_pixel.pixel_color);
+        color_pixel(control_panel, ray, coord, &sample_pixel);
 		vec3_add(pixel->pixel_color, pixel->pixel_color,
-			pixel->sample_color);
+			sample_pixel.pixel_color);
         pixel->sample++;
     }
     pixel->pixel_samples_scale = 1.0 /

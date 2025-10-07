@@ -1,0 +1,20 @@
+# Simple scene to test antialiasing brightness
+# This should help identify if the problem is with lighting or sampling
+
+# Strong ambient light to clearly see the effect
+A					0.5					255,255,255
+
+# Camera
+C 	0,0,3						0,0,-1	70
+
+# Strong directional light
+L 	2,2,2				1.0				255,255,255
+
+# Single SOLID sphere - should maintain brightness with antialiasing
+sp 	0,0,0		    1.2 						200,100,100		SOLID
+
+# Single LAMBERTIAN sphere for comparison
+sp 	0,-3,0		    1.2 						200,100,100		LAMBERTIAN
+
+# Background plane
+pl 	0,-2,0			0,1,0 						150,150,150 	SOLID

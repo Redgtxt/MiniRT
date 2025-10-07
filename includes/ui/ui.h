@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/03 14:22:20 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/03 15:49:49 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_mat_select
 	int				is_open;
 	int				selected_material;
 	int				hover_index;
-	char			*material_names[4];
+	char			*material_names[5];
 	int				item_height;
 	int				color_button;
 	int				color_dropdown;

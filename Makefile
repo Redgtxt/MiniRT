@@ -50,7 +50,7 @@ SRC_FILES = main.c \
 	$(addprefix parsing/, parsing.c parse_elements.c parse_objects.c parse_values_1.c parse_values_2.c parse_values_utils.c init_element_array.c initialization.c) \
 	$(addprefix interval/, interval.c) \
 	$(addprefix light/, light.c ambient.c diffuse.c specular.c shadow.c) \
-	$(addprefix textures/, textures.c base_values.c checker.c glass.c lambertian.c metal.c) \
+	$(addprefix textures/, textures.c base_values.c checker.c glass.c lambertian.c metal.c solid.c) \
 	$(addprefix ray/, ray.c get_ray.c ray_utils.c) \
 	$(addprefix effects/, antialiasing.c) \
 	$(addprefix render/, render.c render_utils.c) \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material_selector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:35:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 12:46:03 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:15:16 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	draw_dropdown_items(t_control_panel *cp, t_mat_select *selector)
 	dropdown_y = selector->y + selector->height;
 	draw_dropdown_background(cp, selector, dropdown_y);
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
 		draw_single_dropdown_item(cp, selector, i, dropdown_y);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_values_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/18 16:37:56 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:49:49 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ bool	get_material(t_material *object_material, double rgb[3],
 	else if (info_len == ft_strlen("CHECKERPATTERN")
 		&& !ft_strncmp(info, "CHECKERPATTERN", info_len))
 		set_checker_material(object_material, rgb);
+	else if (info_len == ft_strlen("SOLID")
+		&& !ft_strncmp(info, "SOLID", info_len))
+		set_solid_material(object_material, rgb);
 	else
 	{
 		error_log->error_str_detail = ft_strdup(info);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_button.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 15:11:27 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/18 12:24:25 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:21:54 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
