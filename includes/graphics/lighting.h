@@ -63,7 +63,7 @@ typedef struct s_intensity_data
 double				get_shadow_intensity(t_control_panel *panel,
 						t_vec3 point[3], t_light *light);
 void				diffuse_comp(t_light_args *args, t_vec3 light_dir[3],
-						double attenuation);
+						double atten);
 void				process_light(t_light_args *args);
 void				set_amb_light(t_control_panel *control_panel,
 						const t_ray *ray, double out_color[3]);

@@ -44,9 +44,9 @@ void			get_values_camera(t_control_panel *control_panel);
 void			move_camera_with_keys(int keycode, t_control_panel *cp);
 void			setup_camera_dimensions(t_control_panel *control_panel);
 double			calculate_focal_length(t_control_panel *cp);
-void			apply_movement(double camera_pos[3], double axis[3], 
+void			apply_movement(double camera_pos[3], double axis[3],
 					double speed, bool *moved);
-void			calculate_pixel00_location(t_control_panel *cp, 
+void			calculate_pixel00_location(t_control_panel *cp,
 					double focal_length, double vp_u[3], double vp_v[3]);
 
 #endif

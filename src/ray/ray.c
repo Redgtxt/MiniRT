@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/08 15:28:01 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:07:26 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ void	init_scatter_args(t_scatter_args *args, int depth, const t_ray *ray,
 	args->rec = rec;
 }
 
+static bool	depth_check(int depth, double out_color[3])
+{
+	if (depth <= 0)
+	{
+		vec3_zero(out_color);
+		return (true);
+	}
+	return (false);
+}
+
 void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 		double out_color[3])
 {
@@ -61,13 +71,10 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 	t_vec3			color[3];
 	t_scatter_args	scatter_args;
 
-	if (depth <= 0)
-	{
-		vec3_zero(out_color);
+	if (depth_check(depth, out_color))
 		return ;
-	}
 	vec3_zero(color);
-	if (hit_world(panel, ray, interval_create(0.001, (double)D_INFINITY), &rec))
+	if (hit_world(panel, ray, interval_create(0.001, D_INFINITY), &rec))
 	{
 		if (rec.material->type != GLASS)
 			process_lights(panel, &rec, ray, color);
