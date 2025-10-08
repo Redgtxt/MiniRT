@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/07 17:06:35 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:28:01 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
 static void	process_lights(t_control_panel *panel, t_hit_record *rec,
-		const t_ray *ray, vec3 color[3])
+		const t_ray *ray, t_vec3 color[3])
 {
 	size_t			i;
 	t_light_args	light_args;
@@ -31,10 +31,10 @@ static void	process_lights(t_control_panel *panel, t_hit_record *rec,
 	}
 }
 
-static void	process_scatter(t_scatter_args *args, vec3 color[3])
+static void	process_scatter(t_scatter_args *args, t_vec3 color[3])
 {
 	t_data_scatter	data_scatter;
-	vec3			scattered_color[3];
+	t_vec3			scattered_color[3];
 
 	if (scatter(args->rec->material, args->ray, args->rec, &data_scatter))
 	{
@@ -58,7 +58,7 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 		double out_color[3])
 {
 	t_hit_record	rec;
-	vec3			color[3];
+	t_vec3			color[3];
 	t_scatter_args	scatter_args;
 
 	if (depth <= 0)
@@ -67,7 +67,7 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 		return ;
 	}
 	vec3_zero(color);
-	if (hit_world(panel, ray, interval_create(0.001, D_INFINITY), &rec))
+	if (hit_world(panel, ray, interval_create(0.001, (double)D_INFINITY), &rec))
 	{
 		if (rec.material->type != GLASS)
 			process_lights(panel, &rec, ray, color);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:42:40 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/02 14:49:07 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:25:03 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static double	get_attenuation(double distance, double shadow_intensity)
 	return (attenuation);
 }
 
-static void	apply_lighting(t_light_args *args, vec3 light_dir[3],
+static void	apply_lighting(t_light_args *args, t_vec3 light_dir[3],
 		double attenuation)
 {
 	t_specular_args	spec_args;
@@ -37,7 +37,7 @@ static void	apply_lighting(t_light_args *args, vec3 light_dir[3],
 
 void	process_light(t_light_args *args)
 {
-	vec3	light_dir[3];
+	t_vec3	light_dir[3];
 	double	distance;
 	double	shadow_intensity;
 	double	attenuation;

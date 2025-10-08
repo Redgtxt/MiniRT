@@ -21,8 +21,8 @@
 /* Cone structure */
 typedef struct s_cone
 {
-	vec3			cords[3];
-	vec3			vec3[3];
+	t_vec3			cords[3];
+	t_vec3			vec3[3];
 	double			d;
 	double			radius;
 	double			height;

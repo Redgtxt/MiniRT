@@ -40,7 +40,7 @@
 
 /* Mathematical constants */
 # define PI 3.1415926535897932385
-# define D_INFINITY ((double)INFINITY)
+# define D_INFINITY INFINITY
 
 /* Overflow limits */
 # define OVERFLOW_MAX_LIMIT 2147483647

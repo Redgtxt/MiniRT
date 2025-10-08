@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_values_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/03 15:49:49 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:27:33 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-bool	get_coord(vec3 *coord, char *info, t_error_log *error_log)
+bool	get_coord(t_vec3 *coord, char *info, t_error_log *error_log)
 {
 	char	**array;
 
@@ -32,7 +32,7 @@ bool	get_coord(vec3 *coord, char *info, t_error_log *error_log)
 	return (true);
 }
 
-bool	get_vector(vec3 *vector, char *info, t_error_log *error_log)
+bool	get_vector(t_vec3 *vector, char *info, t_error_log *error_log)
 {
 	char	**array;
 

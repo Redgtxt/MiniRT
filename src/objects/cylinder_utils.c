@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:20:23 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/09/30 17:16:45 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:34:27 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-double	pont_dist(vec3 a[3], vec3 b[3])
+double	pont_dist(t_vec3 a[3], t_vec3 b[3])
 {
-	vec3	res[3];
+	t_vec3	res[3];
 
 	vec3_sub(res, a, b);
 	return (fabs(vec3_lenght(res)));
@@ -46,7 +46,7 @@ void	init_cylinder_body_vars(t_cylinder_body_vars *vars,
 		* cylinder->radius;
 }
 
-void	init_have_hit_cylinder_struct(t_have_hit_cylinder_vars *vars,
+void	init_have_hit_cyl_struct(t_have_hit_cylinder_vars *vars,
 		t_cylinder *cylinder, t_interval t_ray)
 {
 	vars->hit_anything = false;

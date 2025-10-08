@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_collision.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:22:02 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/07 17:04:58 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:34:35 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	have_hit_cylinder(t_cylinder *cylinder, const t_ray *ray,
 {
 	t_have_hit_cylinder_vars	vars;
 
-	init_have_hit_cylinder_struct(&vars, cylinder, t_ray);
+	init_have_hit_cyl_struct(&vars, cylinder, t_ray);
 	have_hit_cylinder_caps(&vars, ray, t_ray, record);
 	have_hit_cylinder_body(&vars, ray, t_ray, record);
 	*cylinder = vars.original_cylinder;

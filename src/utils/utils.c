@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:10:48 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/02 15:05:08 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:30:06 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	double_array_len(char **array)
 	return (i);
 }
 
-bool	ft_atoc(const char *str, mini_int *dest)
+bool	ft_atoc(const char *str, t_mini_int *dest)
 {
 	int	value;
 
@@ -36,7 +36,7 @@ bool	ft_atoc(const char *str, mini_int *dest)
 			return (false);
 		str++;
 	}
-	*dest = (mini_int)value;
+	*dest = (t_mini_int)value;
 	return (true);
 }
 

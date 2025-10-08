@@ -16,8 +16,8 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-typedef unsigned char		mini_int;
-typedef double				vec3;
+typedef unsigned char		t_mini_int;
+typedef double				t_vec3;
 
 /* Forward declarations */
 typedef struct s_cp			t_control_panel;

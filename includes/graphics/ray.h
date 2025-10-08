@@ -20,7 +20,7 @@
 /* Ray structure */
 typedef struct s_ray
 {
-	vec3			origin[3];
+	t_vec3			origin[3];
 	double			direction[3];
 }					t_ray;
 
@@ -39,7 +39,7 @@ typedef struct s_specular_args
 {
 	t_hit_record	*rec;
 	const t_ray		*ray;
-	vec3			*light_dir;
+	t_vec3			*light_dir;
 	t_light			*light;
 	double			attenuation;
 }					t_specular_args;

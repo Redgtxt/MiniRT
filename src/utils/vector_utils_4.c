@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vector_utils_4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:21:10 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/07 17:11:55 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:29:03 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-void	vec3_add_dir(vec3 original[3], vec3 dir[3], double dist)
+void	vec3_add_dir(t_vec3 original[3], t_vec3 dir[3], double dist)
 {
 	original[0] = original[0] + dir[0] * dist;
 	original[1] = original[1] + dir[1] * dist;

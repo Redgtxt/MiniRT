@@ -39,12 +39,12 @@ bool	parse_cone(t_control_panel *control_panel, char **element_info,
 			t_error_log *error_log);
 
 /* Value parsing functions */
-bool	get_coord(vec3 *coord, char *info, t_error_log *error_log);
-bool	get_vector(vec3 *vector, char *info, t_error_log *error_log);
+bool	get_coord(t_vec3 *coord, char *info, t_error_log *error_log);
+bool	get_vector(t_vec3 *vector, char *info, t_error_log *error_log);
 bool	get_rgb(double rgb[3], char *info, t_error_log *error_log);
 bool	get_material(t_material *object_material, double rgb[3], char *info,
 			t_error_log *error_log);
-bool	get_fov(mini_int *fov, char *info, t_error_log *error_log);
+bool	get_fov(t_mini_int *fov, char *info, t_error_log *error_log);
 bool	get_light_force(double *light_force, char *info,
 			t_error_log *error_log);
 bool	get_brightness(double *brightness, char *info, t_error_log *error_log);
@@ -59,7 +59,7 @@ bool	parse_number_elements(t_data data, t_error_log *error_log);
 
 /* Utility functions */
 size_t	double_array_len(char **array);
-bool	ft_atoc(const char *str, mini_int *dest);
+bool	ft_atoc(const char *str, t_mini_int *dest);
 bool	ft_atod(const char *str, double *dest);
 char	**split_spaces(char const *s);
 

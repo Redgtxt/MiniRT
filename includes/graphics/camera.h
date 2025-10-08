@@ -19,9 +19,9 @@
 /* Camera structure */
 typedef struct s_camera
 {
-	vec3		cords[3];
-	vec3		vec3[3];
-	mini_int	fov;
+	t_vec3		cords[3];
+	t_vec3		vec3[3];
+	t_mini_int	fov;
 	int			image_height;
 	int			image_width;
 	double		aspect_ratio;
@@ -34,7 +34,7 @@ typedef struct s_camera
 	double		vup[3];
 	double		u[3];
 	double		v[3];
-	double		W[3];
+	double		w[3];
 	double		max_bounces;
 	bool		antialiasing;
 }				t_camera;

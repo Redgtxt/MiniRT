@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   diffuse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:37:43 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/02 14:49:37 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:24:42 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-void	diffuse_comp(t_light_args *args, vec3 light_dir[3], double attenuation)
+void	diffuse_comp(t_light_args *args, t_vec3 light_dir[3], double attenuation)
 {
-	vec3	diffuse[3];
+	t_vec3	diffuse[3];
 	double	diff;
 
 	diff = fmax(vec3_dot(args->rec->normal, light_dir), 0.0);

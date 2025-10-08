@@ -12,10 +12,10 @@
 
 #include "../../includes/miniRT.h"
 
-bool	solid_scatter(t_control_panel *panel, t_hit_record *rec, vec3 color[3])
+bool	solid_scatter(t_control_panel *panel, t_hit_record *rec, t_vec3 color[3])
 {
-	vec3	ambient_color[3];
-	vec3	material_ambient[3];
+	t_vec3	ambient_color[3];
+	t_vec3	material_ambient[3];
 
 	vec3_scale(ambient_color, panel->amb_light.rgb,
 		panel->amb_light.light_force);

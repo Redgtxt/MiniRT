@@ -21,8 +21,8 @@
 /* Plane structure */
 typedef struct s_plane
 {
-	vec3			cords[3];
-	vec3			vec3[3];
+	t_vec3			cords[3];
+	t_vec3			vec3[3];
 	double			rgb[3];
 	t_material		material;
 	struct s_plane	*prev;

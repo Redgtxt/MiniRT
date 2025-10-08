@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_click_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:28:17 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/09/30 19:09:27 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:18:35 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_sphere_hit(t_control_panel *cp, t_ray *ray,
 	t_hit_record	sphere_record;
 	t_interval		t_ray;
 
-	t_ray = interval_create(0.001, D_INFINITY);
+	t_ray = interval_create(0.001, (double)D_INFINITY);
 	i = 0;
 	while (i < cp->data.sphere_count)
 	{
@@ -43,7 +43,7 @@ static int	check_plane_hit(t_control_panel *cp, t_ray *ray,
 	t_hit_record	plane_record;
 	t_interval		t_ray;
 
-	t_ray = interval_create(0.001, D_INFINITY);
+	t_ray = interval_create(0.001, (double)D_INFINITY);
 	i = 0;
 	while (i < cp->data.plane_count)
 	{
@@ -67,7 +67,7 @@ static int	check_cylinder_hit(t_control_panel *cp, t_ray *ray,
 	t_hit_record	cylinder_record;
 	t_interval		t_ray;
 
-	t_ray = interval_create(0.001, D_INFINITY);
+	t_ray = interval_create(0.001, (double)D_INFINITY);
 	i = 0;
 	while (i < cp->data.cylinder_count)
 	{
@@ -91,7 +91,7 @@ static int	check_cone_hit(t_control_panel *cp, t_ray *ray,
 	t_hit_record	cone_record;
 	t_interval		t_ray;
 
-	t_ray = interval_create(0.001, D_INFINITY);
+	t_ray = interval_create(0.001, (double)D_INFINITY);
 	i = 0;
 	while (i < cp->data.cone_count)
 	{
@@ -120,7 +120,7 @@ int	find_clicked_object(t_control_panel *cp, int mouse_x, int mouse_y,
 	coord.x = mouse_x;
 	coord.y = mouse_y;
 	ray = get_ray(coord, cp);
-	t_ray = interval_create(0.001, D_INFINITY);
+	t_ray = interval_create(0.001, (double)D_INFINITY);
 	if (!hit_world(cp, &ray, t_ray, &record))
 		return (-1);
 	result = check_sphere_hit(cp, &ray, &record, obj_type);

@@ -14,6 +14,7 @@
 # define MATERIALS_H
 
 # include "../core/types.h"
+# include "ray.h"
 
 /* Material structure */
 typedef struct s_mt
@@ -45,7 +46,7 @@ bool				glass_scatter(const t_ray *r_in, t_hit_record *rec,
 bool				checker_scatter(t_hit_record *rec,
 						t_data_scatter *data_scatter);
 bool				solid_scatter(t_control_panel *panel, t_hit_record *rec,
-						vec3 color[3]);
+						t_vec3 color[3]);
 
 /* Material setup functions */
 void				set_lambertian_material(t_material *material,

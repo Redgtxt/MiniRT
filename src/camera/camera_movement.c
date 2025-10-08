@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:44:43 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/14 14:49:04 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:38:01 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void move_camera_with_keys(int keycode, t_control_panel *cp)
     // Movement based on camera's orthonormal basis (u, v, W)
     if (keycode == KEY_W) // Forward (negative W direction)
     {
-        vec3_scale(direction, cp->camera.W, -move_speed);
+        vec3_scale(direction, cp->camera.w, -move_speed);
         vec3_add(camera_pos, camera_pos, direction);
         moved = true;
     }
     else if (keycode == KEY_S) // Backward (positive W direction)
     {
-        vec3_scale(direction, cp->camera.W, move_speed);
+        vec3_scale(direction, cp->camera.w, move_speed);
         vec3_add(camera_pos, camera_pos, direction);
         moved = true;
     }

@@ -6,13 +6,13 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/17 16:51:26 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:29:58 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-bool	get_fov(mini_int *fov, char *info, t_error_log *error_log)
+bool	get_fov(t_mini_int *fov, char *info, t_error_log *error_log)
 {
 	size_t	i;
 

@@ -21,7 +21,7 @@
 /* Sphere structure */
 typedef struct s_sphere
 {
-	vec3			cords[3];
+	t_vec3			cords[3];
 	double			d;
 	double			radius;
 	double			rgb[3];

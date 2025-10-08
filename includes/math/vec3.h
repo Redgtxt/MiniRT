@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vec3.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 13:05:12 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/03 14:02:43 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:32:20 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC3_H
 # define VEC3_H
-
-typedef double	vec3;
 
 /*Vectos Utils*/
 double			vec3_lenght(const double vector[3]);

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   specular.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:37:43 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/02 14:42:22 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/08 15:26:10 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
 void	init_spec_args(t_specular_args *spec_args, t_light_args *args,
-		vec3 light_dir[3], double attenuation)
+		t_vec3 light_dir[3], double attenuation)
 {
 	spec_args->rec = args->rec;
 	spec_args->ray = args->ray;
@@ -24,8 +24,8 @@ void	init_spec_args(t_specular_args *spec_args, t_light_args *args,
 
 static double	calculate_spec(t_specular_args *args)
 {
-	vec3	view_dir[3];
-	vec3	reflect_dir[3];
+	t_vec3	view_dir[3];
+	t_vec3	reflect_dir[3];
 	double	spec;
 
 	vec3_negate(view_dir, args->ray->direction);
@@ -36,10 +36,10 @@ static double	calculate_spec(t_specular_args *args)
 	return (spec);
 }
 
-void	add_specular(t_specular_args *args, vec3 color[3])
+void	add_specular(t_specular_args *args, t_vec3 color[3])
 {
 	double	spec;
-	vec3	specular[3];
+	t_vec3	specular[3];
 
 	spec = calculate_spec(args);
 	vec3_scale(specular, args->rec->material->specular, spec

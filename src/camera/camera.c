@@ -40,15 +40,15 @@ static void setup_camera_viewport(t_control_panel *control_panel)
 
     // Calculate the u,v,w unit basis vectors for the camera coordinate frame
     // w = unit_vector(lookfrom - lookat);
-    vec3_unit_vector(control_panel->camera.W, lookfrom_minus_lookat);
+    vec3_unit_vector(control_panel->camera.w, lookfrom_minus_lookat);
 
     // u = unit_vector(cross(vup, w));
     double cross_vup_w[3];
-    vec3_cross(cross_vup_w, control_panel->camera.vup, control_panel->camera.W);
+    vec3_cross(cross_vup_w, control_panel->camera.vup, control_panel->camera.w);
     vec3_unit_vector(control_panel->camera.u, cross_vup_w);
 
     // v = cross(w, u);
-    vec3_cross(control_panel->camera.v, control_panel->camera.W, control_panel->camera.u);
+    vec3_cross(control_panel->camera.v, control_panel->camera.w, control_panel->camera.u);
 
     // Calculate the vectors across the horizontal and down the vertical viewport edges
     // vec3 viewport_u = viewport_width * u;
@@ -66,7 +66,7 @@ static void setup_camera_viewport(t_control_panel *control_panel)
     // Calculate the location of the upper left pixel
     // auto viewport_upper_left = center - (focal_length * w) - viewport_u/2 - viewport_v/2;
     double focal_length_w[3];
-    vec3_scale(focal_length_w, control_panel->camera.W, focal_length);
+    vec3_scale(focal_length_w, control_panel->camera.w, focal_length);
     vec3_divide(viewport_u_half, viewport_u, 2.0);
     vec3_divide(viewport_v_half, viewport_v, 2.0);
 
