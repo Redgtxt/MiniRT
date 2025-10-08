@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:40:49 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/18 14:10:43 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/08 12:06:04 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,14 @@ void setup_antialiasing(t_control_panel *control_panel, int num_of_samples);
 void sample_square(double out[3]);
 // Camera
 void get_values_camera(t_control_panel *control_panel);
+void calculate_pixel00_location(t_control_panel *cp,
+                                       double focal_length, double vp_u[3], double vp_v[3]);
+void setup_camera_dimensions(t_control_panel *control_panel);
+double calculate_focal_length(t_control_panel *cp);
+void apply_movement(double camera_pos[3], double axis[3],
+                           double speed, bool *moved);
+						   void	calculate_pixel00_location(t_control_panel *cp, double focal_length,
+            double vp_u[3], double vp_v[3]);
 void move_camera_with_keys(int keycode, t_control_panel *cp);
 //	Parsing.c
 bool parsing(t_control_panel *control_panel, char *file_name);

@@ -45,7 +45,7 @@ SRC_FILES = main.c \
 	    $(addprefix textures/, textures.c base_values.c)\
 	    $(addprefix ray/, ray.c ray_utils.c)\
 	    $(addprefix effects/, antialiasing.c)\
-	    $(addprefix camera/, camera.c camera_movement.c)
+	    $(addprefix camera/, camera.c camera_movement.c camera_utils.c viewport_pixel00.c)
 
 SRC  = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
