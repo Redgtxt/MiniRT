@@ -13,6 +13,14 @@ L 	4,5,3				1.0				255,255,240
 # Secondary light source from left for fill lighting
 L 	-3,3,4				0.6				200,220,255
 
+# === PLANES ===
+
+# Left side plane - LAMBERTIAN
+pl 	-6,0,0			1,0,0 						255,200,100 	LAMBERTIAN
+
+# Right side plane - METAL  
+pl 	6,0,0			-1,0,0 						255,200,100 	METAL
+
 # Ground plane with SOLID material
 pl 	0,-2.5,0			0,1,0 						120,120,120 	CHECKERPATTERN
 
@@ -66,10 +74,3 @@ cn 	2,-2,0		0,1,0		0.8	1.5		100,100,255 	GLASS
 
 # SOLID cone  
 cn 	4,-2,0		0,1,0		0.8	1.5		100,100,255 	SOLID
-
-# === ADDITIONAL PLANES FOR MATERIAL COMPARISON ===
-# Left side plane - LAMBERTIAN
-pl 	-6,0,0			1,0,0 						255,200,100 	LAMBERTIAN
-
-# Right side plane - METAL  
-pl 	6,0,0			-1,0,0 						255,200,100 	METAL

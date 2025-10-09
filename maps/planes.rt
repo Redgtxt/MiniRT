@@ -1,0 +1,27 @@
+# Ambient light 
+A					1					0,150,255
+
+# Camera
+C 	0,0,3.5						0,0,-1	70
+
+# Strong directional light
+L 	0,2,2				1.0				255,255,255
+
+# Single SOLID sphere - should maintain brightness with antialiasing
+
+# Left side plane 
+pl 	-6,0,0			1,0,0 						255,200,100 	LAMBERTIAN
+
+# Right side plane  
+pl 	6,0,0			-1,0,0 						255,200,100 	SOLID
+
+# Ground plane 
+pl 	0,-2.5,0			0,1,0 						120,120,120 	CHECKERPATTERN
+
+# Ceiling plane 
+pl 	0,2.5,0			0,1,0 						120,120,120 	CHECKERPATTERN
+
+# Front wall 
+pl 	0,0,-4			0,0,1 						100,100,120 	METAL
+
+
