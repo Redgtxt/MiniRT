@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:01:36 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/03 14:22:20 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 00:24:19 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	setup_control_components(t_control_panel *cp,
 	control_data->button = my_button;
 	control_data->slider = my_slider;
 	init_mat_select(&cp->config_win->material_selector);
+	update_material_selector_from_selected_object(cp);
 }
 
 static void	display_object_image(t_control_panel *cp)

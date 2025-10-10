@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:36:29 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/03 15:49:49 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 00:24:02 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,10 @@ void				handle_rgb_slider_interaction(t_control_panel *cp,
 void				display_object_stats(t_control_panel *cp, int obj_index);
 void				display_object_properties(t_control_panel *cp,
 						int obj_index);
+
+// Material selector sync
+void				update_material_selector_from_selected_object(
+						t_control_panel *cp);
 
 // MLX
 void				my_mlx_pixel_put(t_control_panel *control_panel, int x,

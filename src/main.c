@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/02 16:26:07 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 00:03:16 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,6 @@ int	main(int argc, char *argv[])
 		return (1);
 	if (create_control_window(cp))
 		return (1);
-	// print_elements(cp);
 	render_scene(cp);
 	mlx_hooks_and_loops(cp);
 	return (0);

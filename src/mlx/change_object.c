@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:50:57 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/07/24 16:50:58 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/10 00:23:58 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void	change_object(int keycode, t_control_panel *cp)
 	else if (keycode == ARROW_UP_KEY || keycode == ARROW_DOWN_KEY)
 		handle_vertical_arrows(keycode, cp);
 	reset_sliders(cp);
+	update_material_selector_from_selected_object(cp);
 	update_sliders_from_selected_object(cp);
 }
