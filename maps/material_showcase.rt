@@ -29,48 +29,48 @@ pl 	0,0,-4			0,0,1 						100,100,120 	SOLID
 
 # === ROW 1: SPHERES ===
 # LAMBERTIAN sphere
-sp 	-4,1,0		    0.8 							255,100,100		LAMBERTIAN
+sp 	-4,1,0		    0.8 							255,50,50		LAMBERTIAN
 
 # METAL sphere  
-sp 	-2,1,0		    0.8 							255,100,100		METAL
+sp 	-2,1,0		    0.8 							255,50,50		METAL
 
 # CHECKERPATTERN sphere
-sp 	0,1,0		    0.8 							255,100,100		CHECKERPATTERN
+sp 	0,1,0		    0.8 							255,50,50		CHECKERPATTERN
 
 # GLASS sphere
-sp 	2,1,0		    0.8 							255,100,100		GLASS
+sp 	2,1,0		    0.8 							255,50,50		GLASS
 
 # SOLID sphere
-sp 	4,1,0		    0.8 							255,100,100		SOLID
+sp 	4,1,0		    0.8 							255,50,50		SOLID
 
 # === ROW 2: CYLINDERS ===
 # LAMBERTIAN cylinder
-cy 	-4,-0.5,0		0,1,0		0.6	2		100,255,100 	LAMBERTIAN
+cy 	-4,-0.5,0		0,1,0		0.6	2		50,255,50 	LAMBERTIAN
 
 # METAL cylinder
-cy 	-2,-0.5,0		0,1,0		0.6	2		100,255,100 	METAL
+cy 	-2,-0.5,0		0,1,0		0.6	2		50,255,50 	METAL
 
 # CHECKERPATTERN cylinder  
-cy 	0,-0.5,0		0,1,0		0.6	2		100,255,100 	CHECKERPATTERN
+cy 	0,-0.5,0		0,1,0		0.6	2		50,255,50 	CHECKERPATTERN
 
 # GLASS cylinder
-cy 	2,-0.5,0		0,1,0		0.6	2		100,255,100 	GLASS
+cy 	2,-0.5,0		0,1,0		0.6	2		50,255,50 	GLASS
 
 # SOLID cylinder
-cy 	4,-0.5,0		0,1,0		0.6	2		100,255,100 	SOLID
+cy 	4,-0.5,0		0,1,0		0.6	2		50,255,50 	SOLID
 
 # === ROW 3: CONES ===
 # LAMBERTIAN cone
-cn 	-4,-2,0		0,1,0		0.8	1.5		100,100,255 	LAMBERTIAN
+cn 	-4,-2,0		0,1,0		0.8	1.5		50,50,255 	LAMBERTIAN
 
 # METAL cone
-cn 	-2,-2,0		0,1,0		0.8	1.5		100,100,255 	METAL
+cn 	-2,-2,0		0,1,0		0.8	1.5		50,50,255 	METAL
 
 # CHECKERPATTERN cone
-cn 	0,-2,0		0,1,0		0.8	1.5		100,100,255 	CHECKERPATTERN
+cn 	0,-2,0		0,1,0		0.8	1.5		50,50,255 	CHECKERPATTERN
 
 # GLASS cone
-cn 	2,-2,0		0,1,0		0.8	1.5		100,100,255 	GLASS
+cn 	2,-2,0		0,1,0		0.8	1.5		50,50,255 	GLASS
 
 # SOLID cone  
-cn 	4,-2,0		0,1,0		0.8	1.5		100,100,255 	SOLID
+cn 	4,-2,0		0,1,0		0.8	1.5		50,50,255 	SOLID

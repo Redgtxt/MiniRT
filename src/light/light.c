@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:42:40 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/08 15:25:03 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/10 10:54:14 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static double	get_attenuation(double distance, double shadow_intensity)
 {
 	double	attenuation;
 
-	attenuation = 1.0 / (LIGHT_CONSTANT + LIGHT_LINEAR * distance
-			+ LIGHT_QUADRATIC * distance * distance);
+	attenuation = 1.0 / (LIGHT_CONSTANT + (LIGHT_LINEAR * distance)
+			+ (LIGHT_QUADRATIC * distance) * distance);
 	attenuation *= shadow_intensity;
 	return (attenuation);
 }
