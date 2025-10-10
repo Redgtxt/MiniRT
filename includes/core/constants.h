@@ -26,6 +26,8 @@
 # define HMAG "\e[1;95m"
 # define RESET "\e[0m"
 
+
+
 /* Camera and rendering constants */
 # define MAX_CAMERA_BOUNCES 10
 

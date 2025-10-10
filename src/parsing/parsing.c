@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/09/18 16:18:28 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:54:46 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 
-static bool	parse_element(t_control_panel *control_panel, char **element_info)
+static bool parse_element(t_control_panel *control_panel, char **element_info)
 {
-	if (ft_strncmp(element_info[0], "A", 1) == 0)
+	if (ft_strncmp(element_info[0], "tx", 2) == 0)
+		parse_texture(control_panel, element_info, &control_panel->error_log);
+	else if (ft_strncmp(element_info[0], "A", 1) == 0)
 		parse_amb_light(control_panel, element_info, &control_panel->error_log);
 	else if (ft_strncmp(element_info[0], "C", 1) == 0)
 		parse_camera(control_panel, element_info, &control_panel->error_log);
@@ -40,10 +42,10 @@ static bool	parse_element(t_control_panel *control_panel, char **element_info)
 	return (true);
 }
 
-static char	**get_element_info(char *new_line)
+static char **get_element_info(char *new_line)
 {
-	char	*element_str;
-	char	**element_info;
+	char *element_str;
+	char **element_info;
 
 	element_str = NULL;
 	element_info = NULL;
@@ -57,9 +59,9 @@ static char	**get_element_info(char *new_line)
 	return (element_info);
 }
 
-static bool	parse_new_line(t_control_panel *control_panel, char *new_line)
+static bool parse_new_line(t_control_panel *control_panel, char *new_line)
 {
-	char	**element_info;
+	char **element_info;
 
 	element_info = NULL;
 	element_info = get_element_info(new_line);
@@ -71,15 +73,15 @@ static bool	parse_new_line(t_control_panel *control_panel, char *new_line)
 	return (true);
 }
 
-int	parse_file_name(char *file_name, t_error_log *error_log)
+int parse_file_name(char *file_name, t_error_log *error_log)
 {
-	int		fd;
-	size_t	len;
+	int fd;
+	size_t len;
 
 	len = ft_strlen(file_name);
 	if (len < 3 || ft_strncmp(&file_name[len - 3], ".rt", 3) != 0)
 		return (error_code(&error_log->code_error, ERR_FILE_NAME, 0), -1);
-	fd = open (file_name, O_RDONLY | __O_DIRECTORY);
+	fd = open(file_name, O_RDONLY | __O_DIRECTORY);
 	if (fd != -1)
 	{
 		close(fd);
@@ -91,10 +93,10 @@ int	parse_file_name(char *file_name, t_error_log *error_log)
 	return (fd);
 }
 
-bool	parsing(t_control_panel *cp, char *file_name)
+bool parsing(t_control_panel *cp, char *file_name)
 {
-	int		fd;
-	char	*new_line;
+	int fd;
+	char *new_line;
 
 	new_line = NULL;
 	fd = parse_file_name(file_name, &cp->error_log);
@@ -104,7 +106,7 @@ bool	parsing(t_control_panel *cp, char *file_name)
 	{
 		new_line = get_next_line(fd);
 		if (!new_line)
-			break ;
+			break;
 		cp->error_log.line_nbr++;
 		if (new_line[0] != '\n')
 		{

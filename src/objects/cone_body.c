@@ -75,6 +75,7 @@ static void	set_cone_body_record(t_cone *cone, const t_ray *ray,
 	vec3_normalize(outward_normal, vars->normal);
 	set_face_normal(ray, outward_normal, record);
 	record->material = &cone->material;
+	get_uv_cone(record, cone);
 }
 
 bool	hit_cone_body(t_cone *cone, const t_ray *ray, t_interval t_ray,

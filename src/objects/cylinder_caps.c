@@ -46,6 +46,7 @@ static void	set_cylinder_cap_record(t_cylinder *cylinder, const t_ray *ray,
 	vec3_copy(vars->outward_normal, vars->normalized_axis);
 	set_face_normal(ray, vars->outward_normal, record);
 	record->material = &cylinder->material;
+	get_uv_cylinder(record, cylinder);
 }
 
 bool	have_hit_cylinder_cap(t_cylinder *cylinder, const t_ray *ray,

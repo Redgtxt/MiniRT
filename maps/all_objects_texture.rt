@@ -1,0 +1,23 @@
+# Texture definitions
+tx 1 maps/bolhinhas.xpm
+
+# Ambient light 
+A					0.6		100,100,100
+
+# Camera
+C 	0,3,8			0,-0.3,-1			70
+
+# Main light
+L 	-5,5,5				0.8				255,255,255
+
+# Sphere with texture
+sp 	-2,1,0		    1.2 					200,50,50		SOLID		1
+
+# Plane with texture (floor)
+pl 	0,-1,0			0,1,0 					180,180,200	 	SOLID		1
+
+# Cylinder with texture
+cy 	2,0,0			0,1,0		0.6		2.5				50,200,50	SOLID		1
+
+# Cone with texture
+cn 	0,0,-3			0,1,0		0.8		2.0				200,200,50	SOLID		1

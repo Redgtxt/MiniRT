@@ -61,6 +61,7 @@ static void	set_cylinder_body_record(t_cylinder *cylinder, const t_ray *ray,
 	vec3_normalize(vars->outward_normal, vars->outward_normal);
 	set_face_normal(ray, vars->outward_normal, record);
 	record->material = &cylinder->material;
+	get_uv_cylinder(record, cylinder);
 }
 
 bool	hit_cylinder_body(t_cylinder *cylinder, const t_ray *ray,

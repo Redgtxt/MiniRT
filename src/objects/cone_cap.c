@@ -53,6 +53,7 @@ static void	set_cone_cap_record(t_cone *cone, const t_ray *ray,
 	vec3_negate(outward_normal, cone->vec3);
 	set_face_normal(ray, outward_normal, record);
 	record->material = &cone->material;
+	get_uv_cone(record, cone);
 }
 
 bool	have_hit_cone_cap(t_cone *cone, const t_ray *ray, t_interval t_ray,

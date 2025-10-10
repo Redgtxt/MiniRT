@@ -42,6 +42,7 @@ static void	set_plane_record(t_plane *plane, const t_ray *ray,
 	vec3_normalize(outward_normal, outward_normal);
 	set_face_normal(ray, outward_normal, record);
 	record->material = &plane->material;
+	get_uv_plane(record, plane);
 }
 
 bool	have_hit_plane(t_plane *plane, const t_ray *ray, t_interval t_ray,

@@ -31,6 +31,8 @@ typedef struct s_hit_record
 	double			normal[3];
 	double			t;
 	bool			front_face;
+	double			u;
+	double			v;
 	t_material		*material;
 }					t_hit_record;
 

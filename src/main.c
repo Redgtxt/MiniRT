@@ -1,18 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
+/*                       int	main(int argc, char *argv[])
+{
+	t_mlx			mlx_data;
+	t_control_panel	*cp;
+
+	cp = inicialize_cp(argc, argv);
+	if (!cp)
+		return (1);
+	srand(time(NULL));
+	if (init_values_main_win(&mlx_data, cp))
+		return (1);
+	if (!load_all_textures(cp))
+		return (perror("Error loading textures"), 1);
+	if (create_control_window(cp))
+		return (1);
+	render_scene(cp);
+	mlx_hooks_and_loops(cp);
+	return (0);
+}                :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/10 11:16:52 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:24:46 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-/*
+/*a imagem numa esfera, convertemos a posição 3D do pon
 void	print_elements(t_control_panel *control_panel)
 {
 	if (!control_panel)
@@ -156,7 +174,7 @@ void	print_elements(t_control_panel *control_panel)
 }
 */
 
-void	mlx_hooks_and_loops(t_control_panel *cp)
+void mlx_hooks_and_loops(t_control_panel *cp)
 {
 	mlx_hook(cp->mlx->win, 17, 0, close_window, cp);
 	mlx_key_hook(cp->mlx->win, key_hook, cp);
@@ -164,9 +182,9 @@ void	mlx_hooks_and_loops(t_control_panel *cp)
 	mlx_loop(cp->mlx->mlx);
 }
 
-t_control_panel	*inicialize_cp(int argc, char *argv[])
+t_control_panel *inicialize_cp(int argc, char *argv[])
 {
-	t_control_panel	*control_panel;
+	t_control_panel *control_panel;
 
 	if (argc != 2)
 		return (NULL);
@@ -185,10 +203,10 @@ t_control_panel	*inicialize_cp(int argc, char *argv[])
 	return (control_panel);
 }
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	t_mlx			mlx_data;
-	t_control_panel	*cp;
+	t_mlx mlx_data;
+	t_control_panel *cp;
 
 	cp = inicialize_cp(argc, argv);
 	if (!cp)
@@ -196,6 +214,8 @@ int	main(int argc, char *argv[])
 	srand(time(NULL));
 	if (init_values_main_win(&mlx_data, cp))
 		return (1);
+	if (!load_all_textures(cp))
+		return (ft_printf("Error: Failed to load textures\n"), 1);
 	if (create_control_window(cp))
 		return (1);
 	render_scene(cp);

@@ -12,8 +12,10 @@
 
 #include "../../includes/miniRT.h"
 
-void	free_control_panel(t_control_panel *control_panel)
+void free_control_panel(t_control_panel *control_panel)
 {
+	size_t i;
+
 	if (control_panel->light)
 		free_light(control_panel->light);
 	if (control_panel->sphere)
@@ -24,6 +26,17 @@ void	free_control_panel(t_control_panel *control_panel)
 		free_cylinder(control_panel->cylinder);
 	if (control_panel->cone)
 		free_cone(control_panel->cone);
+	if (control_panel->textures)
+	{
+		i = 0;
+		while (i < control_panel->data.texture_count)
+		{
+			if (control_panel->textures[i].filepath)
+				free(control_panel->textures[i].filepath);
+			i++;
+		}
+		free(control_panel->textures);
+	}
 	if (control_panel->error_log.element)
 		free(control_panel->error_log.element);
 	if (control_panel->error_log.error_str_detail)
