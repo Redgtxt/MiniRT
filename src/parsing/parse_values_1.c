@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/08 15:27:33 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/10 10:47:57 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ bool	get_rgb(double rgb[3], char *info, t_error_log *error_log)
 		|| rgb[2] < 0.0 || rgb[2] > 255.0)
 		return (ft_free_double_array(array), error_code(&error_log->code_error,
 				ERR_RANGE, 0), false);
-	vec3_normalize(rgb, rgb);
+	rgb[0] /= 255.0;
+	rgb[1] /= 255.0;
+	rgb[2] /= 255.0;
 	ft_free_double_array(array);
 	return (true);
 }

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:25 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/10 00:03:16 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 10:49:14 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-/*
 void	print_elements(t_control_panel *control_panel)
 {
 	if (!control_panel)
@@ -154,7 +153,6 @@ void	print_elements(t_control_panel *control_panel)
 	}
 	ft_printf("MiniRT Starting...\n");
 }
-*/
 
 void	mlx_hooks_and_loops(t_control_panel *cp)
 {
