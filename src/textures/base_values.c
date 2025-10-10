@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   base_values.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/03 15:49:49 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 15:54:45 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

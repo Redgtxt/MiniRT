@@ -6,7 +6,7 @@
 /*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:37:43 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/08 15:26:10 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:54:45 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static double	calculate_spec(t_specular_args *args)
 	double	spec;
 
 	vec3_negate(view_dir, args->ray->direction);
-	vec3_normalize(view_dir, view_dir);
 	reflect(args->light_dir, args->rec->normal, reflect_dir);
 	spec = pow(fmax(vec3_dot(view_dir, reflect_dir), 0.0),
 			args->rec->material->shininess);

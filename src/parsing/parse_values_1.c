@@ -53,6 +53,7 @@ bool	get_vector(t_vec3 *vector, char *info, t_error_log *error_log)
 	if (vector[0] > 1.0 || vector[1] > 1.0 || vector[2] > 1.0
 		|| vector[0] < -1.0 || vector[1] < -1.0 || vector[2] < -1.0)
 		return (error_code(&error_log->code_error, ERR_RANGE, 0), false);
+	vec3_normalize(vector, vector);
 	return (true);
 }
 

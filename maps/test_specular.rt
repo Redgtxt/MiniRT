@@ -1,0 +1,19 @@
+# Test file to verify specular highlights
+# Camera positioned to see specular reflection
+
+A 0.2 255,255,255
+
+# Camera looking straight at sphere
+C 0,0,5 0,0,-1 70
+
+# Strong light positioned for specular highlight (45 degrees)
+L 2,2,3 1.5 255,255,255
+
+# SOLID sphere - should show clear specular highlight
+sp 0,0,0 1.5 255,0,0 SOLID
+
+# Reference: METAL sphere for comparison
+sp 3,0,0 1.5 255,0,0 METAL
+
+# Floor plane
+pl 0,-2,0 0,1,0 100,100,100 SOLID

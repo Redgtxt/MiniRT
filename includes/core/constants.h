@@ -29,9 +29,9 @@
 /* Camera and rendering constants */
 # define MAX_CAMERA_BOUNCES 10
 
-/* Light intensity control constants */
-# define DIFFUSE_INTENSITY 1.5
-# define SPECULAR_INTENSITY 1.2
+/* Light intensity control constants (physically-based = 1.0) */
+# define DIFFUSE_INTENSITY 1.0
+# define SPECULAR_INTENSITY 1.0
 
 /* Light attenuation constants (realistic lighting) */
 # define LIGHT_CONSTANT 1.0
@@ -46,28 +46,28 @@
 # define OVERFLOW_MAX_LIMIT 2147483647
 # define OVERFLOW_MIN_LIMIT -2147483648
 
-/* Lambertian material properties */
-# define LAMBERTIAN_SPECULAR 0.5
-# define LAMBERTIAN_SHININESS 32.0
+/* Lambertian material properties (matte/diffuse surfaces) */
+# define LAMBERTIAN_SPECULAR 0.2
+# define LAMBERTIAN_SHININESS 10.0
 # define LAMBERTIAN_REFRACTION_INDEX 1.0
 
-/* Metal material properties */
+/* Metal material properties (polished, reflective surfaces) */
 # define METAL_SPECULAR 1.0
 # define METAL_SHININESS 200.0
 # define METAL_REFRACTION_INDEX 1.0
 
-/* Glass material properties */
+/* Glass material properties (transparent, refractive - standard glass IOR) */
 # define GLASS_SPECULAR 1.0
 # define GLASS_SHININESS 200.0
 # define GLASS_REFRACTION_INDEX 1.5
 
-/* Checker pattern material properties */
-# define CHECKER_SPECULAR 0.5
-# define CHECKER_SHININESS 32.0
+/* Checker pattern material properties (matte surface) */
+# define CHECKER_SPECULAR 0.2
+# define CHECKER_SHININESS 10.0
 # define CHECKER_SCALE 0.5
 
-/* Solid material properties */
-# define SOLID_SPECULAR 0.3
+/* Solid material properties (semi-gloss surfaces like plastic, painted wood) */
+# define SOLID_SPECULAR 0.5
 # define SOLID_SHININESS 64.0
 # define SOLID_REFRACTION_INDEX 1.0
 

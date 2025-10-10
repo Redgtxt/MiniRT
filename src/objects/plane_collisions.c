@@ -34,13 +34,9 @@ static int	plane_t_check(t_plane_vars *vars, t_plane *plane, const t_ray *ray,
 static void	set_plane_record(t_plane *plane, const t_ray *ray,
 		t_plane_vars *vars, t_hit_record *record)
 {
-	double	outward_normal[3];
-
 	record->t = vars->t;
 	ray_at(record->t, *ray, record->position);
-	vec3_copy(outward_normal, plane->vec3);
-	vec3_normalize(outward_normal, outward_normal);
-	set_face_normal(ray, outward_normal, record);
+	set_face_normal(ray, plane->vec3, record);
 	record->material = &plane->material;
 }
 

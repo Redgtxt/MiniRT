@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ambient.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:40:15 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/02 14:41:59 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 15:30:01 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 static double	get_ambient_mix(const t_ray *ray)
 {
-	double	unit_direction[3];
-
-	vec3_normalize(unit_direction, ray->direction);
-	return (0.5 * (unit_direction[1] + 1.0));
+	return (0.5 * (ray->direction[1] + 1.0));
 }
 
 void	set_amb_light(t_control_panel *control_panel, const t_ray *ray,

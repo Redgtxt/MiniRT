@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_ray.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:39:18 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/01 13:33:12 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 15:24:41 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_ray	get_ray(t_coord coord, t_control_panel *control_panel)
 		sample_square(offset);
 	get_pixel_sample(coord, control_panel, offset, pixel_sample);
 	vec3_sub(ray_direction, pixel_sample, control_panel->camera.cords);
+	vec3_normalize(ray_direction, ray_direction);
 	create_ray(&ray, control_panel->camera.cords, ray_direction);
 	return (ray);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/09 13:57:04 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 15:11:54 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,6 @@ static void	process_scatter(t_scatter_args *args, t_vec3 color[3])
 	}
 }
 
-void	init_scatter_args(t_scatter_args *args, int depth, const t_ray *ray,
-		t_hit_record *rec)
-{
-	args->depth = depth;
-	args->ray = ray;
-	args->rec = rec;
-}
-
 static bool	depth_check(int depth, double out_color[3])
 {
 	if (depth <= 0)
@@ -76,10 +68,19 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 	vec3_zero(color);
 	if (hit_world(panel, ray, interval_create(0.001, D_INFINITY), &rec))
 	{
-		if (rec.material->type != GLASS)
-			process_lights(panel, &rec, ray, color);
 		if (rec.material->type == SOLID)
+		{
 			solid_scatter(panel, &rec, ray, color);
+			process_lights(panel, &rec, ray, color);
+		}
+		else if (rec.material->type == GLASS)
+		{
+			scatter_args.panel = panel;
+			scatter_args.depth = depth;
+			scatter_args.ray = ray;
+			scatter_args.rec = &rec;
+			process_scatter(&scatter_args, color);
+		}
 		else
 		{
 			scatter_args.panel = panel;
@@ -87,6 +88,7 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 			scatter_args.ray = ray;
 			scatter_args.rec = &rec;
 			process_scatter(&scatter_args, color);
+			process_lights(panel, &rec, ray, color);
 		}
 		vec3_copy(out_color, color);
 	}
