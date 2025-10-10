@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone_cap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:57:21 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/09/30 18:30:59 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/10 11:53:14 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ static int	cone_cap_radius_check(t_cone_cap_vars *vars, t_cone *cone,
 static void	set_cone_cap_record(t_cone *cone, const t_ray *ray,
 		t_cone_cap_vars *vars, t_hit_record *record)
 {
+	double	outward_normal[3];
+
 	record->t = vars->t;
 	ray_at(vars->t, *ray, record->position);
-	vec3_negate(record->normal, cone->vec3);
+	vec3_negate(outward_normal, cone->vec3);
+	set_face_normal(ray, outward_normal, record);
 	record->material = &cone->material;
 }
 

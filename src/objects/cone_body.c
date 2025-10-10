@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone_body.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:57:21 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/07 17:03:33 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:53:14 by randrade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,16 @@ static int	cone_body_t_check(t_cone_body_vars *vars, t_cone *cone,
 static void	set_cone_body_record(t_cone *cone, const t_ray *ray,
 		t_cone_body_vars *vars, t_hit_record *record)
 {
+	double	outward_normal[3];
+
 	record->t = vars->t;
 	ray_at(vars->t, *ray, record->position);
 	vars->m = vars->dot_d_v * vars->t + vars->dot_oc_v;
 	vec3_scale(vars->temp, cone->vec3, vars->m * (1 + vars->k));
 	vec3_sub(vars->p_minus_c, record->position, vars->cone_tip);
 	vec3_sub(vars->normal, vars->p_minus_c, vars->temp);
-	vec3_normalize(record->normal, vars->normal);
+	vec3_normalize(outward_normal, vars->normal);
+	set_face_normal(ray, outward_normal, record);
 	record->material = &cone->material;
 }
 
