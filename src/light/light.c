@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:42:40 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/10 10:54:14 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/12 20:50:42 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	apply_lighting(t_light_args *args, t_vec3 light_dir[3],
 {
 	t_specular_args	spec_args;
 
-	diffuse_comp(args, light_dir, attenuation);
+	if (args->rec->material->type != GLASS)
+		diffuse_comp(args, light_dir, attenuation);
 	if (args->rec->material->shininess > 0)
 	{
 		init_spec_args(&spec_args, args, light_dir, attenuation);

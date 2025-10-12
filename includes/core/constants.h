@@ -47,17 +47,17 @@
 # define OVERFLOW_MIN_LIMIT -2147483648
 
 /* Lambertian material properties (matte/diffuse surfaces) */
-# define LAMBERTIAN_SPECULAR 0.2
+# define LAMBERTIAN_SPECULAR 0.0
 # define LAMBERTIAN_SHININESS 10.0
 # define LAMBERTIAN_REFRACTION_INDEX 1.0
 
 /* Metal material properties (polished, reflective surfaces) */
-# define METAL_SPECULAR 1.0
+# define METAL_SPECULAR 1
 # define METAL_SHININESS 200.0
 # define METAL_REFRACTION_INDEX 1.0
 
 /* Glass material properties (transparent, refractive - standard glass IOR) */
-# define GLASS_SPECULAR 1.0
+# define GLASS_SPECULAR 0.7
 # define GLASS_SHININESS 200.0
 # define GLASS_REFRACTION_INDEX 1.5
 

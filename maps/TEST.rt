@@ -1,0 +1,17 @@
+# Ambient light 
+A					0.6		0,150,255
+
+# Camera
+C 	0,0,3			0,0,-1			70
+
+# Strong directional light
+L 	0,2,1				1.0				255,255,255
+
+# Single SOLID sphere - should maintain brightness with antialiasing
+sp 	0,0,0		    1 						200,0,0		SOLID
+sp 	1.5,0,0		    1 						200,0,0		LAMBERTIAN
+sp 	-1.5,0,0		1 						200,0,0		METAL
+sp 	-3,0,0		    1 						200,0,0		GLASS
+sp 	3,0,0		    1 						200,0,0		CHECKERPATTERN
+
+pl 	0,-1,0			0,1,0 					255,255,255	 	SOLID

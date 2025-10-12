@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/10 15:11:54 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/12 21:08:32 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,6 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 		{
 			solid_scatter(panel, &rec, ray, color);
 			process_lights(panel, &rec, ray, color);
-		}
-		else if (rec.material->type == GLASS)
-		{
-			scatter_args.panel = panel;
-			scatter_args.depth = depth;
-			scatter_args.ray = ray;
-			scatter_args.rec = &rec;
-			process_scatter(&scatter_args, color);
 		}
 		else
 		{
