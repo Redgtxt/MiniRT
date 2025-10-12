@@ -43,10 +43,10 @@ bool				metal_scatter(const t_ray *r_in, t_hit_record *rec,
 						t_data_scatter *data_scatter);
 bool				glass_scatter(const t_ray *r_in, t_hit_record *rec,
 						t_data_scatter *data_scatter);
-bool				checker_scatter(t_hit_record *rec,
-						t_data_scatter *data_scatter);
-bool				solid_scatter(t_control_panel *panel, t_hit_record *rec,
+bool				add_amb_texture(t_control_panel *panel, t_hit_record *rec,
 						const t_ray *ray, t_vec3 color[3]);
+void				get_checker_color(t_hit_record *rec, double scale,
+						double *checker_color);
 
 /* Material setup functions */
 void				set_lambertian_material(t_material *material,

@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/12 21:08:32 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/12 23:36:22 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,19 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 
 	if (depth_check(depth, out_color))
 		return ;
+	scatter_args.panel = panel;
+	scatter_args.depth = depth;
+	scatter_args.ray = ray;
+	scatter_args.rec = &rec;
 	vec3_zero(color);
 	if (hit_world(panel, ray, interval_create(0.001, D_INFINITY), &rec))
 	{
-		if (rec.material->type == SOLID)
-		{
-			solid_scatter(panel, &rec, ray, color);
-			process_lights(panel, &rec, ray, color);
-		}
+		if (rec.material->type == SOLID
+				|| rec.material->type == CHECKERPATTERN)
+			add_amb_texture(panel, &rec, ray, color);
 		else
-		{
-			scatter_args.panel = panel;
-			scatter_args.depth = depth;
-			scatter_args.ray = ray;
-			scatter_args.rec = &rec;
 			process_scatter(&scatter_args, color);
-			process_lights(panel, &rec, ray, color);
-		}
+		process_lights(panel, &rec, ray, color);
 		vec3_copy(out_color, color);
 	}
 	else

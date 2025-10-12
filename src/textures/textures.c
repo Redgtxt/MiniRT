@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 15:46:56 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/12 20:16:27 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/12 23:09:53 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ bool	scatter(const t_material *mat, const t_ray *r_in, t_hit_record *rec,
 		return (lambertian_scatter(rec, data_scatter));
 	else if (mat->type == METAL)
 		return (metal_scatter(r_in, rec, data_scatter));
-	else if (mat->type == CHECKERPATTERN)
-		return (checker_scatter(rec, data_scatter));
 	else if (mat->type == GLASS)
 		return (glass_scatter(r_in, rec, data_scatter));
 	return (false);
