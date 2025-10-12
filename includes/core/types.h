@@ -33,6 +33,7 @@ typedef struct s_hit_record t_hit_record;
 typedef struct s_win_config t_win_config;
 typedef struct s_error_log t_error_log;
 typedef struct s_texture t_texture;
+typedef struct s_texture_node t_texture_node;
 
 /* Basic coordinate structure */
 typedef struct s_coord
@@ -79,5 +80,11 @@ typedef struct s_texture
 	int line_length;
 	int endian;
 } t_texture;
+
+typedef struct s_texture_node
+{
+	t_texture				*texture;
+	struct s_texture_node	*next;
+}	t_texture_node;
 
 #endif

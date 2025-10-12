@@ -44,6 +44,9 @@ bool parse_cylinder(t_control_panel *control_panel, char **element_info,
 					t_error_log *error_log);
 bool parse_cone(t_control_panel *control_panel, char **element_info,
 				t_error_log *error_log);
+bool	parse_cyl(t_cylinder *cylinder, char **elem_info, t_error_log *err);
+bool	parse_cone_checks(t_cone *cone, char **element_info, t_error_log *err);
+void	parse_element_2(t_control_panel *control_panel, char **element_info);
 
 /* Value parsing functions */
 bool get_coord(t_vec3 *coord, char *info, t_error_log *error_log);

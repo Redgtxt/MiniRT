@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:40:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/12 16:53:31 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/12 17:16:24 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ static double	get_pixel_intensity(t_texture *texture, int x, int y)
 }
 
 // heights have height [0],height_u [1],height_v [2]
+// c varible is for coordinates x and y correspondly
 void	apply_bump_map(t_control_panel *cp, t_hit_record *rec,
-		t_texture *texture)
+		t_texture *tx)
 {
-	int		cords[2];
+	int		c[2];
 	double	heights[3];
 	double	tangent[3];
 	double	bitangent[3];
@@ -54,15 +55,14 @@ void	apply_bump_map(t_control_panel *cp, t_hit_record *rec,
 
 	if (!rec->material || !rec->material->has_bump)
 		return ;
-	texture = get_texture_by_id(cp, rec->material->bump_texture_id);
-	if (!texture)
+	tx = get_texture_by_id(cp, rec->material->bump_texture_id);
+	if (!tx)
 		return ;
-	init_coords(rec, texture, cords);
-	heights[0] = get_pixel_intensity(texture, cords[0], cords[1]);
-	heights[1] = get_pixel_intensity(texture, (cords[0] + 1) % texture->width,
-			cords[1]);
-	heights[2] = get_pixel_intensity(texture, cords[0], (cords[1] + 1)
-			% texture->height);
+	init_coords(rec, tx, c);
+	heights[0] = get_pixel_intensity(tx, c[0], c[1]);
+	heights[1] = get_pixel_intensity(tx, (c[0] + 1) % tx->width, c[1]);
+	heights[2] = get_pixel_intensity(tx, c[0], (c[1] + 1)
+			% tx->height);
 	vec3_set(tangent, 1.0, 0.0, (heights[1] - heights[0])
 		* rec->material->bump_strength * 10.0);
 	vec3_set(bitangent, 0.0, 1.0, (heights[2] - heights[0])

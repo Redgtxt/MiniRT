@@ -12,8 +12,8 @@
 
 #include "../../includes/miniRT.h"
 
-static void init_sphere_vars(t_sphere_vars *vars, const t_ray *ray,
-							 t_sphere *sphere)
+static void	init_sphere_vars(t_sphere_vars *vars, const t_ray *ray,
+		t_sphere *sphere)
 {
 	vec3_sub(vars->oc, ray->origin, sphere->cords);
 	vars->a = vec3_dot(ray->direction, ray->direction);
@@ -21,9 +21,9 @@ static void init_sphere_vars(t_sphere_vars *vars, const t_ray *ray,
 	vars->c = vec3_dot(vars->oc, vars->oc) - sphere->radius * sphere->radius;
 }
 
-static bool find_sphere_root(t_sphere_vars *vars, t_interval t_ray)
+static bool	find_sphere_root(t_sphere_vars *vars, t_interval t_ray)
 {
-	double sqrtd;
+	double	sqrtd;
 
 	sqrtd = sqrt(vars->discriminant);
 	vars->root = (-vars->h - sqrtd) / vars->a;
@@ -36,10 +36,10 @@ static bool find_sphere_root(t_sphere_vars *vars, t_interval t_ray)
 	return (true);
 }
 
-static void set_sphere_record(t_sphere *sphere, const t_ray *ray, double root,
-							  t_hit_record *record)
+static void	set_sphere_record(t_sphere *sphere, const t_ray *ray, double root,
+		t_hit_record *record)
 {
-	double outward_normal[3];
+	double	outward_normal[3];
 
 	record->t = root;
 	ray_at(record->t, *ray, record->position);
@@ -50,10 +50,10 @@ static void set_sphere_record(t_sphere *sphere, const t_ray *ray, double root,
 	record->material = &sphere->material;
 }
 
-bool have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray,
-					 t_hit_record *record)
+bool	have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray,
+		t_hit_record *record)
 {
-	t_sphere_vars vars;
+	t_sphere_vars	vars;
 
 	init_sphere_vars(&vars, ray, sphere);
 	vars.discriminant = vars.h * vars.h - vars.a * vars.c;
@@ -65,13 +65,13 @@ bool have_hit_sphere(t_sphere *sphere, const t_ray *ray, t_interval t_ray,
 	return (true);
 }
 
-bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray,
-				 t_hit_record *record)
+bool	hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray,
+		t_hit_record *record)
 {
-	bool hit_anything;
-	double closest_so_far;
-	t_hit_record temp_rec;
-	size_t i;
+	bool			hit_anything;
+	double			closest_so_far;
+	t_hit_record	temp_rec;
+	size_t			i;
 
 	hit_anything = false;
 	closest_so_far = t_ray.max;
@@ -79,7 +79,8 @@ bool hit_spheres(t_control_panel *scene, const t_ray *ray, t_interval t_ray,
 	i = 0;
 	while (i < scene->data.sphere_count)
 	{
-		if (have_hit_sphere(&scene->sphere[i], ray, interval_create(t_ray.min, closest_so_far), &temp_rec))
+		if (have_hit_sphere(&scene->sphere[i], ray, interval_create(t_ray.min,
+					closest_so_far), &temp_rec))
 			set_hit_record(&hit_anything, &closest_so_far, record, &temp_rec);
 		i++;
 	}
