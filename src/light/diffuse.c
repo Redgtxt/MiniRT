@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:37:43 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/12 23:24:35 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/13 00:56:06 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	diffuse_comp(t_light_args *args, t_vec3 light_dir[3], double atten)
 		get_checker_color(args->rec, args->rec->material->checker_scale,
 			checker_color);
 		vec3_scale(diffuse, checker_color, diff * DIFFUSE_INTENSITY);
+	}
+	else if (args->rec->material->type == METAL)
+	{
+		vec3_scale(diffuse, args->rec->material->albedo,
+			diff * DIFFUSE_INTENSITY * METAL_DIFFUSE_SCALE);
 	}
 	else
 	{

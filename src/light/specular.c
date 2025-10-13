@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:37:43 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/12 21:08:32 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/13 00:07:45 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ static double	calculate_spec(t_specular_args *args)
 	t_vec3	reflect_dir[3];
 	t_vec3	neg_light_dir[3];
 	double	spec;
+    double  vdn;
 
 	vec3_negate(view_dir, args->ray->direction);
 	vec3_normalize(view_dir, view_dir);
+	vdn = vec3_dot(view_dir, args->rec->normal);
+	if (vdn <= 0.0)
+		return (0.0);
 	vec3_negate(neg_light_dir, args->light_dir);
 	reflect(neg_light_dir, args->rec->normal, reflect_dir);
 	vec3_normalize(reflect_dir, reflect_dir);

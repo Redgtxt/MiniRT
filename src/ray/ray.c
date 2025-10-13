@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/12 23:36:22 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/13 00:56:06 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	process_scatter(t_scatter_args *args, t_vec3 color[3])
 			scattered_color);
 		vec3_multiply(scattered_color, scattered_color,
 			data_scatter.attenuation);
+		if (args->rec->material->type == METAL)
+			vec3_scale(scattered_color, scattered_color, METAL_REFLECTION_SCALE);
 		vec3_add(color, color, scattered_color);
 	}
 }

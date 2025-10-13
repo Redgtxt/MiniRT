@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   base_values.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/10 15:54:45 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/13 00:45:47 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,9 @@ void	set_lambertian_material(t_material *material, double rgb[3])
 
 void	set_metal_material(t_material *material, double rgb[3])
 {
-	double	specular;
-
-	specular = METAL_SPECULAR;
 	material->type = METAL;
 	vec3_copy(material->albedo, rgb);
-	vec3_set(material->specular, specular, specular, specular);
+	vec3_scale(material->specular, rgb, METAL_SPECULAR);
 	material->shininess = METAL_SHININESS;
 	material->refraction_index = METAL_REFRACTION_INDEX;
 }

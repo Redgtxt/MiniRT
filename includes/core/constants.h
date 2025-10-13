@@ -31,7 +31,7 @@
 
 /* Light intensity control constants (physically-based = 1.0) */
 # define DIFFUSE_INTENSITY 1.0
-# define SPECULAR_INTENSITY 1.0
+# define SPECULAR_INTENSITY 2.0
 
 /* Light attenuation constants (realistic lighting) */
 # define LIGHT_CONSTANT 1.0
@@ -47,23 +47,26 @@
 # define OVERFLOW_MIN_LIMIT -2147483648
 
 /* Lambertian material properties (matte/diffuse surfaces) */
-# define LAMBERTIAN_SPECULAR 0.0
+# define LAMBERTIAN_SPECULAR 0.1
 # define LAMBERTIAN_SHININESS 10.0
 # define LAMBERTIAN_REFRACTION_INDEX 1.0
 
 /* Metal material properties (polished, reflective surfaces) */
-# define METAL_SPECULAR 1
-# define METAL_SHININESS 200.0
+# define METAL_SPECULAR 1.0
+# define METAL_SHININESS 96.0
 # define METAL_REFRACTION_INDEX 1.0
+/* Balance between reflection and direct lighting for metals */
+# define METAL_DIFFUSE_SCALE 0.4
+# define METAL_REFLECTION_SCALE 0.6
 
 /* Glass material properties (transparent, refractive - standard glass IOR) */
 # define GLASS_SPECULAR 0.7
-# define GLASS_SHININESS 200.0
+# define GLASS_SHININESS 120.0
 # define GLASS_REFRACTION_INDEX 1.5
 
 /* Checker pattern material properties (matte surface) */
-# define CHECKER_SPECULAR 0.2
-# define CHECKER_SHININESS 10.0
+# define CHECKER_SPECULAR 0.5
+# define CHECKER_SHININESS 64.0
 # define CHECKER_SCALE 0.5
 
 /* Solid material properties (semi-gloss surfaces like plastic, painted wood) */

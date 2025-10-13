@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randrade <randrade@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:41:34 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/08 15:25:41 by randrade         ###   ########.fr       */
+/*   Updated: 2025/10/13 00:02:50 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static bool	process_shadow_hit(t_ray *shadow_ray, t_hit_record *rec,
 	if (rec->material->type == GLASS)
 	{
 		*(args->light_transmission) *= 0.75;
+		if (*(args->light_transmission) <= 0.01)
+			return (false);
 		update_ray_after_glass(shadow_ray, rec, light_dir, args);
 		return (true);
 	}
