@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:45:00 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/12 18:50:35 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:02:46 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	get_uv_cylinder(t_hit_record *rec, t_cylinder *cylinder);
 void	get_uv_cone(t_hit_record *rec, t_cone *cone);
 
 /* Bump mapping functions */
-void	apply_bump_map(t_control_panel *cp, t_hit_record *rec);
-
+void	apply_bump_map(t_control_panel *cp, t_hit_record *rec,
+			t_texture *tx);
 /* Texture mapping functions */
 void	apply_texture_color(t_control_panel *cp, t_hit_record *rec,
 			double color[3]);

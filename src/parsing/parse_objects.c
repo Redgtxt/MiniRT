@@ -6,7 +6,7 @@
 /*   By: hguerrei <hguerrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:34:18 by randrade          #+#    #+#             */
-/*   Updated: 2025/10/12 18:05:58 by hguerrei         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:17:25 by hguerrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool	parse_cylinder(t_control_panel *cp, char **elem_info, t_error_log *err)
 	if (!cylinder)
 		return (error_code(&err->code_error, ERR_ELEM_CY, ERR_MALLOC), false);
 	lstadd_last_cylinder(cp, cylinder);
-	if (parse_cyl(cylinder, elem_info, err))
+	if (!parse_cyl(cylinder, elem_info, err))
 		return (false);
 	if (len == 8 && !get_bump_id(&cylinder->material, elem_info[7], err))
 		return (error_code(&err->code_error, ERR_ELEM_CY, ERR_MATERIAL), false);
@@ -96,7 +96,7 @@ bool	parse_cone(t_control_panel *cp, char **element_info, t_error_log *err)
 	if (!cone)
 		return (error_code(&err->code_error, ERR_ELEM_CN, ERR_MALLOC), false);
 	lstadd_last_cone(cp, cone);
-	if (parse_cone_checks(cone, element_info, err))
+	if (!parse_cone_checks(cone, element_info, err))
 		return (false);
 	if (len == 8 && !get_bump_id(&cone->material, element_info[7], err))
 		return (error_code(&err->code_error, ERR_ELEM_CN, ERR_MATERIAL), false);
