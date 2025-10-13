@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
-/*   Updated: 2025/10/13 00:56:06 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/13 01:19:07 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ static void	process_scatter(t_scatter_args *args, t_vec3 color[3])
 		vec3_multiply(scattered_color, scattered_color,
 			data_scatter.attenuation);
 		if (args->rec->material->type == METAL)
-			vec3_scale(scattered_color, scattered_color, METAL_REFLECTION_SCALE);
+		{
+			vec3_scale(scattered_color, scattered_color,
+				METAL_REFLECTION_SCALE);
+		}
 		vec3_add(color, color, scattered_color);
 	}
 }
@@ -75,7 +78,7 @@ void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
 	if (hit_world(panel, ray, interval_create(0.001, D_INFINITY), &rec))
 	{
 		if (rec.material->type == SOLID
-				|| rec.material->type == CHECKERPATTERN)
+			|| rec.material->type == CHECKERPATTERN)
 			add_amb_texture(panel, &rec, ray, color);
 		else
 			process_scatter(&scatter_args, color);

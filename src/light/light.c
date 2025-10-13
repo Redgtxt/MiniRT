@@ -6,7 +6,7 @@
 /*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:42:40 by ruigoncalve       #+#    #+#             */
-/*   Updated: 2025/10/13 00:43:33 by ruigoncalve      ###   ########.fr       */
+/*   Updated: 2025/10/13 01:21:10 by ruigoncalve      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	apply_lighting(t_light_args *args, t_vec3 light_dir[3],
 		double attenuation)
 {
 	t_specular_args	spec_args;
-    double              ndotl;
+	double			ndotl;
 
 	ndotl = vec3_dot(args->rec->normal, light_dir);
 	if (ndotl <= 0.0)
