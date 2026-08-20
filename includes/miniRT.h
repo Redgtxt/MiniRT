@@ -16,7 +16,6 @@
 /* Standard C libraries */
 # include <errno.h>
 # include <fcntl.h>
-# include <float.h>
 # include <limits.h>
 # include <math.h>
 # include <stdbool.h>
