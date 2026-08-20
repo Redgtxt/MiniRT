@@ -14,7 +14,7 @@ WHITE   = \033[1;37m
 #       FLAGS              #
 # ======================== #
 CC        = cc
-FLAGS     = -Wall -Werror -Wextra -O3 -Ofast -g
+FLAGS     = -Wall -Werror -Wextra -O3 -g
 VFLAGS    = --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -s
 MLX_FLAGS = -lm -lX11 -lXext
 
@@ -101,22 +101,52 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo "$(BLUE)Running checks...$(RESET)"
 	@if [ -f $(NAME) ]; then echo "$(GREEN)$(NAME) created successfully! 🎉$(RESET)"; fi
 
-rt:
-	./miniRT elements_input.rt
+# ======================== #
+#       RUN SCENES         #
+# ======================== #
+# Every scene in maps/ has a target. `make rt` runs any of them:
+#   make rt SCENE=mirror_room
+SCENE ?= material_showcase
 
-metal:
-	./miniRT metal_elements.rt
+rt: all
+	./$(NAME) maps/$(SCENE).rt
 
-room:
-	./miniRT plane_input.rt
+logo: all
+	./$(NAME) maps/42.rt
 
-cylinder:
-	./miniRT cylinder.rt
+cones: all
+	./$(NAME) maps/cones.rt
 
+cylinders: all
+	./$(NAME) maps/cylinders.rt
+
+showcase: all
+	./$(NAME) maps/material_showcase.rt
+
+mirror: all
+	./$(NAME) maps/mirror_room.rt
+
+lights: all
+	./$(NAME) maps/multi_color_lights.rt
+
+room: all
+	./$(NAME) maps/objects_room.rt
+
+planes: all
+	./$(NAME) maps/planes.rt
+
+pokeball: all
+	./$(NAME) maps/pokeball.rt
+
+dots: all
+	./$(NAME) maps/sphere_dots.rt
+
+spheres: all
+	./$(NAME) maps/spheres.rt
 
 val: all
 	@echo "$(YELLOW)Running with Valgrind... 🧠$(RESET)"
-	@valgrind $(VFLAGS) ./miniRT elements_input.rt
+	@valgrind $(VFLAGS) ./$(NAME) maps/$(SCENE).rt
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
@@ -134,4 +164,4 @@ re: fclean all
 # ======================== #
 #        PHONY             #
 # ======================== #
-.PHONY: all clean fclean re rt val
+.PHONY: all clean fclean re val rt logo cones cylinders showcase mirror lights room planes pokeball dots spheres
