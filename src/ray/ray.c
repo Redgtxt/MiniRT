@@ -1,0 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ruigoncalves <ruigoncalves@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:06:32 by hguerrei          #+#    #+#             */
+/*   Updated: 2025/10/13 01:19:07 by ruigoncalve      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/miniRT.h"
+
+static void	process_lights(t_control_panel *panel, t_hit_record *rec,
+		const t_ray *ray, t_vec3 color[3])
+{
+	size_t			i;
+	t_light_args	light_args;
+
+	i = 0;
+	while (i < panel->data.light_count)
+	{
+		light_args.panel = panel;
+		light_args.rec = rec;
+		light_args.ray = ray;
+		light_args.color = color;
+		light_args.i = i;
+		process_light(&light_args);
+		i++;
+	}
+}
+
+static void	process_scatter(t_scatter_args *args, t_vec3 color[3])
+{
+	t_data_scatter	data_scatter;
+	t_vec3			scattered_color[3];
+
+	if (scatter(args->rec->material, args->ray, args->rec, &data_scatter))
+	{
+		ray_color(args->panel, args->depth - 1, &data_scatter.scattered,
+			scattered_color);
+		vec3_multiply(scattered_color, scattered_color,
+			data_scatter.attenuation);
+		if (args->rec->material->type == METAL)
+		{
+			vec3_scale(scattered_color, scattered_color,
+				METAL_REFLECTION_SCALE);
+		}
+		vec3_add(color, color, scattered_color);
+	}
+}
+
+static bool	depth_check(int depth, double out_color[3])
+{
+	if (depth <= 0)
+	{
+		vec3_zero(out_color);
+		return (true);
+	}
+	return (false);
+}
+
+void	ray_color(t_control_panel *panel, int depth, const t_ray *ray,
+		double out_color[3])
+{
+	t_hit_record	rec;
+	t_vec3			color[3];
+	t_scatter_args	scatter_args;
+
+	if (depth_check(depth, out_color))
+		return ;
+	scatter_args.panel = panel;
+	scatter_args.depth = depth;
+	scatter_args.ray = ray;
+	scatter_args.rec = &rec;
+	vec3_zero(color);
+	if (hit_world(panel, ray, interval_create(0.001, D_INFINITY), &rec))
+	{
+		if (rec.material->type == SOLID
+			|| rec.material->type == CHECKERPATTERN)
+			add_amb_texture(panel, &rec, ray, color);
+		else
+			process_scatter(&scatter_args, color);
+		process_lights(panel, &rec, ray, color);
+		vec3_copy(out_color, color);
+	}
+	else
+		set_amb_light(panel, ray, out_color);
+}

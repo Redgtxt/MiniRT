@@ -1,0 +1,16 @@
+# Ambient light 
+A					0.1					0,150,255
+
+# Camera
+C 	0,0,-2.2			0,0,1			60
+
+# Strong directional light
+L 	0.75,0,1				1.0				255,0,0
+L 	-0.75,0,1				1.0				0,0,255
+
+# Single SOLID sphere - should maintain brightness with antialiasing
+sp 	0,-0.5,-0.9		0.5  					175,175,175 METAL
+sp 	1.5,0,0		    1 						175,175,175 METAL
+sp 	-1.5,0,0		1 						175,175,175 METAL
+
+pl 	0,-0.51,0			0,1,0 					255,255,255	 	SOLID

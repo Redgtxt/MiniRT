@@ -1,2 +1,9 @@
 .DS_Store
 *.Zone.Identifier
+*.o
+*.a
+/src/obj
+miniRT
+/.vscode
+*.out
+Library/minilibx-linux/test/mlx-test
