@@ -13,8 +13,8 @@
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
-# include <float.h>
 # include <limits.h>
+# include <math.h>
 
 /* Printf colors */
 # define REDHB "\e[0;101m"

@@ -79,7 +79,7 @@ int	parse_file_name(char *file_name, t_error_log *error_log)
 	len = ft_strlen(file_name);
 	if (len < 3 || ft_strncmp(&file_name[len - 3], ".rt", 3) != 0)
 		return (error_code(&error_log->code_error, ERR_FILE_NAME, 0), -1);
-	fd = open (file_name, O_RDONLY | __O_DIRECTORY);
+	fd = open (file_name, O_RDONLY | O_DIRECTORY);
 	if (fd != -1)
 	{
 		close(fd);
